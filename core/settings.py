@@ -39,7 +39,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'apps.home'  # Enable the inner home (home)
+    'apps.home',  # Enable the inner home (home)
 ]
 
 MIDDLEWARE = [
@@ -80,23 +80,16 @@ WSGI_APPLICATION = 'core.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/3.0/ref/settings/#databases
 
-if os.environ.get('DB_ENGINE') and os.environ.get('DB_ENGINE') == "mysql":
-    DATABASES = { 
+
+DATABASES = { 
       'default': {
         'ENGINE'  : 'django.db.backends.postgresql', 
         'NAME'    : os.getenv('DB_NAME'     , 'sst'),
-        'USER'    : os.getenv('DB_USERNAME' , 'postgre'),
+        'USER'    : os.getenv('DB_USERNAME' , 'alexandre'),
         'PASSWORD': os.getenv('DB_PASS'     , '123'),
         'HOST'    : os.getenv('DB_HOST'     , 'localhost'),
         'PORT'    : os.getenv('DB_PORT'     , 5432),
         }, 
-    }
-else:
-    DATABASES = {
-        'default': {
-            'ENGINE': 'django.db.backends.sqlite3',
-            'NAME': 'db.sqlite3',
-        }
     }
 
 # Password validation

@@ -5,9 +5,27 @@ Copyright (c) 2019 - present AppSeed.us
 
 from django import template
 from django.contrib.auth.decorators import login_required
-from django.http import HttpResponse, HttpResponseRedirect
+from django.http import HttpResponse, HttpResponseRedirect,JsonResponse
 from django.template import loader
 from django.urls import reverse
+from django.shortcuts import render
+import plotly.express as pe
+from plotly.offline import plot
+import pandas as pd
+import pymongo as pm
+from .models import Endereco
+from django.views.decorators.csrf import csrf_exempt
+import json
+import os
+from django.conf import settings
+import requests
+from xhtml2pdf import pisa
+import matplotlib.pyplot as plt
+import io
+import base64
+from time import sleep
+
+  
 
 
 @login_required(login_url="/login/")
@@ -44,29 +62,6 @@ def pages(request):
         return HttpResponse(html_template.render(context, request))
 
 
-
-from django.shortcuts import render
-from django.http import HttpResponse,JsonResponse,QueryDict
-from django import forms
-import django as dj
-import plotly.express as pe
-from plotly.offline import plot
-import pandas as pd
-import pymongo as pm
-from django.views.decorators.csrf import csrf_exempt
-import json
-import plotly.graph_objs as go
-import numpy as np
-import os
-from django.conf import settings
-import requests
-from xhtml2pdf import pisa
-import matplotlib.pyplot as plt
-import io
-import base64
-
-  
-
 def tudoNumerico(palavra:str):
     palavra = str(palavra)
     for i in palavra:
@@ -76,39 +71,43 @@ def tudoNumerico(palavra:str):
 
 def obter_endereco_por_cep(cep):
     try:
+        cep = str(cep)
+        if '-' not in cep:
+            cep = cep[0:5]+'-'+cep[5:]
+        if Endereco.objects.filter(cep=cep).exists():
+            objeto = Endereco.objects.get(cep=cep)
+            return objeto.rua
+            
         if tudoNumerico(cep):
             url = f"https://viacep.com.br/ws/{cep}/json/"
-            resposta = requests.get(url,timeout=1)
+            resposta = requests.get(url,timeout=10)
         elif '-' in cep:
             cep = cep.replace("-", "")
             url = f"https://viacep.com.br/ws/{cep}/json/"
-            resposta = requests.get(url,timeout=1)
-        else:
-            return cep
+            resposta = requests.get(url,timeout=10)
+        
         if resposta.status_code == 200:
             dados = resposta.json()
             if "erro" in dados:
                 return f"CEP {cep} não encontrado."
+            try:
+                endereco = Endereco(dados.get("logradouro",None),dados.get("bairro",None),dados.get("cep",None))
+                try:
+                    if Endereco.objects.filter(cep=endereco.cep).exists():
+                        return endereco.rua  
+                    else:
 
-            return dados.get("logradouro", "Rua não encontrada.")
+                        endereco.save()  
+                        return endereco.rua  
+                except Exception as ex:
+                    print(ex)
+            except Exception as ex:
+                print('erro ao importar a classe endereco...burro')
+                return dados.get("logradouro", "Rua não encontrada.")
         else:
             return "Erro ao buscar dados."
     except:
-        print('entrou no except de erro na API')
-        try:
-            # Verifique se cep é uma string numérica válida antes de tentar converter
-            cep_int = int(cep)  # strip() para remover espaços em branco
-            dicionario = {
-                13974503: "Avenida Castro Alves",
-                13974080: "Rua Tereza Lera Paoletti",
-            }
-            print(cep_int,'  < --cep int')
-            return dicionario.get(cep_int,'CEP não encontrado no bd')
-        except Exception as e:
-            print('entrou no except 2, mas aqui nao vejo motivo p quebrar')
-            print(e, '<--erro')
-            # Caso não consiga converter para inteiro, retorne uma mensagem de erro
-            return e
+        print('ERRO API')
     
 def obter_endereco_delay(cep):
     return obter_endereco_por_cep(cep)
