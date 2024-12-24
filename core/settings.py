@@ -83,12 +83,12 @@ WSGI_APPLICATION = 'core.wsgi.application'
 if os.environ.get('DB_ENGINE') and os.environ.get('DB_ENGINE') == "mysql":
     DATABASES = { 
       'default': {
-        'ENGINE'  : 'django.db.backends.mysql', 
-        'NAME'    : os.getenv('DB_NAME'     , 'appseed_db'),
-        'USER'    : os.getenv('DB_USERNAME' , ''),
-        'PASSWORD': os.getenv('DB_PASS'     , ''),
+        'ENGINE'  : 'django.db.backends.postgresql', 
+        'NAME'    : os.getenv('DB_NAME'     , 'sst'),
+        'USER'    : os.getenv('DB_USERNAME' , 'postgre'),
+        'PASSWORD': os.getenv('DB_PASS'     , '123'),
         'HOST'    : os.getenv('DB_HOST'     , 'localhost'),
-        'PORT'    : os.getenv('DB_PORT'     , 3306),
+        'PORT'    : os.getenv('DB_PORT'     , 5432),
         }, 
     }
 else:
