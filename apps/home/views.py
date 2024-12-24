@@ -65,7 +65,7 @@ import matplotlib.pyplot as plt
 import io
 import base64
 
-
+  
 
 def tudoNumerico(palavra:str):
     palavra = str(palavra)
