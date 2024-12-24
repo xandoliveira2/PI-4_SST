@@ -1,0 +1,19 @@
+name: Validate Pull Request
+
+on:
+  pull_request:
+    branches:
+      - main  # Apenas para PRs na branch 'main'
+
+jobs:
+  validate-pr:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Verificar a branch de origem
+        run: |
+          if [[ "${{ github.head_ref }}" != "dev" ]]; then
+            echo "Este pull request não é da branch 'dev'."
+            exit 1
+          fi
+        shell: bash
