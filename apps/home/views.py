@@ -74,7 +74,7 @@ def obter_endereco_por_cep(cep):
         cep = str(cep)
         if '-' not in cep:
             cep = cep[0:5]+'-'+cep[5:]
-        if Endereco.objects.filter(cep=cep).exists():
+        if Endereco.objects.filter(cep=cep).exists(): # consulta o banco de dados antes de consultar a API
             objeto = Endereco.objects.get(cep=cep)
             return objeto.rua
             
