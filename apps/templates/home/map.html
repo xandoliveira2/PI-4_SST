@@ -1,51 +1,94 @@
 {% extends "layouts/base.html" %}
 
-{% block title %} Maps {% endblock %} 
+{% block title %} Maps {% endblock %}
 
 <!-- Specific Page CSS goes HERE  -->
-{% block stylesheets %}{% endblock stylesheets %}
+{% block stylesheets %}
+<style>
+  .alinhar{display: flex;align-items: center;}
+  .alinhar input{width: 70px;}
+</style>
+{% endblock stylesheets %}
 
 {% block content %}
 
-  <div class="content">
-    <div class="row">
-      <div class="col-md-12">
-        <div class="card card-plain">
-          <div class="card-header">
-            Gráfico de densidade
-          </div>
-          <div class="card-body">
-            <!-- <div id="map" class="map"></div> -->
-             {% load static %}
-             <img src="{% static 'assets/img/showMaps.jpg' %}" alt="">
-          </div>
-          <label for="a">Rua:</label>
-          <select name="a" id="a" style="width: 200px;">
-            <option value="">Av Rio Branco</option>
-          </select>
-          <div>
-          <label for="b">Tipo Veículos</label>
-          <input type="checkbox" name="b" id="m">Motos
-          <input type="checkbox" name="b" id="car">Carros
-          <input type="checkbox" name="b" id="cam">Caminhões
-          <input type="checkbox" name="b" id="on">Onibus
-          <input type="checkbox" name="b" id="v">Vans
+<div class="content">
+  <div class="row">
+    <div class="col-md-12">
+      <div class="card card-plain">
+        <div class="card-header">
+          Gráfico de densidade
         </div>
+        <div class="card-body">
+          <!-- <div id="map" class="map"></div> -->
+          {% load static %}
+          <img src="{% static 'assets/img/showMaps.jpg' %}" alt="">
         </div>
+
+
+        <div class="f" style="display: flex;justify-content: space-around;">
+          <div class="alig">
+            <label for="a">Rua:</label>
+            <select name="a" id="a" style="width: 200px;">
+              <option value="">Av Rio Branco</option>
+            </select>
+          </div>
+          <div style="display: flex;flex-direction:column;width: fit-content;">
+            <label for="b" style="text-align: center;">Tipo Veículos</label>
+            <div class="chkboxes">
+              <input type="checkbox" name="b" id="m">Motos
+              <input type="checkbox" name="b" id="car">Carros
+              <input type="checkbox" name="b" id="cam">Caminhões
+              <input type="checkbox" name="b" id="on">Onibus
+              <input type="checkbox" name="b" id="v">Vans
+            </div>
+          </div>
+        </div>
+
+        <div class="cores">
+
+          <div class="alinhar">
+          <div id="vermelho" name="vermelho" style="width: 20px; height: 20px; background-color: red; border-radius: 50%; display: inline-block;"></div><label for="vermelho">vermelho</label>
+          <input type="text" name="vermelho" id="vermelho"></div>
+          <div class="alinhar"><div id="laranja" name="laranja" style="width: 20px; height: 20px; background-color: orange; border-radius: 50%; display: inline-block;"></div>
+          <label for="laranja">laranja</label><input type="text" name="laranja" id="laranja"></div>
+          <div class="alinhar"><div id="amarelo" name="amarelo" style="width: 20px; height: 20px; background-color: yellow; border-radius: 50%; display: inline-block;"></div>
+          <label for="amarelo">amarelo</label><input type="text" name="amarelo" id="amarelo"></div>
+          <div class="alinhar"><div id="azul" name="azul" style="width: 20px; height: 20px; background-color: blue; border-radius: 50%; display: inline-block;"></div>
+          <label for="azul">azul</label><input type="text" name="azul" id="azul"></div>
+          <div class="alinhar"><div id="verde" name="verde" style="width: 20px; height: 20px; background-color: green; border-radius: 50%; display: inline-block;"></div>
+          <label for="verde">verde</label><input type="text" name="verde" id="verde"></div>
+
+        </div>
+
+        <div class="rangeData">
+          <p>Datas</p>
+          <label for="12">De</label>
+          <input type="date" id="12" name="12">
+          <label for="14">Até</label>
+          <input type="date" id="14" name="14">
+        </div>
+        <div class="rangeHoras">
+          <p>Horas</p>
+          <label for="15">De</label>
+          <input type="time" name="15" id="15">
+          <label for="16">Até</label>
+          <input type="time" name="16" id="16">
+        </div>
+
+
       </div>
     </div>
   </div>
+</div>
 
 {% endblock content %}
 
 <!-- Specific Page JS goes HERE  -->
 {% block javascripts %}
 
-  <script>
-    $(document).ready(function() {
-      // Javascript method's body can be found in assets/js/demos.js
-      demo.initGoogleMaps();
-    });
-  </script>
+<script>
+
+</script>
 
 {% endblock javascripts %}
