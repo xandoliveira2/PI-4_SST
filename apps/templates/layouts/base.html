@@ -17,6 +17,7 @@
 <html lang="en">
 
 <head>
+    <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
     <meta charset="utf-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <link rel="apple-touch-icon" sizes="76x76" href="{{ ASSETS_ROOT }}/img/apple-icon.png">
@@ -38,7 +39,10 @@
     <link href="{{ ASSETS_ROOT }}/demo/demo.css" rel="stylesheet"/>
 
     <!-- Specific Page CSS goes HERE  -->
-    {% block stylesheets %}{% endblock stylesheets %}
+    {% block stylesheets %}  
+    <style>body{background-color: red;}</style>
+    {% endblock stylesheets %}
+    
         
 </head>
 <body class="">
@@ -53,7 +57,7 @@
 
             {% block content %}{% endblock content %}
 
-            {% include 'includes/footer.html' %}
+            <!-- {% include 'includes/footer.html' %} -->
 
         </div>
     </div>

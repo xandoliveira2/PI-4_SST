@@ -12,11 +12,25 @@
       <div class="col-md-12">
         <div class="card card-plain">
           <div class="card-header">
-            Google Maps
+            Gráfico de densidade
           </div>
           <div class="card-body">
-            <div id="map" class="map"></div>
+            <!-- <div id="map" class="map"></div> -->
+             {% load static %}
+             <img src="{% static 'assets/img/showMaps.jpg' %}" alt="">
           </div>
+          <label for="a">Rua:</label>
+          <select name="a" id="a" style="width: 200px;">
+            <option value="">Av Rio Branco</option>
+          </select>
+          <div>
+          <label for="b">Tipo Veículos</label>
+          <input type="checkbox" name="b" id="m">Motos
+          <input type="checkbox" name="b" id="car">Carros
+          <input type="checkbox" name="b" id="cam">Caminhões
+          <input type="checkbox" name="b" id="on">Onibus
+          <input type="checkbox" name="b" id="v">Vans
+        </div>
         </div>
       </div>
     </div>

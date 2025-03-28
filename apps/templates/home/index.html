@@ -1,394 +1,234 @@
 {% extends "layouts/base.html" %}
 
-{% block title %} Dashboard {% endblock %} 
+{% block title %} Dashboard {% endblock %}
 
 <!-- Specific Page CSS goes HERE  -->
-{% block stylesheets %}{% endblock stylesheets %}
+{% block stylesheets %}
+{{ block.super }}  <!-- isso faz com que herde do elemento pai e deixe de sobre escrever-->
+<style>select{scrollbar-color: #FFF transparent;}</style>
+{% endblock stylesheets %}
 
 {% block content %}
 
-    <div class="content">
-        <div class="row">
-            <div class="col-12">
-                <div class="card card-chart">
-                    <div class="card-header ">
-                        <div class="row">
-                            <div class="col-sm-6 text-left">
-                                <h5 class="card-category">Total Shipments</h5>
-                                <h2 class="card-title">Performance</h2>
-                            </div>
-                            <div class="col-sm-6">
-                                <div class="btn-group btn-group-toggle float-right" data-toggle="buttons">
-                                    <label class="btn btn-sm btn-primary btn-simple active" id="0">
-                                        <input type="radio" name="options" checked>
-                                        <span class="d-none d-sm-block d-md-block d-lg-block d-xl-block">Accounts</span>
-                                        <span class="d-block d-sm-none">
-                        <i class="tim-icons icon-single-02"></i>
-                    </span>
-                                    </label>
-                                    <label class="btn btn-sm btn-primary btn-simple" id="1">
-                                        <input type="radio" class="d-none d-sm-none" name="options">
-                                        <span class="d-none d-sm-block d-md-block d-lg-block d-xl-block">Purchases</span>
-                                        <span class="d-block d-sm-none">
-                        <i class="tim-icons icon-gift-2"></i>
-                    </span>
-                                    </label>
-                                    <label class="btn btn-sm btn-primary btn-simple" id="2">
-                                        <input type="radio" class="d-none" name="options">
-                                        <span class="d-none d-sm-block d-md-block d-lg-block d-xl-block">Sessions</span>
-                                        <span class="d-block d-sm-none">
-                        <i class="tim-icons icon-tap-02"></i>
-                    </span>
-                                    </label>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="card-body">
-                        <div class="chart-area">
-                            <canvas id="chartBig1"></canvas>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="row">
-            <div class="col-lg-4">
-                <div class="card card-chart">
-                    <div class="card-header">
-                        <h5 class="card-category">Total Shipments</h5>
-                        <h3 class="card-title"><i class="tim-icons icon-bell-55 text-primary"></i> 763,215</h3>
-                    </div>
-                    <div class="card-body">
-                        <div class="chart-area">
-                            <canvas id="chartLinePurple"></canvas>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="col-lg-4">
-                <div class="card card-chart">
-                    <div class="card-header">
-                        <h5 class="card-category">Daily Sales</h5>
-                        <h3 class="card-title"><i class="tim-icons icon-delivery-fast text-info"></i> 3,500€</h3>
-                    </div>
-                    <div class="card-body">
-                        <div class="chart-area">
-                            <canvas id="CountryChart"></canvas>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="col-lg-4">
-                <div class="card card-chart">
-                    <div class="card-header">
-                        <h5 class="card-category">Completed Tasks</h5>
-                        <h3 class="card-title"><i class="tim-icons icon-send text-success"></i> 12,100K</h3>
-                    </div>
-                    <div class="card-body">
-                        <div class="chart-area">
-                            <canvas id="chartLineGreen"></canvas>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="row">
-            <div class="col-lg-6 col-md-12">
-                <div class="card card-tasks">
-                    <div class="card-header ">
-                        <h6 class="title d-inline">Tasks(5)</h6>
-                        <p class="card-category d-inline">today</p>
-                        <div class="dropdown">
-                            <button type="button" class="btn btn-link dropdown-toggle btn-icon"
-                                    data-toggle="dropdown">
-                                <i class="tim-icons icon-settings-gear-63"></i>
-                            </button>
-                            <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenuLink">
-                                <a class="dropdown-item" href="#pablo">Action</a>
-                                <a class="dropdown-item" href="#pablo">Another action</a>
-                                <a class="dropdown-item" href="#pablo">Something else</a>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="card-body ">
-                        <div class="table-full-width table-responsive">
-                            <table class="table">
-                                <tbody>
-                                <tr>
-                                    <td>
-                                        <div class="form-check">
-                                            <label class="form-check-label">
-                                                <input class="form-check-input" type="checkbox" value="">
-                                                <span class="form-check-sign">
-                            <span class="check"></span>
-                            </span>
-                                            </label>
-                                        </div>
-                                    </td>
-                                    <td>
-                                        <p class="title">Update the Documentation</p>
-                                        <p class="text-muted">Dwuamish Head, Seattle, WA 8:47 AM</p>
-                                    </td>
-                                    <td class="td-actions text-right">
-                                        <button type="button" rel="tooltip" title="" class="btn btn-link"
-                                                data-original-title="Edit Task">
-                                            <i class="tim-icons icon-pencil"></i>
-                                        </button>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>
-                                        <div class="form-check">
-                                            <label class="form-check-label">
-                                                <input class="form-check-input" type="checkbox" value="" checked="">
-                                                <span class="form-check-sign">
-                            <span class="check"></span>
-                            </span>
-                                            </label>
-                                        </div>
-                                    </td>
-                                    <td>
-                                        <p class="title">GDPR Compliance</p>
-                                        <p class="text-muted">The GDPR is a regulation that requires businesses to
-                                            protect the personal data and privacy of Europe citizens for
-                                            transactions that occur within EU member states.</p>
-                                    </td>
-                                    <td class="td-actions text-right">
-                                        <button type="button" rel="tooltip" title="" class="btn btn-link"
-                                                data-original-title="Edit Task">
-                                            <i class="tim-icons icon-pencil"></i>
-                                        </button>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>
-                                        <div class="form-check">
-                                            <label class="form-check-label">
-                                                <input class="form-check-input" type="checkbox" value="">
-                                                <span class="form-check-sign">
-                            <span class="check"></span>
-                            </span>
-                                            </label>
-                                        </div>
-                                    </td>
-                                    <td>
-                                        <p class="title">Solve the issues</p>
-                                        <p class="text-muted">Fifty percent of all respondents said they would be
-                                            more likely to shop at a company </p>
-                                    </td>
-                                    <td class="td-actions text-right">
-                                        <button type="button" rel="tooltip" title="" class="btn btn-link"
-                                                data-original-title="Edit Task">
-                                            <i class="tim-icons icon-pencil"></i>
-                                        </button>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>
-                                        <div class="form-check">
-                                            <label class="form-check-label">
-                                                <input class="form-check-input" type="checkbox" value="">
-                                                <span class="form-check-sign">
-                            <span class="check"></span>
-                            </span>
-                                            </label>
-                                        </div>
-                                    </td>
-                                    <td>
-                                        <p class="title">Release v2.0.0</p>
-                                        <p class="text-muted">Ra Ave SW, Seattle, WA 98116, SUA 11:19 AM</p>
-                                    </td>
-                                    <td class="td-actions text-right">
-                                        <button type="button" rel="tooltip" title="" class="btn btn-link"
-                                                data-original-title="Edit Task">
-                                            <i class="tim-icons icon-pencil"></i>
-                                        </button>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>
-                                        <div class="form-check">
-                                            <label class="form-check-label">
-                                                <input class="form-check-input" type="checkbox" value="">
-                                                <span class="form-check-sign">
-                            <span class="check"></span>
-                            </span>
-                                            </label>
-                                        </div>
-                                    </td>
-                                    <td>
-                                        <p class="title">Export the processed files</p>
-                                        <p class="text-muted">The report also shows that consumers will not easily
-                                            forgive a company once a breach exposing their personal data
-                                            occurs. </p>
-                                    </td>
-                                    <td class="td-actions text-right">
-                                        <button type="button" rel="tooltip" title="" class="btn btn-link"
-                                                data-original-title="Edit Task">
-                                            <i class="tim-icons icon-pencil"></i>
-                                        </button>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>
-                                        <div class="form-check">
-                                            <label class="form-check-label">
-                                                <input class="form-check-input" type="checkbox" value="">
-                                                <span class="form-check-sign">
-                            <span class="check"></span>
-                            </span>
-                                            </label>
-                                        </div>
-                                    </td>
-                                    <td>
-                                        <p class="title">Arival at export process</p>
-                                        <p class="text-muted">Capitol Hill, Seattle, WA 12:34 AM</p>
-                                    </td>
-                                    <td class="td-actions text-right">
-                                        <button type="button" rel="tooltip" title="" class="btn btn-link"
-                                                data-original-title="Edit Task">
-                                            <i class="tim-icons icon-pencil"></i>
-                                        </button>
-                                    </td>
-                                </tr>
-                                </tbody>
-                            </table>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="col-lg-6 col-md-12">
-                <div class="card ">
-                    <div class="card-header">
-                        <h4 class="card-title"> Simple Table</h4>
-                    </div>
-                    <div class="card-body">
-                        <div class="table-responsive">
-                            <table class="table tablesorter " id="">
-                                <thead class=" text-primary">
-                                <tr>
-                                    <th>
-                                        Name
-                                    </th>
-                                    <th>
-                                        Country
-                                    </th>
-                                    <th>
-                                        City
-                                    </th>
-                                    <th class="text-center">
-                                        Salary
-                                    </th>
-                                </tr>
-                                </thead>
-                                <tbody>
-                                <tr>
-                                    <td>
-                                        Dakota Rice
-                                    </td>
-                                    <td>
-                                        Niger
-                                    </td>
-                                    <td>
-                                        Oud-Turnhout
-                                    </td>
-                                    <td class="text-center">
-                                        $36,738
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>
-                                        Minerva Hooper
-                                    </td>
-                                    <td>
-                                        Curaçao
-                                    </td>
-                                    <td>
-                                        Sinaai-Waas
-                                    </td>
-                                    <td class="text-center">
-                                        $23,789
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>
-                                        Sage Rodriguez
-                                    </td>
-                                    <td>
-                                        Netherlands
-                                    </td>
-                                    <td>
-                                        Baileux
-                                    </td>
-                                    <td class="text-center">
-                                        $56,142
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>
-                                        Philip Chaney
-                                    </td>
-                                    <td>
-                                        Korea, South
-                                    </td>
-                                    <td>
-                                        Overland Park
-                                    </td>
-                                    <td class="text-center">
-                                        $38,735
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>
-                                        Doris Greene
-                                    </td>
-                                    <td>
-                                        Malawi
-                                    </td>
-                                    <td>
-                                        Feldkirchen in Kärnten
-                                    </td>
-                                    <td class="text-center">
-                                        $63,542
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>
-                                        Mason Porter
-                                    </td>
-                                    <td>
-                                        Chile
-                                    </td>
-                                    <td>
-                                        Gloucester
-                                    </td>
-                                    <td class="text-center">
-                                        $78,615
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>
-                                        Jon Porter
-                                    </td>
-                                    <td>
-                                        Portugal
-                                    </td>
-                                    <td>
-                                        Gloucester
-                                    </td>
-                                    <td class="text-center">
-                                        $98,615
-                                    </td>
-                                </tr>
-                                </tbody>
-                            </table>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
+<div class="content">
+  <div style="text-align: center;">
+    <h2>Rua com maior movimento no dia: Av. Rio Branco</h2>
+  </div>
+  <div class="col-sm-12">
+    <div class="chart" id="chart"></div>
+    
+    <div class="cent" style="display:flex;flex-direction: column ;align-items: flex-end;margin-right: 18px;">
+      <div class="centr" style="display:flex;align-items: center;flex-direction: column ;position: absolute;">
+        <label for="ruas" style="color: #FFF;font-weight: bold;">Rua:</label>
+        <select name="ruas" id="ruas" style="background-color: #1E1E29;border: 0;color: white;font-weight:bold;" size="8" onchange="gerarGraficoEmcima(),gerarGraficoEmbaixo()">
+          <option value="">Av Aldaberto Cunha</option>
+          <option value="">Av Italiano</option>
+          <option value="" selected>Av Rio Branco</option>
+          <option value="">Av São Paulo</option>
+          <option value="">Avenida Presidente Juscelino Kubitschek de Oliveira</option>
+          <option value="">Rua teste1</option>
+          <option value="">Rua teste2</option>
+          <option value="">só exibe 5</option>
+          <option value="">teste scroll sem scrollbar</option>
+        </select>
+      </div>
     </div>
+  
+  </div>
+  <script>
+
+  function gerarAleatorios(numerosElementosAleatorios) {
+      let arrayInteiros = [];
+      for (let i = 0; i < numerosElementosAleatorios; i++) {
+          arrayInteiros.push(Math.floor(Math.random() * 36) + 5);
+      }
+      return arrayInteiros;
+  }
+
+
+  function gerarGraficoEmcima(){
+    options = null;
+    options = {
+      series: [
+        {
+          name: "Motos",
+          data: gerarAleatorios(12)
+        },
+        {
+          name: "Carros",
+          data: gerarAleatorios(12)
+        },
+        {
+          name: "Caminhão",
+          data: gerarAleatorios(12)
+        }
+      ],
+      chart: {
+        height: 350,
+        type: 'line',
+        dropShadow: {
+          enabled: true,
+          color: '#000',
+          top: 18,
+          left: 7,
+          blur: 10,
+          opacity: 0.5
+        },
+        zoom: {
+          enabled: false
+        },
+        toolbar: {
+          show: false
+        }
+      },
+      colors: ['#AA0000', '#0000AA', '#00AA00'],
+      dataLabels: {
+        enabled: true,
+      },
+      stroke: {
+        curve: 'smooth'
+      },
+      title: {
+        text: 'Quantidade de veículos',
+        align: 'left',
+        style: {
+          color: '#fff'
+        }
+      },
+      grid: {
+        borderColor: '#000',
+        row: {
+          colors: ['#DA4FD2'], // takes an array which will be repeated on columns
+          opacity: 1
+        },
+      },
+      markers: {
+        size: 1
+      },
+      xaxis: {
+        categories: ['00:00', '01:00', '02:00', '03:00', '04:00', '05:00', '06:00', '07:00', '08:00', '09:00', '10:00', '11:00'],
+        title: {
+          text: 'Horas'
+        }
+      },
+      yaxis: {
+        title: {
+          text: 'Quantidade'
+        },
+        min: 5,
+        max: 40
+      },
+      legend: {
+        position: 'top',
+        horizontalAlign: 'right',
+        floating: true,
+        offsetY: -25,
+        offsetX: -5
+      }
+    };
+
+  
+      chart = new ApexCharts(document.querySelector("#chart"), options);
+      chart.render();
+
+      chart.updateSeries(options.series);
+            
+  }
+  gerarGraficoEmcima();
+        
+  </script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+  <div class="col-sm-6" id="chart1"></div>
+  <script>
+
+    function gerarGraficoEmbaixo()
+    {
+
+    var colors = ['#AA0000', '#0000AA', '#00AA00'];
+    var options1 = null;
+    options1 = {
+      series: [{
+        data: gerarAleatorios(3)
+      }],
+      chart: {
+        height: 350,
+        type: 'bar',
+        events: {
+          click: function (chart, w, e) {
+            // console.log(chart, w, e)
+          }
+        }
+      },
+      colors: colors,
+      plotOptions: {
+        bar: {
+          columnWidth: '45%',
+          distributed: true,
+        }
+      },
+      fill: {
+        opacity: 1
+      },
+      title: {
+        text: 'Quantidade total de veículos',
+        align: 'left',
+        style: {
+          color: '#fff'
+        }
+      },
+      dataLabels: {
+        enabled: false
+      },
+      legend: {
+        show: true
+      },
+      xaxis: {
+        categories: [
+          "Motos",
+          "Carros",
+          "Caminhões"
+        ],
+        labels: {
+          style: {
+            colors: colors,
+            fontSize: '12px'
+          }
+        }
+      }
+    };
+
+   
+      chart1 = new ApexCharts(document.querySelector("#chart1"), options1);
+      chart1.render();
+  
+      chart1.updateSeries(options1.series);
+            
+  }
+  gerarGraficoEmbaixo();
+  </script>
+
+
+
+
+
+</div>
+
+
+
+
+
 
 {% endblock content %}
 
@@ -396,11 +236,11 @@
 {% block javascripts %}
 
 <script>
-    $(document).ready(function () {
-        // Javascript method's body can be found in assets/js/demos.js
-        demo.initDashboardPageCharts();
+  $(document).ready(function () {
+    // Javascript method's body can be found in assets/js/demos.js
+    demo.initDashboardPageCharts();
 
-    });
+  });
 </script>
 
 {% endblock javascripts %}
