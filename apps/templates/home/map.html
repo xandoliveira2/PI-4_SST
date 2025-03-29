@@ -5,8 +5,89 @@
 <!-- Specific Page CSS goes HERE  -->
 {% block stylesheets %}
 <style>
-  .alinhar{display: flex;align-items: center;}
-  .alinhar input{width: 70px;}
+  .container-flex {
+    display: flex;
+    justify-content: space-around;
+    flex-wrap: wrap;
+    gap: 20px;
+  }
+
+  .alinhar {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .alinhar input {
+    width: 70px;
+  }
+
+  .cores {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 15px;
+    justify-content: center;
+  }
+
+  .cores .alinhar {
+    justify-content: start;
+  }
+
+  .cores div {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+  }
+
+  .color-circle {
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    display: inline-block;
+  }
+
+  .chkboxes {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 15px;
+  }
+
+  .chkboxes label {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    padding: 5px 10px;
+    border-radius: 5px;
+    background-color: #007bff;
+    cursor: pointer;
+  }
+
+  .chkboxes input {
+    accent-color: #007bff;
+  }
+
+  .rangeData, .rangeHoras {
+    text-align: center;
+    margin-top: 15px;
+  }
+
+  .btn-gerar {
+    display: block;
+    margin: 20px auto;
+    padding: 10px 20px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background 0.3s ease;
+  }
+
+  .btn-gerar:hover {
+    background-color: #0056b3;
+  }
+
 </style>
 {% endblock stylesheets %}
 
@@ -17,65 +98,82 @@
     <div class="col-md-12">
       <div class="card card-plain">
         <div class="card-header">
-          Gráfico de densidade
+          <h4>Gráfico de Densidade</h4>
         </div>
-        <div class="card-body">
-          <!-- <div id="map" class="map"></div> -->
+        <div class="card-body text-center">
           {% load static %}
-          <img src="{% static 'assets/img/showMaps.jpg' %}" alt="">
+          <img src="{% static 'assets/img/showMaps.jpg' %}" alt="Mapa de densidade">
         </div>
 
-
-        <div class="f" style="display: flex;justify-content: space-around;">
+        <div class="container-flex">
           <div class="alig">
             <label for="a">Rua:</label>
             <select name="a" id="a" style="width: 200px;">
               <option value="">Av Rio Branco</option>
             </select>
           </div>
-          <div style="display: flex;flex-direction:column;width: fit-content;">
-            <label for="b" style="text-align: center;">Tipo Veículos</label>
+
+          <div>
+            <label style="display: block; text-align: center; font-weight: bold;">Tipo de Veículos</label>
             <div class="chkboxes">
-              <input type="checkbox" name="b" id="m">Motos
-              <input type="checkbox" name="b" id="car">Carros
-              <input type="checkbox" name="b" id="cam">Caminhões
-              <input type="checkbox" name="b" id="on">Onibus
-              <input type="checkbox" name="b" id="v">Vans
+              <label for="m"><input type="checkbox" name="b" id="m"> Motos</label>
+              <label for="car"><input type="checkbox" name="b" id="car"> Carros</label>
+              <label for="cam"><input type="checkbox" name="b" id="cam"> Caminhões</label>
+              <label for="on"><input type="checkbox" name="b" id="on"> Ônibus</label>
+              <label for="v"><input type="checkbox" name="b" id="v"> Vans</label>
             </div>
           </div>
         </div>
 
         <div class="cores">
+          <div class="alinhar">
+            <div class="color-circle" style="background-color: red;"></div>
+            <label for="vermelho">Vermelho</label>
+            <input type="text" name="vermelho" id="vermelho">
+          </div>
 
           <div class="alinhar">
-          <div id="vermelho" name="vermelho" style="width: 20px; height: 20px; background-color: red; border-radius: 50%; display: inline-block;"></div><label for="vermelho">vermelho</label>
-          <input type="text" name="vermelho" id="vermelho"></div>
-          <div class="alinhar"><div id="laranja" name="laranja" style="width: 20px; height: 20px; background-color: orange; border-radius: 50%; display: inline-block;"></div>
-          <label for="laranja">laranja</label><input type="text" name="laranja" id="laranja"></div>
-          <div class="alinhar"><div id="amarelo" name="amarelo" style="width: 20px; height: 20px; background-color: yellow; border-radius: 50%; display: inline-block;"></div>
-          <label for="amarelo">amarelo</label><input type="text" name="amarelo" id="amarelo"></div>
-          <div class="alinhar"><div id="azul" name="azul" style="width: 20px; height: 20px; background-color: blue; border-radius: 50%; display: inline-block;"></div>
-          <label for="azul">azul</label><input type="text" name="azul" id="azul"></div>
-          <div class="alinhar"><div id="verde" name="verde" style="width: 20px; height: 20px; background-color: green; border-radius: 50%; display: inline-block;"></div>
-          <label for="verde">verde</label><input type="text" name="verde" id="verde"></div>
+            <div class="color-circle" style="background-color: orange;"></div>
+            <label for="laranja">Laranja</label>
+            <input type="text" name="laranja" id="laranja">
+          </div>
 
+          <div class="alinhar">
+            <div class="color-circle" style="background-color: yellow;"></div>
+            <label for="amarelo">Amarelo</label>
+            <input type="text" name="amarelo" id="amarelo">
+          </div>
+
+          <div class="alinhar">
+            <div class="color-circle" style="background-color: blue;"></div>
+            <label for="azul">Azul</label>
+            <input type="text" name="azul" id="azul">
+          </div>
+
+          <div class="alinhar">
+            <div class="color-circle" style="background-color: green;"></div>
+            <label for="verde">Verde</label>
+            <input type="text" name="verde" id="verde">
+          </div>
         </div>
 
         <div class="rangeData">
-          <p>Datas</p>
+          <h5>Datas</h5>
           <label for="12">De</label>
           <input type="date" id="12" name="12">
           <label for="14">Até</label>
           <input type="date" id="14" name="14">
         </div>
+
         <div class="rangeHoras">
-          <p>Horas</p>
+          <h5>Horas</h5>
           <label for="15">De</label>
           <input type="time" name="15" id="15">
           <label for="16">Até</label>
           <input type="time" name="16" id="16">
         </div>
 
+        <button class="btn-gerar">Gerar Gráfico</button>
 
       </div>
     </div>
@@ -86,9 +184,10 @@
 
 <!-- Specific Page JS goes HERE  -->
 {% block javascripts %}
-
 <script>
-
+  document.querySelector('.btn-gerar').addEventListener('click', function () {
+    alert('Gerando gráfico...');
+    // Aqui você pode chamar uma função para gerar o gráfico
+  });
 </script>
-
 {% endblock javascripts %}

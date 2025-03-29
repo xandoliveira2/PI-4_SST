@@ -1,24 +1,127 @@
 {% extends "layouts/base.html" %}
 
-{% block title %} UI Icons {% endblock %} 
+{% block title %} Power BI {% endblock %}
 
 <!-- Specific Page CSS goes HERE  -->
-{% block stylesheets %}{% endblock stylesheets %}
+{% block stylesheets %}
+<style>
+  .container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 15px;
+    margin-top: 30px;
+  }
+
+  .rangeData {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .rangeData label {
+    font-weight: bold;
+  }
+
+  .checkbox-group {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    justify-content: center;
+  }
+
+  .checkbox-group label {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    font-weight: bold;
+  }
+
+  .btn-gerar {
+    padding: 10px 20px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background 0.3s ease;
+  }
+
+  .btn-gerar:hover {
+    background-color: #0056b3;
+  }
+</style>
+{% endblock stylesheets %}
 
 {% block content %}
+
 <div class="content">
-<div class="row">
-  <div class="col-md-12">
-    <div class="card">
-      <div class="row">
+  <div class="row">
+    <div class="col-md-12">
+      <div class="card card-plain">
+        <div class="card-header">
+          <h4>Gerar Relatório Power BI</h4>
+        </div>
         
-      <input type="file" name="" id="">
-    
-    </div>
+        <div class="card-body">
+          <div class="container">
+            <h5>Selecione um intervalo de datas:</h5>
+            <div class="rangeData">
+              <label for="dataInicio">De:</label>
+              <input type="date" id="dataInicio" name="dataInicio">
+              <label for="dataFim">Até:</label>
+              <input type="date" id="dataFim" name="dataFim">
+            </div>
+
+            <h5>Selecione os tipos de veículos:</h5>
+            <div class="checkbox-group">
+              <label><input type="checkbox" name="veiculo" value="carros" checked> Carros</label>
+              <label><input type="checkbox" name="veiculo" value="motos" checked> Motos</label>
+              <label><input type="checkbox" name="veiculo" value="vans" checked> Vans</label>
+              <label><input type="checkbox" name="veiculo" value="onibus" checked> Ônibus</label>
+              <label><input type="checkbox" name="veiculo" value="caminhoes" checked> Caminhões</label>
+            </div>
+
+            <button class="btn-gerar">Gerar Power BI</button>
+          </div>
+        </div>
+      </div>
     </div>
   </div>
 </div>
-</div>
+
+{% endblock content %}
+
+<!-- Specific Page JS goes HERE  -->
+{% block javascripts %}
+<script>
+  document.querySelector('.btn-gerar').addEventListener('click', function () {
+    let dataInicio = document.getElementById('dataInicio').value;
+    let dataFim = document.getElementById('dataFim').value;
+    let veiculosSelecionados = [...document.querySelectorAll('input[name="veiculo"]:checked')].map(e => e.value);
+
+    if (!dataInicio || !dataFim) {
+      alert('Por favor, selecione um intervalo de datas.');
+      return;
+    }
+
+    if (dataInicio > dataFim) {
+      alert('A data de início não pode ser maior que a data final.');
+      return;
+    }
+
+    if (veiculosSelecionados.length === 0) {
+      alert('Por favor, selecione pelo menos um tipo de veículo.');
+      return;
+    }
+
+    alert('Gerando relatório Power BI para os veículos selecionados: ' + veiculosSelecionados.join(', '));
+    // Aqui você pode adicionar a lógica para gerar o Power BI
+  });
+</script>
+{% endblock javascripts %}
+
   <!-- <div class="content">
     <div class="row">
       <div class="col-md-12">
@@ -636,7 +739,3 @@
     </div>
   </div> -->
 
-{% endblock content %}
-
-<!-- Specific Page JS goes HERE  -->
-{% block javascripts %}{% endblock javascripts %}
