@@ -88,7 +88,12 @@
     background-color: #0056b3;
   }
 
+  #map{height: 550px;}
+
 </style>
+
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" />
+<script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
 {% endblock stylesheets %}
 
 {% block content %}
@@ -100,10 +105,111 @@
         <div class="card-header">
           <h4>Gráfico de Densidade</h4>
         </div>
-        <div class="card-body text-center">
-          {% load static %}
-          <img src="{% static 'assets/img/showMaps.jpg' %}" alt="Mapa de densidade">
+        <div class="card-body text-center" id="map">
+          <!-- {% load static %} -->
+          <!-- <img src="{% static 'assets/img/showMaps.jpg' %}" alt="Mapa de densidade"> -->
         </div>
+        <script>
+           var map = L.map('map').setView([-22.44, -46.83], 14);
+
+// Camada base
+L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+  maxZoom: 18,
+  attribution: '© OpenStreetMap contributors'
+}).addTo(map);
+
+// Função de cor conforme densidade
+function getColor(densidade) {
+  if (densidade > 0.8) return 'red';
+  else if (densidade > 0.6) return 'orange';
+  else if (densidade > 0.4) return 'yellow';
+  else if (densidade > 0.2) return 'green';
+  else return 'blue';
+}
+
+async function pegarNomeRua(cep) {
+  try {
+    const response = await fetch(`https://viacep.com.br/ws/${cep}/json/`);
+    const data = await response.json();
+
+    console.log(data); // mostra todo o objeto retornado
+    return data.logradouro || cep;
+  } catch (error) {
+    console.error("Erro ao buscar rua:", error);
+    return "Erro";
+  }
+}
+
+// Função que processa e plota os dados no mapa
+async function processarDadosEDesenharMapa(dadosAPI) {
+  const agrupados = {};
+
+  for (const item of dadosAPI){
+    const rua = await pegarNomeRua(item.rua); // espera a função assíncrona resolver
+    console.log(rua);
+    const chave = rua;
+    const total = parseInt(item.total);
+    const lat = parseFloat(item.latitude);
+    const lng = parseFloat(item.longitude);
+
+    if (!agrupados[chave]) {
+      agrupados[chave] = {
+        rua,
+        lat,
+        lng,
+        total: total,
+        count: 1
+      };
+    } else {
+      agrupados[chave].total += total;
+      agrupados[chave].count += 1;
+    }
+  };
+
+  // Calcular densidade normalizada (0 a 1)
+  const maxTotal = Math.max(...Object.values(agrupados).map(p => p.total));
+  const dados = Object.values(agrupados).map(p => ({
+    rua: p.rua,
+    lat: p.lat,
+    lng: p.lng,
+    densidade: p.total / maxTotal
+  }));
+
+  // Criar os marcadores
+  dados.forEach(ponto => {
+    L.circleMarker([ponto.lat, ponto.lng], {
+      radius: 15,
+      color: getColor(ponto.densidade),
+      fillColor: getColor(ponto.densidade),
+      fillOpacity: 0.6,
+      weight: 1
+    })
+    .bindTooltip(`Rua: ${ponto.rua}<br>Densidade: ${ponto.densidade.toFixed(2)}`, {
+      permanent: false,
+      direction: 'top'
+    })
+    .addTo(map);
+  });
+}
+
+async function atualizarGrafico() {
+  let dataInicial = document.getElementById("dataInicial").value;
+  let dataFinal = document.getElementById("dataFinal").value;
+  let horaInicial = document.getElementById("horaInicial").value;
+  let horaFinal = document.getElementById("horaFinal").value;
+  console.log(dataInicial + " DATA INICIAL"); 
+  console.log(dataFinal+ " DATA FINAL");
+  console.log(horaInicial+ " HORA INICIAL");
+  console.log(horaFinal+ " HORA FINAL");
+  fetch(`/exibirTodosDados/?param2=${horaInicial}-${horaFinal}&param1=${dataInicial}-${dataFinal}`)
+    .then(res => res.json())
+    .then(dados => {
+      processarDadosEDesenharMapa(dados);
+    })
+    .catch(err => console.error('Erro ao carregar os dados:', err));
+
+}
+</script>
 
         <div class="container-flex">
           <div class="alig">
@@ -125,55 +231,25 @@
           </div>
         </div>
 
-        <div class="cores">
-          <div class="alinhar">
-            <div class="color-circle" style="background-color: red;"></div>
-            <label for="vermelho">Vermelho</label>
-            <input type="text" name="vermelho" id="vermelho">
-          </div>
-
-          <div class="alinhar">
-            <div class="color-circle" style="background-color: orange;"></div>
-            <label for="laranja">Laranja</label>
-            <input type="text" name="laranja" id="laranja">
-          </div>
-
-          <div class="alinhar">
-            <div class="color-circle" style="background-color: yellow;"></div>
-            <label for="amarelo">Amarelo</label>
-            <input type="text" name="amarelo" id="amarelo">
-          </div>
-
-          <div class="alinhar">
-            <div class="color-circle" style="background-color: blue;"></div>
-            <label for="azul">Azul</label>
-            <input type="text" name="azul" id="azul">
-          </div>
-
-          <div class="alinhar">
-            <div class="color-circle" style="background-color: green;"></div>
-            <label for="verde">Verde</label>
-            <input type="text" name="verde" id="verde">
-          </div>
-        </div>
+       
 
         <div class="rangeData">
           <h5>Datas</h5>
-          <label for="12">De</label>
-          <input type="date" id="12" name="12">
-          <label for="14">Até</label>
-          <input type="date" id="14" name="14">
+          <label for="dataInicial">De</label>
+          <input type="date" id="dataInicial" name="dataInicial">
+          <label for="dataFinal">Até</label>
+          <input type="date" id="dataFinal" name="dataFinal">
         </div>
 
         <div class="rangeHoras">
           <h5>Horas</h5>
-          <label for="15">De</label>
-          <input type="time" name="15" id="15">
-          <label for="16">Até</label>
-          <input type="time" name="16" id="16">
+          <label for="horaInicial">De</label>
+          <input type="time" id="horaInicial" name="horaInicial">
+          <label for="horaFinal">Até</label>
+          <input type="time" id="horaFinal" name="horaFinal">
         </div>
 
-        <button class="btn-gerar">Gerar Gráfico</button>
+        <button class="btn-gerar" id="btnGerarGrafico" onclick="atualizarGrafico()">Gerar Gráfico</button>
 
       </div>
     </div>
@@ -189,5 +265,12 @@
     alert('Gerando gráfico...');
     // Aqui você pode chamar uma função para gerar o gráfico
   });
+
+async function GerarGrafico()
+{
+  
+}
+
+
 </script>
 {% endblock javascripts %}
