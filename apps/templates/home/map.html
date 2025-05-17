@@ -15,11 +15,16 @@
   .alinhar {
     display: flex;
     align-items: center;
-    gap: 8px;
+    flex-direction: column;
+    gap: 4px;
   }
 
   .alinhar input {
     width: 70px;
+  }
+  label{
+    font-weight: bold;
+    font-size: 16px;
   }
 
   .cores {
@@ -66,9 +71,25 @@
     accent-color: #007bff;
   }
 
-  .rangeData, .rangeHoras {
+  .rangeData,
+  .rangeHoras {
     text-align: center;
     margin-top: 15px;
+
+
+  }
+ 
+
+  .inputHorasWrapper{
+    
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+  
+  .inputHorasWrapper label{
+    margin:0px 10px;
+
   }
 
   .btn-gerar {
@@ -81,15 +102,24 @@
     border-radius: 5px;
     font-size: 16px;
     cursor: pointer;
-    transition: background 0.3s ease;
+    transition: background-color 0.3s ease;
   }
 
   .btn-gerar:hover {
     background-color: #0056b3;
   }
 
-  #map{height: 550px;}
+  #map {
+    height: 550px;
+  }
 
+  h5 {
+    font-size: 1rem;
+  }
+
+  .form-control{
+    background-color: #3b3d5c;
+  }
 </style>
 
 <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" />
@@ -110,146 +140,164 @@
           <!-- <img src="{% static 'assets/img/showMaps.jpg' %}" alt="Mapa de densidade"> -->
         </div>
         <script>
-           var map = L.map('map').setView([-22.44, -46.83], 14);
+          var map = L.map('map').setView([-22.44, -46.83], 14);
 
-// Camada base
-L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-  maxZoom: 18,
-  attribution: '© OpenStreetMap contributors'
-}).addTo(map);
+          // Camada base
+          L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            maxZoom: 18,
+            attribution: '© OpenStreetMap contributors'
+          }).addTo(map);
 
-// Função de cor conforme densidade
-function getColor(densidade) {
-  if (densidade > 0.8) return 'red';
-  else if (densidade > 0.6) return 'orange';
-  else if (densidade > 0.4) return 'yellow';
-  else if (densidade > 0.2) return 'green';
-  else return 'blue';
-}
+          // Função de cor conforme densidade
+          function getColor(densidade) {
+            if (densidade > 0.8) return 'red';
+            else if (densidade > 0.6) return 'orange';
+            else if (densidade > 0.4) return 'yellow';
+            else if (densidade > 0.2) return 'green';
+            else return 'blue';
+          }
 
-async function pegarNomeRua(cep) {
-  try {
-    const response = await fetch(`https://viacep.com.br/ws/${cep}/json/`);
-    const data = await response.json();
+          async function pegarNomeRua(cep) {
+            try {
+              const response = await fetch(`https://viacep.com.br/ws/${cep}/json/`);
+              const data = await response.json();
 
-    console.log(data); // mostra todo o objeto retornado
-    return data.logradouro || cep;
-  } catch (error) {
-    console.error("Erro ao buscar rua:", error);
-    return "Erro";
-  }
-}
+              console.log(data); // mostra todo o objeto retornado
+              return data.logradouro || cep;
+            } catch (error) {
+              console.error("Erro ao buscar rua:", error);
+              return "Erro";
+            }
+          }
 
-// Função que processa e plota os dados no mapa
-async function processarDadosEDesenharMapa(dadosAPI) {
-  const agrupados = {};
+          // Função que processa e plota os dados no mapa
+          async function processarDadosEDesenharMapa(dadosAPI) {
+            const agrupados = {};
 
-  for (const item of dadosAPI){
-    const rua = await pegarNomeRua(item.rua); // espera a função assíncrona resolver
-    console.log(rua);
-    const chave = rua;
-    const total = parseInt(item.total);
-    const lat = parseFloat(item.latitude);
-    const lng = parseFloat(item.longitude);
+            for (const item of dadosAPI) {
+              const rua = await pegarNomeRua(item.rua); // espera a função assíncrona resolver
+              console.log(rua);
+              const chave = rua;
+              const total = parseInt(item.total);
+              const lat = parseFloat(item.latitude);
+              const lng = parseFloat(item.longitude);
 
-    if (!agrupados[chave]) {
-      agrupados[chave] = {
-        rua,
-        lat,
-        lng,
-        total: total,
-        count: 1
-      };
-    } else {
-      agrupados[chave].total += total;
-      agrupados[chave].count += 1;
-    }
-  };
+              if (!agrupados[chave]) {
+                agrupados[chave] = {
+                  rua,
+                  lat,
+                  lng,
+                  total: total,
+                  count: 1
+                };
+              } else {
+                agrupados[chave].total += total;
+                agrupados[chave].count += 1;
+              }
+            };
 
-  // Calcular densidade normalizada (0 a 1)
-  const maxTotal = Math.max(...Object.values(agrupados).map(p => p.total));
-  const dados = Object.values(agrupados).map(p => ({
-    rua: p.rua,
-    lat: p.lat,
-    lng: p.lng,
-    densidade: p.total / maxTotal
-  }));
+            // Calcular densidade normalizada (0 a 1)
+            const maxTotal = Math.max(...Object.values(agrupados).map(p => p.total));
+            const dados = Object.values(agrupados).map(p => ({
+              rua: p.rua,
+              lat: p.lat,
+              lng: p.lng,
+              densidade: p.total / maxTotal
+            }));
 
-  // Criar os marcadores
-  dados.forEach(ponto => {
-    L.circleMarker([ponto.lat, ponto.lng], {
-      radius: 15,
-      color: getColor(ponto.densidade),
-      fillColor: getColor(ponto.densidade),
-      fillOpacity: 0.6,
-      weight: 1
-    })
-    .bindTooltip(`Rua: ${ponto.rua}<br>Densidade: ${ponto.densidade.toFixed(2)}`, {
-      permanent: false,
-      direction: 'top'
-    })
-    .addTo(map);
-  });
-}
+            // Criar os marcadores
+            dados.forEach(ponto => {
+              L.circleMarker([ponto.lat, ponto.lng], {
+                radius: 15,
+                color: getColor(ponto.densidade),
+                fillColor: getColor(ponto.densidade),
+                fillOpacity: 0.6,
+                weight: 1
+              })
+                .bindTooltip(`Rua: ${ponto.rua}<br>Densidade: ${ponto.densidade.toFixed(2)}`, {
+                  permanent: false,
+                  direction: 'top'
+                })
+                .addTo(map);
+            });
+          }
 
-async function atualizarGrafico() {
-  let dataInicial = document.getElementById("dataInicial").value;
-  let dataFinal = document.getElementById("dataFinal").value;
-  let horaInicial = document.getElementById("horaInicial").value;
-  let horaFinal = document.getElementById("horaFinal").value;
-  console.log(dataInicial + " DATA INICIAL"); 
-  console.log(dataFinal+ " DATA FINAL");
-  console.log(horaInicial+ " HORA INICIAL");
-  console.log(horaFinal+ " HORA FINAL");
-  fetch(`/exibirTodosDados/?param2=${horaInicial}-${horaFinal}&param1=${dataInicial}-${dataFinal}`)
-    .then(res => res.json())
-    .then(dados => {
-      processarDadosEDesenharMapa(dados);
-    })
-    .catch(err => console.error('Erro ao carregar os dados:', err));
+          async function atualizarGrafico() {
+            let dataInicial = document.getElementById("dataInicial").value;
+            let dataFinal = document.getElementById("dataFinal").value;
+            let horaInicial = document.getElementById("horaInicial").value;
+            let horaFinal = document.getElementById("horaFinal").value;
+            console.log(dataInicial + " DATA INICIAL");
+            console.log(dataFinal + " DATA FINAL");
+            console.log(horaInicial + " HORA INICIAL");
+            console.log(horaFinal + " HORA FINAL");
+            fetch(`/exibirTodosDados/?param2=${horaInicial}-${horaFinal}&param1=${dataInicial}-${dataFinal}`)
+              .then(res => res.json())
+              .then(dados => {
+                processarDadosEDesenharMapa(dados);
+              })
+              .catch(err => console.error('Erro ao carregar os dados:', err));
 
-}
-</script>
+          }
+        </script>
 
-        <div class="container-flex">
-          <div class="alig">
-            <label for="a">Rua:</label>
-            <select name="a" id="a" style="width: 200px;">
-              <option value="">Av Rio Branco</option>
-            </select>
+        <!-- Filtros -->
+        <div class="card" style="margin-top:20px; padding: 10px;">
+          <div class="card-header">
+            <h5 class="title">Filtros</h5>
           </div>
+          <div class="container-flex">
+            
+            <div class="alinhar">
+              <label for="a">Rua:</label>
+              <select name="a" id="a" style="width: 200px;" class="form-control">
+                <option value="">Av Rio Branco</option>
+              </select>
+            </div>
 
-          <div>
-            <label style="display: block; text-align: center; font-weight: bold;">Tipo de Veículos</label>
-            <div class="chkboxes">
-              <label for="m"><input type="checkbox" name="b" id="m"> Motos</label>
-              <label for="car"><input type="checkbox" name="b" id="car"> Carros</label>
-              <label for="cam"><input type="checkbox" name="b" id="cam"> Caminhões</label>
-              <label for="on"><input type="checkbox" name="b" id="on"> Ônibus</label>
-              <label for="v"><input type="checkbox" name="b" id="v"> Vans</label>
+
+            <div>
+              <label style="display: block; text-align: center; font-weight: bold;">Tipo de Veículos</label>
+              <div class="chkboxes">
+                <label for="m"><input type="checkbox" name="b" id="m"> Motos</label>
+                <label for="car"><input type="checkbox" name="b" id="car"> Carros</label>
+                <label for="cam"><input type="checkbox" name="b" id="cam"> Caminhões</label>
+                <label for="on"><input type="checkbox" name="b" id="on"> Ônibus</label>
+                <label for="v"><input type="checkbox" name="b" id="v"> Vans</label>
+              </div>
             </div>
           </div>
-        </div>
 
-       
-
-        <div class="rangeData">
-          <h5>Data</h5>
-          <!-- <label for="dataInicial">De</label>
+          <div class="container-flex">
+            <div class="rangeData">
+              <h5>Data</h5>
+              <!-- <label for="dataInicial">De</label>
           <input type="date" id="dataInicial" name="dataInicial"> -->
-          <!-- <label for="dataFinal">Até</label> -->
-          <input type="date" id="dataFinal" name="dataFinal">
+              <!-- <label for="dataFinal">Até</label> -->
+              <input type="date" id="dataFinal" name="dataFinal" class="form-control">
+            </div>
+
+            <div class="rangeHoras">
+              <h5>Horas</h5>
+
+              <div class="inputHorasWrapper">
+                <label for="horaInicial">De</label>
+                <input type="time" id="horaInicial" name="horaInicial" class="form-control">
+                <label for="horaFinal">Até</label>
+                <input type="time" id="horaFinal" name="horaFinal" class="form-control">
+              </div>
+            </div>
+
+          </div>
+          <button class="btn-gerar" id="btnGerarGrafico" onclick="atualizarGrafico()">Gerar Gráfico</button>
         </div>
 
-        <div class="rangeHoras">
-          <h5>Horas</h5>
-          <label for="horaInicial">De</label>
-          <input type="time" id="horaInicial" name="horaInicial">
-          <label for="horaFinal">Até</label>
-          <input type="time" id="horaFinal" name="horaFinal">
-        </div>
 
-        <button class="btn-gerar" id="btnGerarGrafico" onclick="atualizarGrafico()">Gerar Gráfico</button>
+
+
+
+
+
 
       </div>
     </div>
@@ -266,10 +314,9 @@ async function atualizarGrafico() {
     // Aqui você pode chamar uma função para gerar o gráfico
   });
 
-async function GerarGrafico()
-{
-  
-}
+  async function GerarGrafico() {
+
+  }
 
 
 </script>

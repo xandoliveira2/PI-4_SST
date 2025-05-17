@@ -9,82 +9,133 @@
   select {
     scrollbar-color: #FFF transparent;
   }
+
   .container {
     display: flex;
     flex-direction: column;
     align-items: center;
     gap: 20px;
   }
+
   .filters {
     display: flex;
     flex-direction: column;
     align-items: center;
-    background-color: #1E1E29;
-    padding: 15px;
     border-radius: 8px;
   }
+
   .filters label {
-    color: #FFF;
-    font-weight: bold;
-    margin: 5px 0;
+    color: #ffffff;
+    width: 100%;
+    margin: 0px;
+    text-align: left;
+    font-size: 0.75rem;
+    font-weight:bold ;
   }
+  label[for="ruas"]{
+        margin: 25px 0px 0px 0px;
+
+  }
+
   .filters input,
   .filters select {
-    background-color: #2C2C3A;
-    border: 1px solid #444;
+    background-color: #3b3d5c;
     color: white;
-    font-weight: bold;
-    padding: 5px;
-    margin-bottom: 10px;
   }
+
+  .datas{
+    display: flex;
+    align-items: center;
+    width: 325px;
+    justify-content: space-between;
+  }
+  .datas label{
+    margin:0px 5px ;
+  
+  }
+
+
   .charts-container {
     display: flex;
     justify-content: space-around;
     width: 100%;
     flex-wrap: wrap;
   }
+
   .chart {
     width: 48%;
     min-width: 350px;
   }
+.form-control{
+  max-width: 200px;
+}
+
+  select,
+::picker(select) {
+  appearance: base-select;
+}
+h5{
+  font-size: 1rem;
+}
+
+
 </style>
 {% endblock stylesheets %}
 
 {% block content %}
-<div class="container">
-  
-  <h2>Rua com maior movimento no dia: Av. Rio Branco</h2>
-
-  <!-- Filtros de Data e Seleção de Rua -->
-  <div class="filters">
-    <div class="datas">
-      <label for="a1">De</label>
-      <input type="date" name="a1" id="a1">
+<div class="content">
+  <div class="row">
+    <div class="col-md-12">
       
-      <label for="a2">Até</label>
-      <input type="date" name="a2" id="a2">
+      <div class="card card-plain">
+
+        <div class="card-header">
+          <h2>Rua com maior movimento no dia: Av. Rio Branco</h2>
+        </div>
+        <div class="card" style="max-width:550px ; margin: 0 auto;" >
+          <!-- Filtros de Data e Seleção de Rua -->
+          <div class="card-header">
+            <h5 class="title">Filtros</h5>
+          </div>
+          <div class="card-body">
+
+            <div class="filters">
+            <label for="datas">Intervalo de datas:</label>
+              <div class="datas">
+                <label for="a1" >De</label>
+                <input type="date" name="a1" id="a1" class="form-control">
+
+                <label for="a2">Até</label>
+                <input type="date" name="a2" id="a2" class="form-control">
+              </div>
+
+              <label for="ruas">Rua:</label>
+              <select name="ruas" id="ruas" class="form-control" onchange="gerarGraficoEmcima(); gerarGraficoEmbaixo();" >
+                <option value="Av Aldaberto Cunha" selected>Av Aldaberto Cunha</option>
+                <option value="Av Italiano">Av Italiano</option>
+                <option value="Av Rio Branco">Av Rio Branco</option>
+                <option value="Av São Paulo">Av São Paulo</option>
+                <option value="Avenida Presidente Juscelino Kubitschek de Oliveira">Avenida Presidente Juscelino Kubitschek de Oliveira</option>
+                <option value="Rua teste1">Rua teste1</option>
+                <option value="Rua teste2">Rua teste2</option>
+                <option value="só exibe 5">só exibe 5</option>
+                <option value="teste scroll sem scrollbar">teste scroll sem scrollbar</option>
+              </select>
+
+            </div>
+          </div>
+        </div>
+
+
+        <!-- Gráficos -->
+        <div class="charts-container">
+          <div class="chart" id="chart"></div>
+          <div class="chart" id="chart1"></div>
+        </div>
+
+      </div>
     </div>
-
-    <label for="ruas">Rua:</label>
-    <select name="ruas" id="ruas" size="5" onchange="gerarGraficoEmcima(); gerarGraficoEmbaixo();">
-      <option value="">Av Aldaberto Cunha</option>
-      <option value="">Av Italiano</option>
-      <option value="" selected>Av Rio Branco</option>
-      <option value="">Av São Paulo</option>
-      <option value="">Avenida Presidente Juscelino Kubitschek de Oliveira</option>
-      <option value="">Rua teste1</option>
-      <option value="">Rua teste2</option>
-      <option value="">só exibe 5</option>
-      <option value="">teste scroll sem scrollbar</option>
-    </select>
   </div>
-
-  <!-- Gráficos -->
-  <div class="charts-container">
-    <div class="chart" id="chart"></div>
-    <div class="chart" id="chart1"></div>
-  </div>
-
 </div>
 
 <script>
