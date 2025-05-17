@@ -13,10 +13,16 @@
     margin-top: 30px;
   }
 
+  .form-control {
+    background-color: #3b3d5c;
+  }
+
   .rangeData {
     display: flex;
     align-items: center;
     gap: 10px;
+    width: fit-content;
+    margin: 0 auto;
   }
 
   .rangeData label {
@@ -45,33 +51,53 @@
     border-radius: 5px;
     font-size: 16px;
     cursor: pointer;
-    transition: background 0.3s ease;
+    margin: 0 auto;
   }
 
+  h5 {
+    margin-top: 15px;
+  }
+
+  .title {
+    margin-top: 0px;
+    font-size: 1rem;
+  }
+.card-fotter{
+  display: flex;
+  justify-content: center;
+}
+
+  /* 
   .btn-gerar:hover {
     background-color: #0056b3;
-  }
+  } */
 </style>
 {% endblock stylesheets %}
 
 {% block content %}
-
 <div class="content">
   <div class="row">
     <div class="col-md-12">
+
       <div class="card card-plain">
+
         <div class="card-header">
-          <h4>Gerar Relatório Power BI</h4>
+          <h2>Gerar Relatório Power BI</h2>
         </div>
-        
-        <div class="card-body">
-          <div class="container">
+        <div class="card" style="max-width:550px ; margin: 0 auto;">
+
+
+          <div class="card-header">
+            <h5 class="title">Filtros</h5>
+          </div>
+
+          <div class="card-body">
             <h5>Selecione um intervalo de datas:</h5>
             <div class="rangeData">
               <label for="dataInicio">De:</label>
-              <input type="date" id="dataInicio" name="dataInicio">
+              <input type="date" id="dataInicio" class="form-control" name="dataInicio">
               <label for="dataFim">Até:</label>
-              <input type="date" id="dataFim" name="dataFim">
+              <input type="date" id="dataFim" class="form-control" name="dataFim">
             </div>
 
             <h5>Selecione os tipos de veículos:</h5>
@@ -82,10 +108,14 @@
               <label><input type="checkbox" name="veiculo" value="onibus" checked> Ônibus</label>
               <label><input type="checkbox" name="veiculo" value="caminhoes" checked> Caminhões</label>
             </div>
+            <div class="card-fotter">
+              <button class="btn-gerar btn btn-fill btn-primary">Gerar Power BI</button>
 
-            <button class="btn-gerar">Gerar Power BI</button>
+            </div>
+
           </div>
         </div>
+
       </div>
     </div>
   </div>
@@ -122,7 +152,7 @@
 </script>
 {% endblock javascripts %}
 
-  <!-- <div class="content">
+<!-- <div class="content">
     <div class="row">
       <div class="col-md-12">
         <div class="card">
@@ -738,4 +768,3 @@
       </div>
     </div>
   </div> -->
-
