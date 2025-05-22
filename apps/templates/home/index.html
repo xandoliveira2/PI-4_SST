@@ -1,0 +1,160 @@
+{% extends "layouts/base.html" %}
+
+{% block title %} Dashboard {% endblock %}
+
+<!-- Specific Page CSS -->
+{% block stylesheets %}
+{{ block.super }}
+<style>
+  select {
+    scrollbar-color: #FFF transparent;
+  }
+  .container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 20px;
+  }
+  .filters {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background-color: #1E1E29;
+    padding: 15px;
+    border-radius: 8px;
+  }
+  .filters label {
+    color: #FFF;
+    font-weight: bold;
+    margin: 5px 0;
+  }
+  .filters input,
+  .filters select {
+    background-color: #2C2C3A;
+    border: 1px solid #444;
+    color: white;
+    font-weight: bold;
+    padding: 5px;
+    margin-bottom: 10px;
+  }
+  .charts-container {
+    display: flex;
+    justify-content: space-around;
+    width: 100%;
+    flex-wrap: wrap;
+  }
+  .chart {
+    width: 48%;
+    min-width: 350px;
+  }
+</style>
+{% endblock stylesheets %}
+
+{% block content %}
+<div class="container">
+  
+  <h2>Rua com maior movimento no dia: Av. Rio Branco</h2>
+
+  <!-- Filtros de Data e Seleção de Rua -->
+  <div class="filters">
+    <div class="datas">
+      <label for="a1">De</label>
+      <input type="date" name="a1" id="a1">
+      
+      <label for="a2">Até</label>
+      <input type="date" name="a2" id="a2">
+    </div>
+
+    <label for="ruas">Rua:</label>
+    <select name="ruas" id="ruas" size="5" onchange="gerarGraficoEmcima(); gerarGraficoEmbaixo();">
+      <option value="">Av Aldaberto Cunha</option>
+      <option value="">Av Italiano</option>
+      <option value="" selected>Av Rio Branco</option>
+      <option value="">Av São Paulo</option>
+      <option value="">Avenida Presidente Juscelino Kubitschek de Oliveira</option>
+      <option value="">Rua teste1</option>
+      <option value="">Rua teste2</option>
+      <option value="">só exibe 5</option>
+      <option value="">teste scroll sem scrollbar</option>
+    </select>
+  </div>
+
+  <!-- Gráficos -->
+  <div class="charts-container">
+    <div class="chart" id="chart"></div>
+    <div class="chart" id="chart1"></div>
+  </div>
+
+</div>
+
+<script>
+  let chart, chart1; // Variáveis para armazenar os gráficos e evitar recriações
+
+  function gerarAleatorios(qtd) {
+    return Array.from({ length: qtd }, () => Math.floor(Math.random() * 36) + 5);
+  }
+
+  function gerarGraficoEmcima() {
+    let seriesData = [
+      { name: "Motos", data: gerarAleatorios(12) },
+      { name: "Carros", data: gerarAleatorios(12) },
+      { name: "Caminhão", data: gerarAleatorios(12) }
+    ];
+
+    if (!chart) {
+      // Criar o gráfico apenas uma vez
+      let options = {
+        series: seriesData,
+        chart: { height: 350, type: 'line', zoom: { enabled: false }, toolbar: { show: false } },
+        colors: ['#AA0000', '#0000AA', '#00AA00'],
+        dataLabels: { enabled: true },
+        stroke: { curve: 'smooth' },
+        title: { text: 'Quantidade de veículos', align: 'left', style: { color: '#fff' } },
+        xaxis: { categories: ['00:00', '01:00', '02:00', '03:00', '04:00', '05:00', '06:00', '07:00', '08:00', '09:00', '10:00', '11:00'], title: { text: 'Horas' } },
+        yaxis: { title: { text: 'Quantidade' }, min: 5, max: 40 }
+      };
+
+      chart = new ApexCharts(document.querySelector("#chart"), options);
+      chart.render();
+    } else {
+      // Apenas atualizar os dados em vez de recriar
+      chart.updateSeries(seriesData);
+    }
+  }
+
+  function gerarGraficoEmbaixo() {
+    let colors = ['#AA0000', '#0000AA', '#00AA00'];
+    let seriesData = [{ data: gerarAleatorios(3) }];
+
+    if (!chart1) {
+      // Criar o gráfico apenas uma vez
+      let options1 = {
+        series: seriesData,
+        chart: { height: 350, type: 'bar' },
+        colors: colors,
+        title: { text: 'Quantidade total de veículos', align: 'left', style: { color: '#fff' } },
+        xaxis: { categories: ["Motos", "Carros", "Caminhões"], labels: { style: { colors: colors, fontSize: '12px' } } }
+      };
+
+      chart1 = new ApexCharts(document.querySelector("#chart1"), options1);
+      chart1.render();
+    } else {
+      // Apenas atualizar os dados
+      chart1.updateSeries(seriesData);
+    }
+  }
+
+  // Chamar as funções ao carregar a página
+  gerarGraficoEmcima();
+  gerarGraficoEmbaixo();
+</script>
+
+{% endblock content %}
+
+{% block javascripts %}
+<script>
+  $(document).ready(function () {
+    demo.initDashboardPageCharts();
+  });
+</script>
+{% endblock javascripts %}
