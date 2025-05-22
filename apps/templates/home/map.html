@@ -91,9 +91,12 @@
   #map{height: 550px;}
 
 </style>
+{% load static %}
+<link rel="stylesheet" href="{% static 'assets/css/leaflet.css' %}">
+<script src="{% static 'assets/js/leaflet.js' %}"></script>
+<!-- <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" /> -->
+<!-- <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script> -->
 
-<link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" />
-<script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
 {% endblock stylesheets %}
 
 {% block content %}
@@ -109,13 +112,16 @@
           <!-- {% load static %} -->
           <!-- <img src="{% static 'assets/img/showMaps.jpg' %}" alt="Mapa de densidade"> -->
         </div>
+        {% load static %} <!-- já dou load em outro lugar, mas aqui também para garantir-->
         <script>
-           var map = L.map('map').setView([-22.44, -46.83], 14);
+           var map = L.map('map').setView([-22.44, -46.83], 18);
 
 // Camada base
-L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+
+const tileUrl = "{% static 'tiles' %}/{z}/{x}/{y}.png";
+L.tileLayer(tileUrl, {
   maxZoom: 18,
-  attribution: '© OpenStreetMap contributors'
+  attribution: '© OpenStreetMap contributors '
 }).addTo(map);
 
 // Função de cor conforme densidade
@@ -132,32 +138,33 @@ async function pegarNomeRua(cep) {
     const response = await fetch(`https://viacep.com.br/ws/${cep}/json/`);
     const data = await response.json();
 
-    console.log(data); // mostra todo o objeto retornado
+    // console.log(data); // mostra todo o objeto retornado
     return data.logradouro || cep;
   } catch (error) {
-    console.error("Erro ao buscar rua:", error);
+    // console.error("Erro ao buscar rua:", error);
     return "Erro";
   }
 }
 
 // Função que processa e plota os dados no mapa
 async function processarDadosEDesenharMapa(dadosAPI) {
-  const agrupados = {};
+  let agrupados = {};
 
-  for (const item of dadosAPI){
-    const rua = await pegarNomeRua(item.rua); // espera a função assíncrona resolver
-    console.log(rua);
-    const chave = rua;
-    const total = parseInt(item.total);
-    const lat = parseFloat(item.latitude);
-    const lng = parseFloat(item.longitude);
+  for (let item of dadosAPI){
+    let rua = await pegarNomeRua(item.rua); // espera a função assíncrona resolver
+    // console.log(item);
+    let chave = rua;
+    let total = parseInt(item.total);
+    // console.log(total)
+    let lat = parseFloat(item.latitude);
+    let lng = parseFloat(item.longitude);
 
     if (!agrupados[chave]) {
       agrupados[chave] = {
         rua,
         lat,
         lng,
-        total: total,
+        total,
         count: 1
       };
     } else {
@@ -172,6 +179,7 @@ async function processarDadosEDesenharMapa(dadosAPI) {
     rua: p.rua,
     lat: p.lat,
     lng: p.lng,
+    total: p.total,
     densidade: p.total / maxTotal
   }));
 
@@ -184,7 +192,7 @@ async function processarDadosEDesenharMapa(dadosAPI) {
       fillOpacity: 0.6,
       weight: 1
     })
-    .bindTooltip(`Rua: ${ponto.rua}<br>Densidade: ${ponto.densidade.toFixed(2)}`, {
+    .bindTooltip(`Rua: ${ponto.rua}<br>Densidade: ${ponto.densidade.toFixed(2)}<br>Total: ${ponto.total}`, {
       permanent: false,
       direction: 'top'
     })
@@ -194,14 +202,27 @@ async function processarDadosEDesenharMapa(dadosAPI) {
 
 async function atualizarGrafico() {
   let dataInicial = document.getElementById("dataInicial").value;
-  let dataFinal = document.getElementById("dataFinal").value;
   let horaInicial = document.getElementById("horaInicial").value;
   let horaFinal = document.getElementById("horaFinal").value;
-  console.log(dataInicial + " DATA INICIAL"); 
-  console.log(dataFinal+ " DATA FINAL");
-  console.log(horaInicial+ " HORA INICIAL");
-  console.log(horaFinal+ " HORA FINAL");
-  fetch(`/exibirTodosDados/?param2=${horaInicial}-${horaFinal}&param1=${dataInicial}-${dataFinal}`)
+  // console.log(dataInicial + " DATA INICIAL"); 
+  // console.log(horaInicial+ " HORA INICIAL");
+  // console.log(horaFinal+ " HORA FINAL");
+  // console.log("oi")
+  let tiposVeiculos = "";
+  let carro = document.getElementById("car").checked;
+  let moto = document.getElementById("m").checked;
+  let onibus = document.getElementById("on").checked;
+  let caminhao = document.getElementById("cam").checked;
+  let vans = document.getElementById("v").checked;
+  console.log(carro)
+  if (carro) { tiposVeiculos +="cr|"}
+  if (moto) {tiposVeiculos += "m|"}
+  if (onibus) {tiposVeiculos+= "o|"}
+  if (caminhao) {tiposVeiculos+="cm|"}
+  if (vans) {tiposVeiculos += "v"}
+  console.log(tiposVeiculos);
+  
+  fetch(`/exibirTodosDados/?param2=${horaInicial}-${horaFinal}&param1=${dataInicial}&param3=${tiposVeiculos}`)
     .then(res => res.json())
     .then(dados => {
       processarDadosEDesenharMapa(dados);
@@ -235,10 +256,7 @@ async function atualizarGrafico() {
 
         <div class="rangeData">
           <h5>Data</h5>
-          <!-- <label for="dataInicial">De</label>
-          <input type="date" id="dataInicial" name="dataInicial"> -->
-          <!-- <label for="dataFinal">Até</label> -->
-          <input type="date" id="dataFinal" name="dataFinal">
+          <input type="date" id="dataInicial" name="dataInicial">
         </div>
 
         <div class="rangeHoras">
