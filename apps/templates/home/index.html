@@ -30,20 +30,22 @@
     margin: 0px;
     text-align: left;
     font-size: 0.75rem;
-    font-weight:bold ;
+    font-weight: bold;
   }
-  label[for="ruas"]{
-        margin: 25px 0px 0px 0px;
+
+  label[for="ruas"] {
+    margin: 25px 0px 0px 0px;
 
   }
 
+  /*
   .filters input,
   .filters select {
     background-color: #3b3d5c;
     color: white;
   }
-
-  .datas{
+*/
+  .datas {
     display: flex;
     align-items: center;
     width: 325px;
@@ -63,19 +65,30 @@
     width: 48%;
     min-width: 350px;
   }
-.form-control{
-  max-width: 200px;
-}
+
+  .form-control {
+    max-width: 200px;
+  }
 
   select,
-::picker(select) {
-  appearance: base-select;
-}
-h5{
-  font-size: 1rem;
-}
+  ::picker(select) {
+    appearance: base-select;
+  }
+
+  h5 {
+    font-size: 1rem;
+  }
+
+  .form-control {
+    background-color: #3b3d5c;
+  }
 
 
+  .white-content .form-control {
+    color: #222a42;
+    border-color: rgb(29, 37, 59, 0.5);
+    background-color: white;
+  }
 </style>
 {% endblock stylesheets %}
 
@@ -83,13 +96,13 @@ h5{
 <div class="content">
   <div class="row">
     <div class="col-md-12">
-      
+
       <div class="card card-plain">
 
         <div class="card-header">
           <h2>Rua com maior movimento no dia: Av. Rio Branco</h2>
         </div>
-        <div class="card" style="max-width:550px ; margin: 0 auto;" >
+        <div class="card" style="max-width:550px ; margin: 0 auto;">
           <!-- Filtros de Data e Seleção de Rua -->
           <div class="card-header">
             <h5 class="title">Filtros</h5>
@@ -97,9 +110,9 @@ h5{
           <div class="card-body">
 
             <div class="filters">
-            <label for="datas">Intervalo de datas:</label>
+              <label for="datas">Intervalo de datas:</label>
               <div class="datas">
-                <label for="a1" >De</label>
+                <label for="a1">De</label>
                 <input type="date" name="a1" id="a1" class="form-control">
 
                 <label for="a2">Até</label>
@@ -107,12 +120,14 @@ h5{
               </div>
 
               <label for="ruas">Rua:</label>
-              <select name="ruas" id="ruas" class="form-control" onchange="gerarGraficoEmcima(); gerarGraficoEmbaixo();" >
+              <select name="ruas" id="ruas" class="form-control"
+                onchange="gerarGraficoEmcima(); gerarGraficoEmbaixo();">
                 <option value="Av Aldaberto Cunha" selected>Av Aldaberto Cunha</option>
                 <option value="Av Italiano">Av Italiano</option>
                 <option value="Av Rio Branco">Av Rio Branco</option>
                 <option value="Av São Paulo">Av São Paulo</option>
-                <option value="Avenida Presidente Juscelino Kubitschek de Oliveira">Avenida Presidente Juscelino Kubitschek de Oliveira</option>
+                <option value="Avenida Presidente Juscelino Kubitschek de Oliveira">Avenida Presidente Juscelino
+                  Kubitschek de Oliveira</option>
                 <option value="Rua teste1">Rua teste1</option>
                 <option value="Rua teste2">Rua teste2</option>
                 <option value="só exibe 5">só exibe 5</option>

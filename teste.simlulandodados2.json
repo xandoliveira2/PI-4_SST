@@ -1,0 +1,1209 @@
+[{
+  "_id": {
+    "$oid": "673205db442a1b9a6f6999ce"
+  },
+  "data": "02/12/2024",
+  "horario": "00:00",
+  "rua": "Av. Castro Alves",
+  "carros": 10,
+  "motos": 5,
+  "total": 15,
+  "latitude": "-22.440801",
+  "longitude": "-46.831685"
+},
+{
+  "_id": {
+    "$oid": "673205db442a1b9a6f6999cf"
+  },
+  "data": "02/12/2024",
+  "horario": "01:00",
+  "rua": "Av. Castro Alves",
+  "carros": 12,
+  "motos": 6,
+  "total": 18,
+  "latitude": "-22.440801",
+  "longitude": "-46.831685"
+},
+{
+  "_id": {
+    "$oid": "673205db442a1b9a6f6999d0"
+  },
+  "data": "02/12/2024",
+  "horario": "02:00",
+  "rua": "Av. Castro Alves",
+  "carros": 13,
+  "motos": 7,
+  "total": 20,
+  "latitude": "-22.440801",
+  "longitude": "-46.831685"
+},
+{
+  "_id": {
+    "$oid": "673205db442a1b9a6f6999d1"
+  },
+  "data": "02/12/2024",
+  "horario": "03:00",
+  "rua": "Av. Castro Alves",
+  "carros": 15,
+  "motos": 8,
+  "total": 23,
+  "latitude": "-22.440801",
+  "longitude": "-46.831685"
+},
+{
+  "_id": {
+    "$oid": "673205db442a1b9a6f6999d2"
+  },
+  "data": "02/12/2024",
+  "horario": "04:00",
+  "rua": "Av. Castro Alves",
+  "carros": 14,
+  "motos": 7,
+  "total": 21,
+  "latitude": "-22.440801",
+  "longitude": "-46.831685"
+},
+{
+  "_id": {
+    "$oid": "673205db442a1b9a6f6999d3"
+  },
+  "data": "02/12/2024",
+  "horario": "05:00",
+  "rua": "Av. Castro Alves",
+  "carros": 16,
+  "motos": 9,
+  "total": 25,
+  "latitude": "-22.440801",
+  "longitude": "-46.831685"
+},
+{
+  "_id": {
+    "$oid": "673205db442a1b9a6f6999d4"
+  },
+  "data": "02/12/2024",
+  "horario": "06:00",
+  "rua": "Av. Castro Alves",
+  "carros": 18,
+  "motos": 10,
+  "total": 28,
+  "latitude": "-22.440801",
+  "longitude": "-46.831685"
+},
+{
+  "_id": {
+    "$oid": "673205db442a1b9a6f6999d5"
+  },
+  "data": "02/12/2024",
+  "horario": "07:00",
+  "rua": "Av. Castro Alves",
+  "carros": 19,
+  "motos": 12,
+  "total": 31,
+  "latitude": "-22.440801",
+  "longitude": "-46.831685"
+},
+{
+  "_id": {
+    "$oid": "673205db442a1b9a6f6999d6"
+  },
+  "data": "02/12/2024",
+  "horario": "08:00",
+  "rua": "Av. Castro Alves",
+  "carros": 21,
+  "motos": 13,
+  "total": 34,
+  "latitude": "-22.440801",
+  "longitude": "-46.831685"
+},
+{
+  "_id": {
+    "$oid": "673205db442a1b9a6f6999d7"
+  },
+  "data": "02/12/2024",
+  "horario": "09:00",
+  "rua": "Av. Castro Alves",
+  "carros": 22,
+  "motos": 14,
+  "total": 36,
+  "latitude": "-22.440801",
+  "longitude": "-46.831685"
+},
+{
+  "_id": {
+    "$oid": "673205db442a1b9a6f6999d8"
+  },
+  "data": "02/12/2024",
+  "horario": "10:00",
+  "rua": "Av. Castro Alves",
+  "carros": 24,
+  "motos": 15,
+  "total": 39,
+  "latitude": "-22.440801",
+  "longitude": "-46.831685"
+},
+{
+  "_id": {
+    "$oid": "673205db442a1b9a6f6999d9"
+  },
+  "data": "02/12/2024",
+  "horario": "11:00",
+  "rua": "Av. Castro Alves",
+  "carros": 23,
+  "motos": 15,
+  "total": 38,
+  "latitude": "-22.440801",
+  "longitude": "-46.831685"
+},
+{
+  "_id": {
+    "$oid": "673205db442a1b9a6f6999da"
+  },
+  "data": "02/12/2024",
+  "horario": "12:00",
+  "rua": "Av. Castro Alves",
+  "carros": 21,
+  "motos": 14,
+  "total": 35,
+  "latitude": "-22.440801",
+  "longitude": "-46.831685"
+},
+{
+  "_id": {
+    "$oid": "673205db442a1b9a6f6999db"
+  },
+  "data": "02/12/2024",
+  "horario": "13:00",
+  "rua": "Av. Castro Alves",
+  "carros": 20,
+  "motos": 13,
+  "total": 33,
+  "latitude": "-22.440801",
+  "longitude": "-46.831685"
+},
+{
+  "_id": {
+    "$oid": "673205db442a1b9a6f6999dc"
+  },
+  "data": "02/12/2024",
+  "horario": "14:00",
+  "rua": "Av. Castro Alves",
+  "carros": 18,
+  "motos": 12,
+  "total": 30,
+  "latitude": "-22.440801",
+  "longitude": "-46.831685"
+},
+{
+  "_id": {
+    "$oid": "673205db442a1b9a6f6999dd"
+  },
+  "data": "02/12/2024",
+  "horario": "15:00",
+  "rua": "Av. Castro Alves",
+  "carros": 17,
+  "motos": 11,
+  "total": 28,
+  "latitude": "-22.440801",
+  "longitude": "-46.831685"
+},
+{
+  "_id": {
+    "$oid": "673205db442a1b9a6f6999de"
+  },
+  "data": "02/12/2024",
+  "horario": "16:00",
+  "rua": "Av. Castro Alves",
+  "carros": 16,
+  "motos": 10,
+  "total": 26,
+  "latitude": "-22.440801",
+  "longitude": "-46.831685"
+},
+{
+  "_id": {
+    "$oid": "673205db442a1b9a6f6999df"
+  },
+  "data": "02/12/2024",
+  "horario": "17:00",
+  "rua": "Av. Castro Alves",
+  "carros": 14,
+  "motos": 9,
+  "total": 23,
+  "latitude": "-22.440801",
+  "longitude": "-46.831685"
+},
+{
+  "_id": {
+    "$oid": "673205db442a1b9a6f6999e0"
+  },
+  "data": "02/12/2024",
+  "horario": "18:00",
+  "rua": "Av. Castro Alves",
+  "carros": 12,
+  "motos": 8,
+  "total": 20,
+  "latitude": "-22.440801",
+  "longitude": "-46.831685"
+},
+{
+  "_id": {
+    "$oid": "673205db442a1b9a6f6999e1"
+  },
+  "data": "02/12/2024",
+  "horario": "19:00",
+  "rua": "Av. Castro Alves",
+  "carros": 11,
+  "motos": 7,
+  "total": 18,
+  "latitude": "-22.440801",
+  "longitude": "-46.831685"
+},
+{
+  "_id": {
+    "$oid": "673205db442a1b9a6f6999e2"
+  },
+  "data": "02/12/2024",
+  "horario": "20:00",
+  "rua": "Av. Castro Alves",
+  "carros": 10,
+  "motos": 6,
+  "total": 16,
+  "latitude": "-22.440801",
+  "longitude": "-46.831685"
+},
+{
+  "_id": {
+    "$oid": "673205db442a1b9a6f6999e3"
+  },
+  "data": "02/12/2024",
+  "horario": "21:00",
+  "rua": "Av. Castro Alves",
+  "carros": 9,
+  "motos": 5,
+  "total": 14,
+  "latitude": "-22.440801",
+  "longitude": "-46.831685"
+},
+{
+  "_id": {
+    "$oid": "673205db442a1b9a6f6999e4"
+  },
+  "data": "02/12/2024",
+  "horario": "22:00",
+  "rua": "Av. Castro Alves",
+  "carros": 8,
+  "motos": 4,
+  "total": 12,
+  "latitude": "-22.440801",
+  "longitude": "-46.831685"
+},
+{
+  "_id": {
+    "$oid": "673205db442a1b9a6f6999e5"
+  },
+  "data": "02/12/2024",
+  "horario": "23:00",
+  "rua": "Av. Castro Alves",
+  "carros": 7,
+  "motos": 3,
+  "total": 10,
+  "latitude": "-22.440801",
+  "longitude": "-46.831685"
+},
+{
+  "_id": {
+    "$oid": "67321533442a1b9a6f6999e6"
+  },
+  "data": "01/12/2024",
+  "horario": "00:00",
+  "rua": "Tereza Lera Paoletti",
+  "carros": 10,
+  "motos": 5,
+  "total": 15,
+  "latitude": "-22.4362174",
+  "longitude": "-46.8228786"
+},
+{
+  "_id": {
+    "$oid": "67321533442a1b9a6f6999e7"
+  },
+  "data": "01/12/2024",
+  "horario": "01:00",
+  "rua": "Tereza Lera Paoletti",
+  "carros": 12,
+  "motos": 6,
+  "total": 18,
+  "latitude": "-22.4362174",
+  "longitude": "-46.8228786"
+},
+{
+  "_id": {
+    "$oid": "67321533442a1b9a6f6999e8"
+  },
+  "data": "01/12/2024",
+  "horario": "02:00",
+  "rua": "Tereza Lera Paoletti",
+  "carros": 11,
+  "motos": 7,
+  "total": 18,
+  "latitude": "-22.4362174",
+  "longitude": "-46.8228786"
+},
+{
+  "_id": {
+    "$oid": "67321533442a1b9a6f6999e9"
+  },
+  "data": "01/12/2024",
+  "horario": "03:00",
+  "rua": "Tereza Lera Paoletti",
+  "carros": 15,
+  "motos": 8,
+  "total": 23,
+  "latitude": "-22.4362174",
+  "longitude": "-46.8228786"
+},
+{
+  "_id": {
+    "$oid": "67321533442a1b9a6f6999ea"
+  },
+  "data": "01/12/2024",
+  "horario": "04:00",
+  "rua": "Tereza Lera Paoletti",
+  "carros": 13,
+  "motos": 5,
+  "total": 18,
+  "latitude": "-22.4362174",
+  "longitude": "-46.8228786"
+},
+{
+  "_id": {
+    "$oid": "67321533442a1b9a6f6999eb"
+  },
+  "data": "01/12/2024",
+  "horario": "05:00",
+  "rua": "Tereza Lera Paoletti",
+  "carros": 14,
+  "motos": 6,
+  "total": 20,
+  "latitude": "-22.4362174",
+  "longitude": "-46.8228786"
+},
+{
+  "_id": {
+    "$oid": "67321533442a1b9a6f6999ec"
+  },
+  "data": "01/12/2024",
+  "horario": "06:00",
+  "rua": "Tereza Lera Paoletti",
+  "carros": 17,
+  "motos": 9,
+  "total": 26,
+  "latitude": "-22.4362174",
+  "longitude": "-46.8228786"
+},
+{
+  "_id": {
+    "$oid": "67321533442a1b9a6f6999ed"
+  },
+  "data": "01/12/2024",
+  "horario": "07:00",
+  "rua": "Tereza Lera Paoletti",
+  "carros": 20,
+  "motos": 10,
+  "total": 30,
+  "latitude": "-22.4362174",
+  "longitude": "-46.8228786"
+},
+{
+  "_id": {
+    "$oid": "67321533442a1b9a6f6999ee"
+  },
+  "data": "01/12/2024",
+  "horario": "08:00",
+  "rua": "Tereza Lera Paoletti",
+  "carros": 18,
+  "motos": 12,
+  "total": 30,
+  "latitude": "-22.4362174",
+  "longitude": "-46.8228786"
+},
+{
+  "_id": {
+    "$oid": "67321533442a1b9a6f6999ef"
+  },
+  "data": "01/12/2024",
+  "horario": "09:00",
+  "rua": "Tereza Lera Paoletti",
+  "carros": 21,
+  "motos": 14,
+  "total": 35,
+  "latitude": "-22.4362174",
+  "longitude": "-46.8228786"
+},
+{
+  "_id": {
+    "$oid": "67321533442a1b9a6f6999f0"
+  },
+  "data": "01/12/2024",
+  "horario": "10:00",
+  "rua": "Tereza Lera Paoletti",
+  "carros": 22,
+  "motos": 15,
+  "total": 37,
+  "latitude": "-22.4362174",
+  "longitude": "-46.8228786"
+},
+{
+  "_id": {
+    "$oid": "67321533442a1b9a6f6999f1"
+  },
+  "data": "01/12/2024",
+  "horario": "11:00",
+  "rua": "Tereza Lera Paoletti",
+  "carros": 25,
+  "motos": 12,
+  "total": 37,
+  "latitude": "-22.4362174",
+  "longitude": "-46.8228786"
+},
+{
+  "_id": {
+    "$oid": "67321533442a1b9a6f6999f2"
+  },
+  "data": "01/12/2024",
+  "horario": "12:00",
+  "rua": "Tereza Lera Paoletti",
+  "carros": 23,
+  "motos": 14,
+  "total": 37,
+  "latitude": "-22.4362174",
+  "longitude": "-46.8228786"
+},
+{
+  "_id": {
+    "$oid": "67321533442a1b9a6f6999f3"
+  },
+  "data": "01/12/2024",
+  "horario": "13:00",
+  "rua": "Tereza Lera Paoletti",
+  "carros": 21,
+  "motos": 15,
+  "total": 36,
+  "latitude": "-22.4362174",
+  "longitude": "-46.8228786"
+},
+{
+  "_id": {
+    "$oid": "67321533442a1b9a6f6999f4"
+  },
+  "data": "01/12/2024",
+  "horario": "14:00",
+  "rua": "Tereza Lera Paoletti",
+  "carros": 18,
+  "motos": 13,
+  "total": 31,
+  "latitude": "-22.4362174",
+  "longitude": "-46.8228786"
+},
+{
+  "_id": {
+    "$oid": "67321533442a1b9a6f6999f5"
+  },
+  "data": "01/12/2024",
+  "horario": "15:00",
+  "rua": "Tereza Lera Paoletti",
+  "carros": 19,
+  "motos": 11,
+  "total": 30,
+  "latitude": "-22.4362174",
+  "longitude": "-46.8228786"
+},
+{
+  "_id": {
+    "$oid": "67321533442a1b9a6f6999f6"
+  },
+  "data": "01/12/2024",
+  "horario": "16:00",
+  "rua": "Tereza Lera Paoletti",
+  "carros": 16,
+  "motos": 9,
+  "total": 25,
+  "latitude": "-22.4362174",
+  "longitude": "-46.8228786"
+},
+{
+  "_id": {
+    "$oid": "67321533442a1b9a6f6999f7"
+  },
+  "data": "01/12/2024",
+  "horario": "17:00",
+  "rua": "Tereza Lera Paoletti",
+  "carros": 14,
+  "motos": 7,
+  "total": 21,
+  "latitude": "-22.4362174",
+  "longitude": "-46.8228786"
+},
+{
+  "_id": {
+    "$oid": "6732167a442a1b9a6f6999f8"
+  },
+  "data": "01/12/2024",
+  "horario": "18:00",
+  "rua": "Tereza Lera Paoletti",
+  "carros": 12,
+  "motos": 9,
+  "total": 21,
+  "latitude": "-22.4362174",
+  "longitude": "-46.8228786"
+},
+{
+  "_id": {
+    "$oid": "6732167a442a1b9a6f6999f9"
+  },
+  "data": "01/12/2024",
+  "horario": "19:00",
+  "rua": "Tereza Lera Paoletti",
+  "carros": 13,
+  "motos": 6,
+  "total": 19,
+  "latitude": "-22.4362174",
+  "longitude": "-46.8228786"
+},
+{
+  "_id": {
+    "$oid": "6732167a442a1b9a6f6999fa"
+  },
+  "data": "01/12/2024",
+  "horario": "20:00",
+  "rua": "Tereza Lera Paoletti",
+  "carros": 10,
+  "motos": 5,
+  "total": 15,
+  "latitude": "-22.4362174",
+  "longitude": "-46.8228786"
+},
+{
+  "_id": {
+    "$oid": "6732167a442a1b9a6f6999fb"
+  },
+  "data": "02/12/2024",
+  "horario": "00:00",
+  "rua": "Tereza Lera Paoletti",
+  "carros": 12,
+  "motos": 6,
+  "total": 18,
+  "latitude": "-22.4362174",
+  "longitude": "-46.8228786"
+},
+{
+  "_id": {
+    "$oid": "6732167a442a1b9a6f6999fc"
+  },
+  "data": "02/12/2024",
+  "horario": "01:00",
+  "rua": "Tereza Lera Paoletti",
+  "carros": 13,
+  "motos": 5,
+  "total": 18,
+  "latitude": "-22.4362174",
+  "longitude": "-46.8228786"
+},
+{
+  "_id": {
+    "$oid": "6732167a442a1b9a6f6999fd"
+  },
+  "data": "02/12/2024",
+  "horario": "02:00",
+  "rua": "Tereza Lera Paoletti",
+  "carros": 15,
+  "motos": 8,
+  "total": 23,
+  "latitude": "-22.4362174",
+  "longitude": "-46.8228786"
+},
+{
+  "_id": {
+    "$oid": "6732167a442a1b9a6f6999fe"
+  },
+  "data": "02/12/2024",
+  "horario": "03:00",
+  "rua": "Tereza Lera Paoletti",
+  "carros": 14,
+  "motos": 6,
+  "total": 20,
+  "latitude": "-22.4362174",
+  "longitude": "-46.8228786"
+},
+{
+  "_id": {
+    "$oid": "6732167a442a1b9a6f6999ff"
+  },
+  "data": "02/12/2024",
+  "horario": "04:00",
+  "rua": "Tereza Lera Paoletti",
+  "carros": 12,
+  "motos": 7,
+  "total": 19,
+  "latitude": "-22.4362174",
+  "longitude": "-46.8228786"
+},
+{
+  "_id": {
+    "$oid": "6732167a442a1b9a6f699a00"
+  },
+  "data": "02/12/2024",
+  "horario": "05:00",
+  "rua": "Tereza Lera Paoletti",
+  "carros": 13,
+  "motos": 9,
+  "total": 22,
+  "latitude": "-22.4362174",
+  "longitude": "-46.8228786"
+},
+{
+  "_id": {
+    "$oid": "6732167a442a1b9a6f699a01"
+  },
+  "data": "02/12/2024",
+  "horario": "06:00",
+  "rua": "Tereza Lera Paoletti",
+  "carros": 16,
+  "motos": 11,
+  "total": 27,
+  "latitude": "-22.4362174",
+  "longitude": "-46.8228786"
+},
+{
+  "_id": {
+    "$oid": "6732167a442a1b9a6f699a02"
+  },
+  "data": "02/12/2024",
+  "horario": "07:00",
+  "rua": "Tereza Lera Paoletti",
+  "carros": 18,
+  "motos": 10,
+  "total": 28,
+  "latitude": "-22.4362174",
+  "longitude": "-46.8228786"
+},
+{
+  "_id": {
+    "$oid": "6732167a442a1b9a6f699a03"
+  },
+  "data": "02/12/2024",
+  "horario": "08:00",
+  "rua": "Tereza Lera Paoletti",
+  "carros": 20,
+  "motos": 12,
+  "total": 32,
+  "latitude": "-22.4362174",
+  "longitude": "-46.8228786"
+},
+{
+  "_id": {
+    "$oid": "6732167a442a1b9a6f699a04"
+  },
+  "data": "02/12/2024",
+  "horario": "09:00",
+  "rua": "Tereza Lera Paoletti",
+  "carros": 22,
+  "motos": 14,
+  "total": 36,
+  "latitude": "-22.4362174",
+  "longitude": "-46.8228786"
+},
+{
+  "_id": {
+    "$oid": "6732167a442a1b9a6f699a05"
+  },
+  "data": "02/12/2024",
+  "horario": "10:00",
+  "rua": "Tereza Lera Paoletti",
+  "carros": 24,
+  "motos": 15,
+  "total": 39,
+  "latitude": "-22.4362174",
+  "longitude": "-46.8228786"
+},
+{
+  "_id": {
+    "$oid": "6732167a442a1b9a6f699a06"
+  },
+  "data": "02/12/2024",
+  "horario": "11:00",
+  "rua": "Tereza Lera Paoletti",
+  "carros": 23,
+  "motos": 13,
+  "total": 36,
+  "latitude": "-22.4362174",
+  "longitude": "-46.8228786"
+},
+{
+  "_id": {
+    "$oid": "6732167a442a1b9a6f699a07"
+  },
+  "data": "02/12/2024",
+  "horario": "12:00",
+  "rua": "Tereza Lera Paoletti",
+  "carros": 21,
+  "motos": 12,
+  "total": 33,
+  "latitude": "-22.4362174",
+  "longitude": "-46.8228786"
+},
+{
+  "_id": {
+    "$oid": "6732167a442a1b9a6f699a08"
+  },
+  "data": "02/12/2024",
+  "horario": "13:00",
+  "rua": "Tereza Lera Paoletti",
+  "carros": 19,
+  "motos": 11,
+  "total": 30,
+  "latitude": "-22.4362174",
+  "longitude": "-46.8228786"
+},
+{
+  "_id": {
+    "$oid": "6732167a442a1b9a6f699a09"
+  },
+  "data": "02/12/2024",
+  "horario": "14:00",
+  "rua": "Tereza Lera Paoletti",
+  "carros": 18,
+  "motos": 10,
+  "total": 28,
+  "latitude": "-22.4362174",
+  "longitude": "-46.8228786"
+},
+{
+  "_id": {
+    "$oid": "6732167a442a1b9a6f699a0a"
+  },
+  "data": "02/12/2024",
+  "horario": "15:00",
+  "rua": "Tereza Lera Paoletti",
+  "carros": 16,
+  "motos": 9,
+  "total": 25,
+  "latitude": "-22.4362174",
+  "longitude": "-46.8228786"
+},
+{
+  "_id": {
+    "$oid": "6732167a442a1b9a6f699a0b"
+  },
+  "data": "02/12/2024",
+  "horario": "16:00",
+  "rua": "Tereza Lera Paoletti",
+  "carros": 14,
+  "motos": 8,
+  "total": 22,
+  "latitude": "-22.4362174",
+  "longitude": "-46.8228786"
+},
+{
+  "_id": {
+    "$oid": "6732167a442a1b9a6f699a0c"
+  },
+  "data": "02/12/2024",
+  "horario": "17:00",
+  "rua": "Tereza Lera Paoletti",
+  "carros": 12,
+  "motos": 6,
+  "total": 18,
+  "latitude": "-22.4362174",
+  "longitude": "-46.8228786"
+},
+{
+  "_id": {
+    "$oid": "6732167a442a1b9a6f699a0d"
+  },
+  "data": "02/12/2024",
+  "horario": "18:00",
+  "rua": "Tereza Lera Paoletti",
+  "carros": 10,
+  "motos": 5,
+  "total": 15,
+  "latitude": "-22.4362174",
+  "longitude": "-46.8228786"
+},
+{
+  "_id": {
+    "$oid": "6732167a442a1b9a6f699a0e"
+  },
+  "data": "02/12/2024",
+  "horario": "19:00",
+  "rua": "Tereza Lera Paoletti",
+  "carros": 9,
+  "motos": 4,
+  "total": 13,
+  "latitude": "-22.4362174",
+  "longitude": "-46.8228786"
+},
+{
+  "_id": {
+    "$oid": "6732167a442a1b9a6f699a0f"
+  },
+  "data": "02/12/2024",
+  "horario": "20:00",
+  "rua": "Tereza Lera Paoletti",
+  "carros": 8,
+  "motos": 4,
+  "total": 12,
+  "latitude": "-22.4362174",
+  "longitude": "-46.8228786"
+},
+{
+  "_id": {
+    "$oid": "6732167a442a1b9a6f699a10"
+  },
+  "data": "02/12/2024",
+  "horario": "21:00",
+  "rua": "Tereza Lera Paoletti",
+  "carros": 7,
+  "motos": 3,
+  "total": 10,
+  "latitude": "-22.4362174",
+  "longitude": "-46.8228786"
+},
+{
+  "_id": {
+    "$oid": "6732167a442a1b9a6f699a11"
+  },
+  "data": "02/12/2024",
+  "horario": "22:00",
+  "rua": "Tereza Lera Paoletti",
+  "carros": 6,
+  "motos": 3,
+  "total": 9,
+  "latitude": "-22.4362174",
+  "longitude": "-46.8228786"
+},
+{
+  "_id": {
+    "$oid": "6732167a442a1b9a6f699a12"
+  },
+  "data": "02/12/2024",
+  "horario": "23:00",
+  "rua": "Tereza Lera Paoletti",
+  "carros": 5,
+  "motos": 2,
+  "total": 7,
+  "latitude": "-22.4362174",
+  "longitude": "-46.8228786"
+},
+{
+  "_id": {
+    "$oid": "6732167a442a1b9a6f699a13"
+  },
+  "data": "03/12/2024",
+  "horario": "00:00",
+  "rua": "Tereza Lera Paoletti",
+  "carros": 12,
+  "motos": 7,
+  "total": 19,
+  "latitude": "-22.4362174",
+  "longitude": "-46.8228786"
+},
+{
+  "_id": {
+    "$oid": "6732167a442a1b9a6f699a14"
+  },
+  "data": "03/12/2024",
+  "horario": "01:00",
+  "rua": "Tereza Lera Paoletti",
+  "carros": 13,
+  "motos": 6,
+  "total": 19,
+  "latitude": "-22.4362174",
+  "longitude": "-46.8228786"
+},
+{
+  "_id": {
+    "$oid": "6732167a442a1b9a6f699a15"
+  },
+  "data": "03/12/2024",
+  "horario": "02:00",
+  "rua": "Tereza Lera Paoletti",
+  "carros": 14,
+  "motos": 8,
+  "total": 22,
+  "latitude": "-22.4362174",
+  "longitude": "-46.8228786"
+},
+{
+  "_id": {
+    "$oid": "6732167a442a1b9a6f699a16"
+  },
+  "data": "03/12/2024",
+  "horario": "03:00",
+  "rua": "Tereza Lera Paoletti",
+  "carros": 16,
+  "motos": 9,
+  "total": 25,
+  "latitude": "-22.4362174",
+  "longitude": "-46.8228786"
+},
+{
+  "_id": {
+    "$oid": "6732167a442a1b9a6f699a17"
+  },
+  "data": "03/12/2024",
+  "horario": "04:00",
+  "rua": "Tereza Lera Paoletti",
+  "carros": 15,
+  "motos": 7,
+  "total": 22,
+  "latitude": "-22.4362174",
+  "longitude": "-46.8228786"
+},
+{
+  "_id": {
+    "$oid": "6732167a442a1b9a6f699a18"
+  },
+  "data": "03/12/2024",
+  "horario": "05:00",
+  "rua": "Tereza Lera Paoletti",
+  "carros": 17,
+  "motos": 8,
+  "total": 25,
+  "latitude": "-22.4362174",
+  "longitude": "-46.8228786"
+},
+{
+  "_id": {
+    "$oid": "6732167a442a1b9a6f699a19"
+  },
+  "data": "03/12/2024",
+  "horario": "06:00",
+  "rua": "Tereza Lera Paoletti",
+  "carros": 19,
+  "motos": 10,
+  "total": 29,
+  "latitude": "-22.4362174",
+  "longitude": "-46.8228786"
+},
+{
+  "_id": {
+    "$oid": "6732167a442a1b9a6f699a1a"
+  },
+  "data": "03/12/2024",
+  "horario": "07:00",
+  "rua": "Tereza Lera Paoletti",
+  "carros": 20,
+  "motos": 11,
+  "total": 31,
+  "latitude": "-22.4362174",
+  "longitude": "-46.8228786"
+},
+{
+  "_id": {
+    "$oid": "6732167a442a1b9a6f699a1b"
+  },
+  "data": "03/12/2024",
+  "horario": "08:00",
+  "rua": "Tereza Lera Paoletti",
+  "carros": 22,
+  "motos": 12,
+  "total": 34,
+  "latitude": "-22.4362174",
+  "longitude": "-46.8228786"
+},
+{
+  "_id": {
+    "$oid": "6732167a442a1b9a6f699a1c"
+  },
+  "data": "03/12/2024",
+  "horario": "09:00",
+  "rua": "Tereza Lera Paoletti",
+  "carros": 23,
+  "motos": 14,
+  "total": 37,
+  "latitude": "-22.4362174",
+  "longitude": "-46.8228786"
+},
+{
+  "_id": {
+    "$oid": "6732167a442a1b9a6f699a1d"
+  },
+  "data": "03/12/2024",
+  "horario": "10:00",
+  "rua": "Tereza Lera Paoletti",
+  "carros": 25,
+  "motos": 15,
+  "total": 40,
+  "latitude": "-22.4362174",
+  "longitude": "-46.8228786"
+},
+{
+  "_id": {
+    "$oid": "6732167a442a1b9a6f699a1e"
+  },
+  "data": "03/12/2024",
+  "horario": "11:00",
+  "rua": "Tereza Lera Paoletti",
+  "carros": 24,
+  "motos": 14,
+  "total": 38,
+  "latitude": "-22.4362174",
+  "longitude": "-46.8228786"
+},
+{
+  "_id": {
+    "$oid": "6732167a442a1b9a6f699a1f"
+  },
+  "data": "03/12/2024",
+  "horario": "12:00",
+  "rua": "Tereza Lera Paoletti",
+  "carros": 22,
+  "motos": 13,
+  "total": 35,
+  "latitude": "-22.4362174",
+  "longitude": "-46.8228786"
+},
+{
+  "_id": {
+    "$oid": "6732167a442a1b9a6f699a20"
+  },
+  "data": "03/12/2024",
+  "horario": "13:00",
+  "rua": "Tereza Lera Paoletti",
+  "carros": 20,
+  "motos": 12,
+  "total": 32,
+  "latitude": "-22.4362174",
+  "longitude": "-46.8228786"
+},
+{
+  "_id": {
+    "$oid": "6732167a442a1b9a6f699a21"
+  },
+  "data": "03/12/2024",
+  "horario": "14:00",
+  "rua": "Tereza Lera Paoletti",
+  "carros": 19,
+  "motos": 11,
+  "total": 30,
+  "latitude": "-22.4362174",
+  "longitude": "-46.8228786"
+},
+{
+  "_id": {
+    "$oid": "6732167a442a1b9a6f699a22"
+  },
+  "data": "03/12/2024",
+  "horario": "15:00",
+  "rua": "Tereza Lera Paoletti",
+  "carros": 17,
+  "motos": 9,
+  "total": 26,
+  "latitude": "-22.4362174",
+  "longitude": "-46.8228786"
+},
+{
+  "_id": {
+    "$oid": "6732167a442a1b9a6f699a23"
+  },
+  "data": "03/12/2024",
+  "horario": "16:00",
+  "rua": "Tereza Lera Paoletti",
+  "carros": 16,
+  "motos": 8,
+  "total": 24,
+  "latitude": "-22.4362174",
+  "longitude": "-46.8228786"
+},
+{
+  "_id": {
+    "$oid": "6732167a442a1b9a6f699a24"
+  },
+  "data": "03/12/2024",
+  "horario": "17:00",
+  "rua": "Tereza Lera Paoletti",
+  "carros": 14,
+  "motos": 7,
+  "total": 21,
+  "latitude": "-22.4362174",
+  "longitude": "-46.8228786"
+},
+{
+  "_id": {
+    "$oid": "6732167a442a1b9a6f699a25"
+  },
+  "data": "03/12/2024",
+  "horario": "18:00",
+  "rua": "Tereza Lera Paoletti",
+  "carros": 12,
+  "motos": 6,
+  "total": 18,
+  "latitude": "-22.4362174",
+  "longitude": "-46.8228786"
+},
+{
+  "_id": {
+    "$oid": "6732167a442a1b9a6f699a26"
+  },
+  "data": "03/12/2024",
+  "horario": "19:00",
+  "rua": "Tereza Lera Paoletti",
+  "carros": 11,
+  "motos": 5,
+  "total": 16,
+  "latitude": "-22.4362174",
+  "longitude": "-46.8228786"
+},
+{
+  "_id": {
+    "$oid": "6732167a442a1b9a6f699a27"
+  },
+  "data": "03/12/2024",
+  "horario": "20:00",
+  "rua": "Tereza Lera Paoletti",
+  "carros": 10,
+  "motos": 4,
+  "total": 14,
+  "latitude": "-22.4362174",
+  "longitude": "-46.8228786"
+},
+{
+  "_id": {
+    "$oid": "6732167a442a1b9a6f699a28"
+  },
+  "data": "03/12/2024",
+  "horario": "21:00",
+  "rua": "Tereza Lera Paoletti",
+  "carros": 9,
+  "motos": 3,
+  "total": 12,
+  "latitude": "-22.4362174",
+  "longitude": "-46.8228786"
+},
+{
+  "_id": {
+    "$oid": "6732167a442a1b9a6f699a29"
+  },
+  "data": "03/12/2024",
+  "horario": "22:00",
+  "rua": "Tereza Lera Paoletti",
+  "carros": 8,
+  "motos": 3,
+  "total": 11,
+  "latitude": "-22.4362174",
+  "longitude": "-46.8228786"
+},
+{
+  "_id": {
+    "$oid": "6732167a442a1b9a6f699a2a"
+  },
+  "data": "03/12/2024",
+  "horario": "23:00",
+  "rua": "Tereza Lera Paoletti",
+  "carros": 7,
+  "motos": 2,
+  "total": 9,
+  "latitude": "-22.4362174",
+  "longitude": "-46.8228786"
+}]

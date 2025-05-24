@@ -22,7 +22,8 @@
   .alinhar input {
     width: 70px;
   }
-  label{
+
+  label {
     font-weight: bold;
     font-size: 16px;
   }
@@ -78,17 +79,17 @@
 
 
   }
- 
 
-  .inputHorasWrapper{
-    
+
+  .inputHorasWrapper {
+
     display: flex;
     align-items: center;
     justify-content: space-between;
   }
-  
-  .inputHorasWrapper label{
-    margin:0px 10px;
+
+  .inputHorasWrapper label {
+    margin: 0px 10px;
 
   }
 
@@ -104,9 +105,6 @@
     cursor: pointer;
   }
 
-  /* .btn-gerar:hover {
-    background-color: #0056b3;
-  } */
 
   #map {
     height: 550px;
@@ -116,8 +114,14 @@
     font-size: 1rem;
   }
 
-  .form-control{
+  .form-control {
     background-color: #3b3d5c;
+  }
+
+  .white-content .form-control {
+    color: #222a42;
+    border-color: rgb(29, 37, 59, 0.5);
+    background-color: white;
   }
 </style>
 
@@ -246,7 +250,7 @@
             <h5 class="title">Filtros</h5>
           </div>
           <div class="container-flex">
-            
+
             <div class="alinhar">
               <label for="a">Rua:</label>
               <select name="a" id="a" style="width: 200px;" class="form-control">
@@ -288,7 +292,8 @@
             </div>
 
           </div>
-          <button class="btn-gerar btn btn-fill btn-primary" id="btnGerarGrafico" onclick="atualizarGrafico()">Gerar Gráfico</button>
+          <button class="btn-gerar btn btn-fill btn-primary" id="btnGerarGrafico" onclick="atualizarGrafico()">Gerar
+            Gráfico</button>
         </div>
 
 

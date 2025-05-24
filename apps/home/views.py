@@ -160,11 +160,28 @@ def dcolor(value:int|float,valores:list) -> str:
         return '#0000ff'
     else:
         return '#00ff00'
-
-   
+"""
+try:
+    client = pm.MongoClient('mongodb://localhost:27017/')
+    db = client['pi']
+    collection = db['autoflow']
+    df = pd.DataFrame(collection.find())
+    df['latitude_atualizada'] = df['latitude'].apply(hours_to_decimals_convertion)
+    df['longitude_atualizada'] = df['longitude'].apply(hours_to_decimals_convertion)
+    df['color'] = df['total'].apply(dcolor)
+except Exception as ex:
+    print('Erro ao conectar no banco de dados')
+    print(ex)
+    # Conexão com o banco de dados MongoDB
+    # client = pm.MongoClient('mongodb://localhost:27017/')
+    # db = client['pi']
+    # collection = db['autoflow']
+    # df = pd.DataFrame(collection.find())
+    # df['latitude_atualizada'] = df['latitude'].apply(hours_to_decimals_convertion)
+    # df['longitude_atualizada'] = df['longitude'].apply(hours_to_decimals_convertion)
+ """
     
-    
-    
+"""   
 client = pm.MongoClient('mongodb://localhost:27017/')
 db = client['pi']
 collection = db['autoflow']
@@ -172,19 +189,19 @@ df = pd.DataFrame(collection.find())
 df['latitude_atualizada'] = df['latitude'].apply(hours_to_decimals_convertion)
 df['longitude_atualizada'] = df['longitude'].apply(hours_to_decimals_convertion)
 # df['color'] = df['total'].apply(dcolor)
-
-def aplicarCores(dataframe = df,ParametrosValores=[50,35,25,15]):
+"""
+def aplicarCores(dataframe = pd.DataFrame(),ParametrosValores=[50,35,25,15]):
     dataframe['color'] = dataframe['total'].apply(lambda value: dcolor(int(value), ParametrosValores))
 
 
-
+"""
 df['rua'] = df['rua'].apply(obter_endereco_delay)
 
 df['data'] = pd.to_datetime(df['data'],format='%d/%m/%Y') 
 df['data'] = df['data'].dt.strftime('%d/%m/%Y') 
 df['size_column'] = df['total'].apply(lambda x: x if x != 0 else 0.1)
 df = df.sort_values('data')
-
+"""
 @csrf_exempt
 def recebe_data(request):
     if request.method == "POST":
