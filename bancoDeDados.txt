@@ -1,4 +1,0 @@
-usando banco POSTGRESQL
-
-verificar:
-criando tudo na virtual env, sem necessidade de uma real conexão?
