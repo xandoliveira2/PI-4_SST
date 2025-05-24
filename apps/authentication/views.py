@@ -41,11 +41,6 @@ def login_view(request):
     return render(request, "accounts/login.html", {"form": form, "msg": msg})
 import pandas as pd
 def firstLoad(request):
-    print('CHEGOU AQUI')
-    print('CHEGOU AQUI')
-    print('CHEGOU AQUI')
-    print('CHEGOU AQUI')
-    print('CHEGOU AQUI')
     client = MongoClient('mongodb://localhost:27017/')
     db = client['teste']
     colecao = db['teste2']
@@ -57,7 +52,7 @@ def firstLoad(request):
     dados = list(resultado)        
     for doc in dados:
         doc['_id'] = str(doc['_id'])  # Para evitar erro ao retornar JSON
-        filtro_data = request.GET.get('param1')
+    filtro_data = request.GET.get('param1')
     filtro_hora = request.GET.get('param2')
     filtro_veiculos = request.GET.get('param3', 'carros motos')#('param3', 'carros motos')  # Default para 'carros motos'
     ruas = request.GET.get('ruas')
@@ -71,23 +66,18 @@ def firstLoad(request):
     base = ['rua','total'] + filtro_veiculos
     from datetime import datetime
     if filtro_hora and filtro_data:
-        if len(filtro_data.split('-')) == 2 :
-            data_inicio_str, data_fim_str = filtro_data.split('-')
-
-            # Converte strings para objetos de hora
+        print('reach there1')
+        data_inicio_str = filtro_data
+        try:
+            data_inicio = datetime.strptime(data_inicio_str, "%Y-%m-%d").date()
+        except ValueError:
             data_inicio = datetime.strptime(data_inicio_str, "%d/%m/%Y").date()
-            data_fim = datetime.strptime(data_fim_str, "%d/%m/%Y").date()
+        df['data'] = pd.to_datetime(df['data'], format="%d/%m/%Y").dt.date
 
-            # Garante que df['hora'] está no formato de hora
-            df['data'] = pd.to_datetime(df['data'], format="%d/%m/%Y").dt.date
-
-            # Agora filtra com base no intervalo de horas
-            if filtro_data.split('-')[0] == '': 
-                df = df[(df['data'] <= data_fim)]
-            elif filtro_data.split('-')[1] == '':
-                df = df[(df['data'] >= data_inicio)]
-            else:
-                df = df[(df['data'] >= data_inicio) & (df['data'] <= data_fim)]
+        # Agora filtra com base no intervalo de horas
+        
+        df = df[(df['data'] == data_inicio)]
+            
                 
         if len(filtro_hora.split('-')) == 2 :
             hora_inicio_str, hora_fim_str = filtro_hora.split('-')

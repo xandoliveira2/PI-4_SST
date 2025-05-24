@@ -128,9 +128,12 @@
     background-color: white;
   }
 </style>
+{% load static %}
+<link rel="stylesheet" href="{% static 'assets/css/leaflet.css' %}">
+<script src="{% static 'assets/js/leaflet.js' %}"></script>
+<!-- <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" /> -->
+<!-- <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script> -->
 
-<link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" />
-<script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
 {% endblock stylesheets %}
 
 {% block content %}
@@ -146,7 +149,9 @@
           <!-- {% load static %} -->
           <!-- <img src="{% static 'assets/img/showMaps.jpg' %}" alt="Mapa de densidade"> -->
         </div>
+        {% load static %} <!-- já dou load em outro lugar, mas aqui também para garantir-->
         <script>
+
           var map = L.map('map').setView([-22.44, -46.83], 14);
 
           // Camada base
@@ -263,6 +268,7 @@
             </div>
 
 
+
             <div>
               <label style="display: block; text-align: center; font-weight: bold;">Tipo de Veículos</label>
               <div class="chkboxes">
@@ -300,6 +306,12 @@
             Gráfico</button>
         </div>
 
+
+
+        <div class="rangeData">
+          <h5>Data</h5>
+          <input type="date" id="dataInicial" name="dataInicial">
+        </div>
 
 
 
