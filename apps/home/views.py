@@ -164,11 +164,13 @@ def dcolor(value:int|float,valores:list) -> str:
    
     
     
-    
-client = pm.MongoClient('mongodb://localhost:27017/')
-db = client['pi']
-collection = db['autoflow']
-df = pd.DataFrame(collection.find())
+try:    
+    client = pm.MongoClient('mongodb://localhost:27017/')
+    db = client['pi']
+    collection = db['autoflow']
+    df = pd.DataFrame(collection.find())
+except:
+    df = pd.DataFrame()
 df['latitude_atualizada'] = df['latitude'].apply(hours_to_decimals_convertion)
 df['longitude_atualizada'] = df['longitude'].apply(hours_to_decimals_convertion)
 # df['color'] = df['total'].apply(dcolor)
