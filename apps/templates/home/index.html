@@ -1,160 +1,367 @@
 {% extends "layouts/base.html" %}
 
-{% block title %} Dashboard {% endblock %}
+{% block title %} Maps {% endblock %}
 
-<!-- Specific Page CSS -->
+<!-- Specific Page CSS goes HERE  -->
 {% block stylesheets %}
-{{ block.super }}
 <style>
-  select {
-    scrollbar-color: #FFF transparent;
-  }
-  .container {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 20px;
-  }
-  .filters {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    background-color: #1E1E29;
-    padding: 15px;
-    border-radius: 8px;
-  }
-  .filters label {
-    color: #FFF;
-    font-weight: bold;
-    margin: 5px 0;
-  }
-  .filters input,
-  .filters select {
-    background-color: #2C2C3A;
-    border: 1px solid #444;
-    color: white;
-    font-weight: bold;
-    padding: 5px;
-    margin-bottom: 10px;
-  }
-  .charts-container {
+  .container-flex {
     display: flex;
     justify-content: space-around;
-    width: 100%;
     flex-wrap: wrap;
+    gap: 20px;
   }
-  .chart {
-    width: 48%;
-    min-width: 350px;
+
+  .alinhar {
+    display: flex;
+    align-items: center;
+    gap: 8px;
   }
+
+  .alinhar input {
+    width: 70px;
+  }
+
+  .cores {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 15px;
+    justify-content: center;
+  }
+
+  .cores .alinhar {
+    justify-content: start;
+  }
+
+  .cores div {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+  }
+
+  .color-circle {
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    display: inline-block;
+  }
+
+  .chkboxes {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 15px;
+  }
+
+  .chkboxes label {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    padding: 5px 10px;
+    border-radius: 5px;
+    background-color: #007bff;
+    cursor: pointer;
+  }
+
+  .chkboxes input {
+    accent-color: #007bff;
+  }
+
+  .rangeData, .rangeHoras {
+    text-align: center;
+    margin-top: 15px;
+  }
+
+  .btn-gerar {
+    display: block;
+    margin: 20px auto;
+    padding: 10px 20px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background 0.3s ease;
+  }
+
+  .btn-gerar:hover {
+    background-color: #0056b3;
+  }
+
+  #map{height: 550px;}
+
 </style>
+{% load static %}
+<script src="{% static 'assets/js/apexcharts.js' %}"></script>
+<link rel="stylesheet" href="{% static 'assets/css/leaflet.css' %}">
+<script src="{% static 'assets/js/leaflet.js' %}"></script>
+<!-- <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" /> -->
+<!-- <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script> -->
+
 {% endblock stylesheets %}
 
 {% block content %}
-<div class="container">
+
+<div class="content">
+  <div class="row">
+    <div class="col-md-12">
+      <div class="card card-plain">
+        <div class="card-header">
+          <h4>Gráfico de Densidade</h4>
+        </div>
+        <div class="card-body text-center" id="map">
+          <!-- {% load static %} -->
+          <!-- <img src="{% static 'assets/img/showMaps.jpg' %}" alt="Mapa de densidade"> -->
+        </div>
+        {% load static %} <!-- já dou load em outro lugar, mas aqui também para garantir-->
+        <script>
+           var map = L.map('map').setView([-22.44, -46.83], 18);
+
+// Camada base
+
+const tileUrl = "{% static 'tiles' %}/{z}/{x}/{y}.png";
+L.tileLayer(tileUrl, {
+  maxZoom: 18,
+  attribution: '© OpenStreetMap contributors '
+}).addTo(map);
+
+// Função de cor conforme densidade
+function getColor(densidade) {
+  if (densidade > 0.8) return 'red';
+  else if (densidade > 0.6) return 'orange';
+  else if (densidade > 0.4) return 'yellow';
+  else if (densidade > 0.2) return 'green';
+  else return 'blue';
+}
+
+async function pegarNomeRua(cep) {
+  try {
+    const response = await fetch(`https://viacep.com.br/ws/${cep}/json/`);
+    const data = await response.json();
+
+    // console.log(data); // mostra todo o objeto retornado
+    return data.logradouro || cep;
+  } catch (error) {
+    // console.error("Erro ao buscar rua:", error);
+    return "Erro";
+  }
+}
+
+// Função que processa e plota os dados no mapa
+async function processarDadosEDesenharMapa(dadosAPI) {
+  let agrupados = {};
+
+  for (let item of dadosAPI){
+    let rua = await pegarNomeRua(item.rua); // espera a função assíncrona resolver
+    // console.log(item);
+    let chave = rua;
+    let total = parseInt(item.total);
+    // console.log(total)
+    let lat = parseFloat(item.latitude);
+    let lng = parseFloat(item.longitude);
+
+    if (!agrupados[chave]) {
+      agrupados[chave] = {
+        rua,
+        lat,
+        lng,
+        total,
+        count: 1
+      };
+    } else {
+      agrupados[chave].total += total;
+      agrupados[chave].count += 1;
+    }
+  };
+
+  // Calcular densidade normalizada (0 a 1)
+  const maxTotal = Math.max(...Object.values(agrupados).map(p => p.total));
+  const dados = Object.values(agrupados).map(p => ({
+    rua: p.rua,
+    lat: p.lat,
+    lng: p.lng,
+    total: p.total,
+    densidade: p.total / maxTotal
+  }));
+
+  // Criar os marcadores
+  dados.forEach(ponto => {
+    L.circleMarker([ponto.lat, ponto.lng], {
+      radius: 15,
+      color: getColor(ponto.densidade),
+      fillColor: getColor(ponto.densidade),
+      fillOpacity: 0.6,
+      weight: 1
+    })
+    .bindTooltip(`Rua: ${ponto.rua}<br>Densidade: ${ponto.densidade.toFixed(2)}<br>Total: ${ponto.total}`, {
+      permanent: false,
+      direction: 'top'
+    })
+    .addTo(map);
+  });
+}
+
+async function atualizarGrafico() {
+  let dataInicial = document.getElementById("dataInicial").value;
+  let horaInicial = document.getElementById("horaInicial").value;
+  let horaFinal = document.getElementById("horaFinal").value;
+  // console.log(dataInicial + " DATA INICIAL"); 
+  // console.log(horaInicial+ " HORA INICIAL");
+  // console.log(horaFinal+ " HORA FINAL");
+  // console.log("oi")
+  let tiposVeiculos = "";
+  let carro = document.getElementById("car").checked;
+  let moto = document.getElementById("m").checked;
+  let onibus = document.getElementById("on").checked;
+  let caminhao = document.getElementById("cam").checked;
+  let vans = document.getElementById("v").checked;
+  console.log(carro)
+  if (carro) { tiposVeiculos +="cr|"}
+  if (moto) {tiposVeiculos += "m|"}
+  if (onibus) {tiposVeiculos+= "o|"}
+  if (caminhao) {tiposVeiculos+="cm|"}
+  if (vans) {tiposVeiculos += "v"}
+  console.log(tiposVeiculos);
   
-  <h2>Rua com maior movimento no dia: Av. Rio Branco</h2>
+  fetch(`/exibirTodosDados/?param2=${horaInicial}-${horaFinal}&param1=${dataInicial}&param3=${tiposVeiculos}`)
+    .then(res => res.json())
+    .then(dados => {
+      processarDadosEDesenharMapa(dados);
+    })
+    .catch(err => console.error('Erro ao carregar os dados:', err));
 
-  <!-- Filtros de Data e Seleção de Rua -->
-  <div class="filters">
-    <div class="datas">
-      <label for="a1">De</label>
-      <input type="date" name="a1" id="a1">
-      
-      <label for="a2">Até</label>
-      <input type="date" name="a2" id="a2">
+}
+</script>
+
+        <div class="container-flex">
+          <div class="alig">
+            <label for="a">Rua:</label>
+            <select name="a" id="a" style="width: 200px;">
+              <option value="">Av Rio Branco</option>
+            </select>
+          </div>
+
+          <div>
+            <label style="display: block; text-align: center; font-weight: bold;">Tipo de Veículos</label>
+            <div class="chkboxes">
+              <label for="m"><input type="checkbox" name="b" id="m"> Motos</label>
+              <label for="car"><input type="checkbox" name="b" id="car"> Carros</label>
+              <label for="cam"><input type="checkbox" name="b" id="cam"> Caminhões</label>
+              <label for="on"><input type="checkbox" name="b" id="on"> Ônibus</label>
+              <label for="v"><input type="checkbox" name="b" id="v"> Vans</label>
+            </div>
+          </div>
+        </div>
+
+       
+
+        <div class="rangeData">
+          <h5>Data</h5>
+          <input type="date" id="dataInicial" name="dataInicial">
+        </div>
+
+        <div class="rangeHoras">
+          <h5>Horas</h5>
+          <label for="horaInicial">De</label>
+          <input type="time" id="horaInicial" name="horaInicial">
+          <label for="horaFinal">Até</label>
+          <input type="time" id="horaFinal" name="horaFinal">
+        </div>
+
+        <button class="btn-gerar" id="btnGerarGrafico" onclick="atualizarGrafico()">Gerar Gráfico</button>
+
+      </div>
     </div>
-
-    <label for="ruas">Rua:</label>
-    <select name="ruas" id="ruas" size="5" onchange="gerarGraficoEmcima(); gerarGraficoEmbaixo();">
-      <option value="">Av Aldaberto Cunha</option>
-      <option value="">Av Italiano</option>
-      <option value="" selected>Av Rio Branco</option>
-      <option value="">Av São Paulo</option>
-      <option value="">Avenida Presidente Juscelino Kubitschek de Oliveira</option>
-      <option value="">Rua teste1</option>
-      <option value="">Rua teste2</option>
-      <option value="">só exibe 5</option>
-      <option value="">teste scroll sem scrollbar</option>
-    </select>
   </div>
-
-  <!-- Gráficos -->
-  <div class="charts-container">
-    <div class="chart" id="chart"></div>
-    <div class="chart" id="chart1"></div>
-  </div>
-
 </div>
 
-<script>
-  let chart, chart1; // Variáveis para armazenar os gráficos e evitar recriações
+<div id="grafico-linha"></div>
 
-  function gerarAleatorios(qtd) {
-    return Array.from({ length: qtd }, () => Math.floor(Math.random() * 36) + 5);
-  }
+  <script>
+    var options = {
+      chart: {
+        type: 'line',
+        height: 350
+      },
+      series: [{
+        name: 'Vendas',
+        data: [10, 41, 35, 51, 49, 62, 69, 91, 148]
+      }],
+      xaxis: {
+        categories: ['Jan', 'Fev', 'Mar', 'Abr', 'Mai', 'Jun', 'Jul', 'Ago', 'Set']
+      },
+      title: {
+        text: 'Evolução das Vendas em 2025',
+        align: 'center'
+      }
+    };
 
-  function gerarGraficoEmcima() {
-    let seriesData = [
-      { name: "Motos", data: gerarAleatorios(12) },
-      { name: "Carros", data: gerarAleatorios(12) },
-      { name: "Caminhão", data: gerarAleatorios(12) }
+    var chart = new ApexCharts(document.querySelector("#grafico-linha"), options);
+    chart.render();
+  </script>
+
+    <div class="graficos-container">
+    <div id="grafico1" class="grafico"></div>
+    <div id="grafico2" class="grafico"></div>
+    <div id="grafico3" class="grafico"></div>
+    <div id="grafico4" class="grafico"></div>
+  </div>
+
+  <script>
+    const opcoesComuns = {
+      chart: { type: 'line', height: 300 },
+      xaxis: { categories: ['Jan', 'Fev', 'Mar', 'Abr', 'Mai', 'Jun'] }
+    };
+
+    const chartsData = [
+      {
+        id: '#grafico1',
+        series: [{ name: 'Vendas', data: [10, 20, 30, 25, 40, 50] }],
+        title: 'Vendas Mensais'
+      },
+      {
+        id: '#grafico2',
+        series: [{ name: 'Lucro', data: [5, 15, 10, 20, 18, 30] }],
+        title: 'Lucro Mensal'
+      },
+      {
+        id: '#grafico3',
+        series: [{ name: 'Usuários Ativos', data: [200, 220, 250, 230, 280, 300] }],
+        title: 'Usuários Ativos'
+      },
+      {
+        id: '#grafico4',
+        series: [{ name: 'Conversões', data: [2, 5, 8, 6, 9, 12] }],
+        title: 'Taxa de Conversão'
+      }
     ];
 
-    if (!chart) {
-      // Criar o gráfico apenas uma vez
-      let options = {
-        series: seriesData,
-        chart: { height: 350, type: 'line', zoom: { enabled: false }, toolbar: { show: false } },
-        colors: ['#AA0000', '#0000AA', '#00AA00'],
-        dataLabels: { enabled: true },
-        stroke: { curve: 'smooth' },
-        title: { text: 'Quantidade de veículos', align: 'left', style: { color: '#fff' } },
-        xaxis: { categories: ['00:00', '01:00', '02:00', '03:00', '04:00', '05:00', '06:00', '07:00', '08:00', '09:00', '10:00', '11:00'], title: { text: 'Horas' } },
-        yaxis: { title: { text: 'Quantidade' }, min: 5, max: 40 }
+    chartsData.forEach(cfg => {
+      const options = {
+        ...opcoesComuns,
+        series: cfg.series,
+        title: { text: cfg.title, align: 'center' }
       };
-
-      chart = new ApexCharts(document.querySelector("#chart"), options);
+      const chart = new ApexCharts(document.querySelector(cfg.id), options);
       chart.render();
-    } else {
-      // Apenas atualizar os dados em vez de recriar
-      chart.updateSeries(seriesData);
-    }
-  }
-
-  function gerarGraficoEmbaixo() {
-    let colors = ['#AA0000', '#0000AA', '#00AA00'];
-    let seriesData = [{ data: gerarAleatorios(3) }];
-
-    if (!chart1) {
-      // Criar o gráfico apenas uma vez
-      let options1 = {
-        series: seriesData,
-        chart: { height: 350, type: 'bar' },
-        colors: colors,
-        title: { text: 'Quantidade total de veículos', align: 'left', style: { color: '#fff' } },
-        xaxis: { categories: ["Motos", "Carros", "Caminhões"], labels: { style: { colors: colors, fontSize: '12px' } } }
-      };
-
-      chart1 = new ApexCharts(document.querySelector("#chart1"), options1);
-      chart1.render();
-    } else {
-      // Apenas atualizar os dados
-      chart1.updateSeries(seriesData);
-    }
-  }
-
-  // Chamar as funções ao carregar a página
-  gerarGraficoEmcima();
-  gerarGraficoEmbaixo();
-</script>
+    });
+  </script>
 
 {% endblock content %}
 
+<!-- Specific Page JS goes HERE  -->
 {% block javascripts %}
 <script>
-  $(document).ready(function () {
-    demo.initDashboardPageCharts();
+  document.querySelector('.btn-gerar').addEventListener('click', function () {
+    alert('Gerando gráfico...');
+    // Aqui você pode chamar uma função para gerar o gráfico
   });
+
+async function GerarGrafico()
+{
+  
+}
+
+
 </script>
 {% endblock javascripts %}
