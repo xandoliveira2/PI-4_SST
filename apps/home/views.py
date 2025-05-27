@@ -171,8 +171,6 @@ try:
     df = pd.DataFrame(collection.find())
 except:
     df = pd.DataFrame()
-df['latitude_atualizada'] = df['latitude'].apply(hours_to_decimals_convertion)
-df['longitude_atualizada'] = df['longitude'].apply(hours_to_decimals_convertion)
 # df['color'] = df['total'].apply(dcolor)
 
 def aplicarCores(dataframe = df,ParametrosValores=[50,35,25,15]):
@@ -180,13 +178,19 @@ def aplicarCores(dataframe = df,ParametrosValores=[50,35,25,15]):
 
 
 
-df['rua'] = df['rua'].apply(obter_endereco_delay)
-
-df['data'] = pd.to_datetime(df['data'],format='%d/%m/%Y') 
-df['data'] = df['data'].dt.strftime('%d/%m/%Y') 
-df['size_column'] = df['total'].apply(lambda x: x if x != 0 else 0.1)
-df = df.sort_values('data')
-
+try:
+    df['rua'] = df['rua'].apply(obter_endereco_delay)
+    df['latitude_atualizada'] = df['latitude'].apply(hours_to_decimals_convertion)
+    df['longitude_atualizada'] = df['longitude'].apply(hours_to_decimals_convertion)
+    df['data'] = pd.to_datetime(df['data'],format='%d/%m/%Y') 
+    df['data'] = df['data'].dt.strftime('%d/%m/%Y') 
+    df['size_column'] = df['total'].apply(lambda x: x if x != 0 else 0.1)
+    df = df.sort_values('data')
+except: 
+    print("Modo de visualização sem dados")
+    
+    
+    
 @csrf_exempt
 def recebe_data(request):
     if request.method == "POST":
