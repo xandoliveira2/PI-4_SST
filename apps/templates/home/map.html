@@ -7,16 +7,41 @@
 <style>
   .container-flex {
     display: flex;
-    justify-content: space-around;
+    justify-content: center;
     flex-wrap: wrap;
-    gap: 20px;
+    gap: 150px;
   }
 
-  .alinhar {
-    display: flex;
+  .grid-coluna {
+    display: grid;
+    grid-template-rows: auto auto;
+    gap: 10px;
+    justify-items: center;
     align-items: center;
+  }
+
+  .alinhar,
+  .rangeData,
+  .chkboxes,
+  .inputHorasWrapper {
+    justify-self: center;
+    width: 100%;
+    display: flex;
     flex-direction: column;
-    gap: 4px;
+    align-items: center;
+  }
+
+  .chkboxes {
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 15px;
+  }
+
+  .inputHorasWrapper {
+    flex-direction: row;
+    justify-content: center;
+    width: auto;
   }
 
   .alinhar input {
@@ -69,7 +94,6 @@
     background-image: linear-gradient(to bottom left, #e14eca, #ba54f5, #e14eca);
     cursor: pointer;
     color: white;
-    ffont
   }
 
   .chkboxes input {
@@ -80,7 +104,6 @@
   .rangeHoras {
     text-align: center;
     margin-top: 15px;
-
 
   }
 
@@ -127,6 +150,21 @@
     border-color: rgb(29, 37, 59, 0.5);
     background-color: white;
   }
+
+  .rangeData input[type="date"] {
+    width: auto;
+    min-width: 0;
+    max-width: 200px;
+  }
+
+  .tipo-veiculo {
+    display: block;
+    text-align: center;
+  }
+
+  .white-content .card:not(.card-white) .chkboxes label:not(.btn) {
+    color: white;
+  }
 </style>
 {% load static %}
 <link rel="stylesheet" href="{% static 'assets/css/leaflet.css' %}">
@@ -145,10 +183,61 @@
         <div class="card-header">
           <h4>Gráfico de Densidade</h4>
         </div>
+        <!-- Filtros -->
+        <div class="card">
+          <div class="card-header">
+            <h5 class="title">Filtros</h5>
+          </div>
+          <div class="container-flex">
+
+            <div class="grid-coluna">
+              <div class="alinhar">
+                <label for="a">Rua:</label>
+                <select name="a" id="a" class="form-control">
+                  <option value="">Av Rio Branco</option>
+                </select>
+              </div>
+              <div class="rangeData">
+                <h5>Data</h5>
+                <input type="date" id="dataFinal" name="dataFinal" class="form-control">
+              </div>
+            </div>
+
+            <div class="grid-coluna">
+              <div>
+                <label class="tipo-veiculo">Tipo de Veículos</label>
+                <div class="chkboxes">
+                  <label for="m"><input type="checkbox" name="b" id="m"> Motos</label>
+                  <label for="car"><input type="checkbox" name="b" id="car"> Carros</label>
+                  <label for="cam"><input type="checkbox" name="b" id="cam"> Caminhões</label>
+                  <label for="on"><input type="checkbox" name="b" id="on"> Ônibus</label>
+                  <label for="v"><input type="checkbox" name="b" id="v"> Vans</label>
+                </div>
+              </div>
+              <div class="rangeHoras">
+                <h5>Horas</h5>
+                <div class="inputHorasWrapper">
+                  <label for="horaInicial">De</label>
+                  <input type="time" id="horaInicial" name="horaInicial" class="form-control">
+                  <label for="horaFinal">Até</label>
+                  <input type="time" id="horaFinal" name="horaFinal" class="form-control">
+                </div>
+              </div>
+            </div>
+          </div>
+          <button class="btn-gerar btn btn-fill btn-primary" id="btnGerarGrafico" onclick="atualizarGrafico()">Gerar
+            Gráfico</button>
+        </div>
+
+
+
+
         <div class="card-body text-center" id="map">
           <!-- {% load static %} -->
           <!-- <img src="{% static 'assets/img/showMaps.jpg' %}" alt="Mapa de densidade"> -->
         </div>
+
+
         {% load static %} <!-- já dou load em outro lugar, mas aqui também para garantir-->
         <script>
 
@@ -253,65 +342,14 @@
           }
         </script>
 
-        <!-- Filtros -->
-        <div class="card" style="margin-top:20px; padding: 10px;">
-          <div class="card-header">
-            <h5 class="title">Filtros</h5>
-          </div>
-          <div class="container-flex">
-
-            <div class="alinhar">
-              <label for="a">Rua:</label>
-              <select name="a" id="a" style="width: 200px;" class="form-control">
-                <option value="">Av Rio Branco</option>
-              </select>
-            </div>
 
 
 
-            <div>
-              <label style="display: block; text-align: center; font-weight: bold;">Tipo de Veículos</label>
-              <div class="chkboxes">
-                <label for="m"><input type="checkbox" name="b" id="m"> Motos</label>
-                <label for="car"><input type="checkbox" name="b" id="car"> Carros</label>
-                <label for="cam"><input type="checkbox" name="b" id="cam"> Caminhões</label>
-                <label for="on"><input type="checkbox" name="b" id="on"> Ônibus</label>
-                <label for="v"><input type="checkbox" name="b" id="v"> Vans</label>
-              </div>
-            </div>
-          </div>
-
-          <div class="container-flex">
-            <div class="rangeData">
-              <h5>Data</h5>
-              <!-- <label for="dataInicial">De</label>
-          <input type="date" id="dataInicial" name="dataInicial"> -->
-              <!-- <label for="dataFinal">Até</label> -->
-              <input type="date" id="dataFinal" name="dataFinal" class="form-control">
-            </div>
-
-            <div class="rangeHoras">
-              <h5>Horas</h5>
-
-              <div class="inputHorasWrapper">
-                <label for="horaInicial">De</label>
-                <input type="time" id="horaInicial" name="horaInicial" class="form-control">
-                <label for="horaFinal">Até</label>
-                <input type="time" id="horaFinal" name="horaFinal" class="form-control">
-              </div>
-            </div>
-
-          </div>
-          <button class="btn-gerar btn btn-fill btn-primary" id="btnGerarGrafico" onclick="atualizarGrafico()">Gerar
-            Gráfico</button>
-        </div>
-
-
-
+        <!-- 
         <div class="rangeData">
           <h5>Data</h5>
           <input type="date" id="dataInicial" name="dataInicial">
-        </div>
+        </div> -->
 
 
 
