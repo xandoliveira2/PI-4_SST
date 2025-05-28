@@ -20,23 +20,36 @@
   .filters {
     display: flex;
     flex-direction: column;
-    align-items: center;
+    align-items: stretch;
     border-radius: 8px;
+    gap: 16px;
   }
 
-  .filters label {
-    color: #ffffff;
+  .filter-row {
+    display: grid;
+    grid-template-columns: 120px 1fr;
+    align-items: center;
     width: 100%;
-    margin: 0px;
+    gap: 10px;
+  }
+
+  .filter-row:not(:last-child) {
+    margin-bottom: 10px;
+  }
+
+  .filter-row label {
+    margin: 0;
     text-align: left;
     font-size: 0.75rem;
     font-weight: bold;
+    color: #fff;
+    text-align: center;
   }
 
-  label[for="ruas"] {
+  /* label[for="ruas"] {
     margin: 25px 0px 0px 0px;
 
-  }
+  } */
 
   /*
   .filters input,
@@ -48,9 +61,8 @@
   .datas {
     display: flex;
     align-items: center;
-    width: 325px;
-    justify-content: space-between;
     gap: 5px;
+    width: 100%;
   }
 
 
@@ -89,6 +101,10 @@
     border-color: rgb(29, 37, 59, 0.5);
     background-color: white;
   }
+
+  .filter-row select.form-control {
+    margin-left: 5px;
+  }
 </style>
 {% endblock stylesheets %}
 
@@ -110,30 +126,32 @@
           <div class="card-body">
 
             <div class="filters">
-              <label for="datas">Intervalo de datas:</label>
-              <div class="datas">
-                <label for="a1">De</label>
-                <input type="date" name="a1" id="a1" class="form-control">
-
-                <label for="a2">Até</label>
-                <input type="date" name="a2" id="a2" class="form-control">
+              <div class="filter-row">
+                <label for="datas">Intervalo de datas:</label>
+                <div class="datas">
+                  <label for="a1">De</label>
+                  <input type="date" name="a1" id="a1" class="form-control">
+                  <label for="a2">até</label>
+                  <input type="date" name="a2" id="a2" class="form-control">
+                </div>
               </div>
 
-              <label for="ruas">Rua:</label>
-              <select name="ruas" id="ruas" class="form-control"
-                onchange="gerarGraficoEmcima(); gerarGraficoEmbaixo();">
-                <option value="Av Aldaberto Cunha" selected>Av Aldaberto Cunha</option>
-                <option value="Av Italiano">Av Italiano</option>
-                <option value="Av Rio Branco">Av Rio Branco</option>
-                <option value="Av São Paulo">Av São Paulo</option>
-                <option value="Avenida Presidente Juscelino Kubitschek de Oliveira">Avenida Presidente Juscelino
-                  Kubitschek de Oliveira</option>
-                <option value="Rua teste1">Rua teste1</option>
-                <option value="Rua teste2">Rua teste2</option>
-                <option value="só exibe 5">só exibe 5</option>
-                <option value="teste scroll sem scrollbar">teste scroll sem scrollbar</option>
-              </select>
-
+              <div class="filter-row">
+                <label for="ruas">Rua:</label>
+                <select name="ruas" id="ruas" class="form-control"
+                  onchange="gerarGraficoEmcima(); gerarGraficoEmbaixo();">
+                  <option value="Av Aldaberto Cunha" selected>Av Aldaberto Cunha</option>
+                  <option value="Av Italiano">Av Italiano</option>
+                  <option value="Av Rio Branco">Av Rio Branco</option>
+                  <option value="Av São Paulo">Av São Paulo</option>
+                  <option value="Avenida Presidente Juscelino Kubitschek de Oliveira">Avenida Presidente Juscelino
+                    Kubitschek de Oliveira</option>
+                  <option value="Rua teste1">Rua teste1</option>
+                  <option value="Rua teste2">Rua teste2</option>
+                  <option value="só exibe 5">só exibe 5</option>
+                  <option value="teste scroll sem scrollbar">teste scroll sem scrollbar</option>
+                </select>
+              </div>
             </div>
           </div>
         </div>
