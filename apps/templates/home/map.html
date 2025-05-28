@@ -10,6 +10,8 @@
     justify-content: center;
     flex-wrap: wrap;
     gap: 150px;
+    margin-top: 30px;
+    margin-bottom: 30px
   }
 
   .grid-coluna {
@@ -157,13 +159,21 @@
     max-width: 200px;
   }
 
-  .tipo-veiculo {
-    display: block;
-    text-align: center;
-  }
+
 
   .white-content .card:not(.card-white) .chkboxes label:not(.btn) {
-    color: white;
+    color: #222a42;
+  }
+
+  label.filtro-label,
+  h5.filtro-label {
+    font-size: 1rem !important;
+    font-weight: 600;
+    margin-bottom: 8px !important;
+    margin-top: 8px !important;
+    display: block;
+    text-align: center;
+    letter-spacing: 0.5px;
   }
 </style>
 {% load static %}
@@ -192,20 +202,20 @@
 
             <div class="grid-coluna">
               <div class="alinhar">
-                <label for="a">Rua:</label>
+                <label for="a" class="filtro-label">Rua:</label>
                 <select name="a" id="a" class="form-control">
                   <option value="">Av Rio Branco</option>
                 </select>
               </div>
               <div class="rangeData">
-                <h5>Data</h5>
+                <h5 class="filtro-label">Data</h5>
                 <input type="date" id="dataFinal" name="dataFinal" class="form-control">
               </div>
             </div>
 
             <div class="grid-coluna">
               <div>
-                <label class="tipo-veiculo">Tipo de Veículos</label>
+                <label class="filtro-label">Tipo de Veículos</label>
                 <div class="chkboxes">
                   <label for="m"><input type="checkbox" name="b" id="m"> Motos</label>
                   <label for="car"><input type="checkbox" name="b" id="car"> Carros</label>
@@ -215,7 +225,7 @@
                 </div>
               </div>
               <div class="rangeHoras">
-                <h5>Horas</h5>
+                <h5 class="filtro-label">Horas</h5>
                 <div class="inputHorasWrapper">
                   <label for="horaInicial">De</label>
                   <input type="time" id="horaInicial" name="horaInicial" class="form-control">
