@@ -181,6 +181,10 @@
   .white-content label.filtro-label {
     color: #344675 !important;
   }
+
+  .white-content .card:not(.card-white) .chkboxes label:not(.btn) {
+    color: white;
+  }
 </style>
 {% load static %}
 <link rel="stylesheet" href="{% static 'assets/css/leaflet.css' %}">
@@ -201,9 +205,9 @@
         </div>
         <!-- Filtros -->
         <div class="card">
-          <div class="card-header">
+          <!-- <div class="card-header">
             <h5 class="title">Filtros</h5>
-          </div>
+          </div> -->
           <div class="container-flex">
 
             <div class="grid-coluna">

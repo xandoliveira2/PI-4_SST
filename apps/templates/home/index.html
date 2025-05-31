@@ -103,7 +103,11 @@
   }
 
   .filter-row select.form-control {
-    margin-left: 5px;
+    margin-left: 20px;
+  }
+
+  .card .card-body {
+    padding: 50px;
   }
 </style>
 {% endblock stylesheets %}
@@ -120,9 +124,9 @@
         </div>
         <div class="card" style="max-width:550px ; margin: 0 auto;">
           <!-- Filtros de Data e Seleção de Rua -->
-          <div class="card-header">
+          <!-- <div class="card-header">
             <h5 class="title">Filtros</h5>
-          </div>
+          </div> -->
           <div class="card-body">
 
             <div class="filters">
@@ -131,7 +135,7 @@
                 <div class="datas">
                   <label for="a1">De</label>
                   <input type="date" name="a1" id="a1" class="form-control">
-                  <label for="a2">até</label>
+                  <label for="a2">Até</label>
                   <input type="date" name="a2" id="a2" class="form-control">
                 </div>
               </div>
