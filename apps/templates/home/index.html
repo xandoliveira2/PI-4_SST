@@ -38,12 +38,12 @@
     width: 70px;
   }
 
-    label {
+  label {
 
     font-size: 16px;
   }
 
-.chkboxes {
+  .chkboxes {
     flex-direction: row;
     flex-wrap: wrap;
     justify-content: center;
@@ -93,7 +93,7 @@
     padding: 5px 10px;
     border-radius: 5px;
     /* background-color: #007bff; */
-        background: #e14eca;
+    background: #e14eca;
     background-image: linear-gradient(to bottom left, #e14eca, #ba54f5, #e14eca);
     cursor: pointer;
     color: white;
@@ -103,7 +103,7 @@
     accent-color: #007bff;
   }
 
-   .inputHorasWrapper {
+  .inputHorasWrapper {
 
     display: flex;
     align-items: center;
@@ -115,7 +115,8 @@
 
   }
 
-  .rangeData, .rangeHoras {
+  .rangeData,
+  .rangeHoras {
     text-align: center;
     margin-top: 15px;
   }
@@ -138,9 +139,11 @@
 
   } */
 
-  #map{height: 550px;}
+  #map {
+    height: 550px;
+  }
 
-    h5 {
+  h5 {
     font-size: 1rem;
   }
 
@@ -185,6 +188,9 @@
     color: white;
   }
 
+  .graficos-container {
+    width: 100%;
+  }
 </style>
 {% load static %}
 <link rel="stylesheet" href="{% static 'assets/css/apexcharts.css' %}">
@@ -192,7 +198,7 @@
 <link rel="stylesheet" href="{% static 'assets/css/leaflet.css' %}">
 <script src="{% static 'assets/js/leaflet.js' %}"></script>
 <!-- <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" /> conexao c/ internet-->
-<!-- <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script> conexao com internet--> 
+<!-- <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script> conexao com internet-->
 
 {% endblock stylesheets %}
 
@@ -206,7 +212,7 @@
           <h4>Gráfico de Densidade</h4>
         </div>
 
-                <!-- Filtros -->
+        <!-- Filtros -->
         <div class="card">
           <!-- <div class="card-header">
             <h5 class="title">Filtros</h5>
@@ -255,252 +261,251 @@
           <!-- {% load static %} -->
           <!-- <img src="{% static 'assets/img/showMaps.jpg' %}" alt="Mapa de densidade"> -->
         </div>
-        
+
       </div>
-    </div>
-  </div>
-</div>
-        {% load static %} <!-- já dou load em outro lugar, mas aqui também para garantir-->
-        <script>
-           var map = L.map('map').setView([-22.44, -46.83], 18);
 
-// Camada base
+      {% load static %} <!-- já dou load em outro lugar, mas aqui também para garantir-->
+      <script>
+        var map = L.map('map').setView([-22.44, -46.83], 18);
 
-const tileUrl = "{% static 'tiles' %}/{z}/{x}/{y}.png";
-L.tileLayer(tileUrl, {
-  maxZoom: 18,
-  attribution: '© OpenStreetMap contributors '
-}).addTo(map);
+        // Camada base
 
-// Função de cor conforme densidade
-function getColor(densidade) {
-  if (densidade > 0.8) return 'red';
-  else if (densidade > 0.6) return 'orange';
-  else if (densidade > 0.4) return 'yellow';
-  else if (densidade > 0.2) return 'green';
-  else return 'blue';
-}
+        const tileUrl = "{% static 'tiles' %}/{z}/{x}/{y}.png";
+        L.tileLayer(tileUrl, {
+          maxZoom: 18,
+          attribution: '© OpenStreetMap contributors '
+        }).addTo(map);
 
-async function pegarNomeRua(cep) {
-  try {
-    const response = await fetch(`https://viacep.com.br/ws/${cep}/json/`);
-    const data = await response.json();
+        // Função de cor conforme densidade
+        function getColor(densidade) {
+          if (densidade > 0.8) return 'red';
+          else if (densidade > 0.6) return 'orange';
+          else if (densidade > 0.4) return 'yellow';
+          else if (densidade > 0.2) return 'green';
+          else return 'blue';
+        }
 
-    // console.log(data); // mostra todo o objeto retornado
-    return data.logradouro || cep;
-  } catch (error) {
-    console.error("Erro ao buscar rua:", error);
-    console.log("Aposto uma coxinha que vai ser erro nessa bosta, vamos bater uma apostinha?");
-    return "Erro";
-  }
-}
+        async function pegarNomeRua(cep) {
+          try {
+            const response = await fetch(`https://viacep.com.br/ws/${cep}/json/`);
+            const data = await response.json();
 
-// Função que processa e plota os dados no mapa
-let circles = []
-async function processarDadosEDesenharMapa(dadosAPI) {
-  let agrupados = {};
-  let caminhoes = 0;
-  let carros = 0;
-  let motos = 0;
-  let vans = 0;
-  let onibus = 0;
-  for (let item of dadosAPI){
-    if(document.getElementById("cam").checked)
-    {
-      caminhoes = parseInt(item.caminhoes);
-    }
-    if(document.getElementById("on").checked)
-    {
-      onibus = parseInt(item.onibus);
-    }
-    if(document.getElementById("m").checked)
-    {
-      motos = parseInt(item.motos);
-    }
-    if(document.getElementById("v").checked)
-    {
-      vans = parseInt(item.vans);
-    }
-    if(document.getElementById("car").checked)
-    {
-      carros = parseInt(item.carros);
-    }
-  
-    let rua = await pegarNomeRua(item.rua); // espera a função assíncrona resolver
-    // console.log(item);
-    let chave = rua;
-    let total = onibus+vans+motos+carros+caminhoes;
-    // console.log(total)
-    let lat = parseFloat(item.latitude);
-    let lng = parseFloat(item.longitude);
+            // console.log(data); // mostra todo o objeto retornado
+            return data.logradouro || cep;
+          } catch (error) {
+            console.error("Erro ao buscar rua:", error);
+            console.log("Aposto uma coxinha que vai ser erro nessa bosta, vamos bater uma apostinha?");
+            return "Erro";
+          }
+        }
 
-    if (!agrupados[chave]) {
-      agrupados[chave] = {
-        rua,
-        carros,
-        vans,
-        motos,
-        onibus,
-        caminhoes,
-        lat,
-        lng,
-        total,
-        count: 1
-      };
-    } else {
-      agrupados[chave].vans += vans;
-      agrupados[chave].motos += motos;
-      agrupados[chave].onibus += onibus;
-      agrupados[chave].caminhoes += caminhoes;
-      agrupados[chave].carros += carros;
-      agrupados[chave].total += total;
-      agrupados[chave].count += 1;
-    }
-  };
+        // Função que processa e plota os dados no mapa
+        let circles = []
+        async function processarDadosEDesenharMapa(dadosAPI) {
+          let agrupados = {};
+          let caminhoes = 0;
+          let carros = 0;
+          let motos = 0;
+          let vans = 0;
+          let onibus = 0;
+          for (let item of dadosAPI) {
+            if (document.getElementById("cam").checked) {
+              caminhoes = parseInt(item.caminhoes);
+            }
+            if (document.getElementById("on").checked) {
+              onibus = parseInt(item.onibus);
+            }
+            if (document.getElementById("m").checked) {
+              motos = parseInt(item.motos);
+            }
+            if (document.getElementById("v").checked) {
+              vans = parseInt(item.vans);
+            }
+            if (document.getElementById("car").checked) {
+              carros = parseInt(item.carros);
+            }
 
-  // Calcular densidade normalizada (0 a 1)
-  const maxTotal = Math.max(...Object.values(agrupados).map(p => p.total));
-  const dados = Object.values(agrupados).map(p =>
-  ({
-    rua: p.rua,
-    lat: p.lat,
-    lng: p.lng,
-    motos : p.motos,
-    carros : p.carros,
-    onibus : p.onibus,
-    caminhoes : p.caminhoes,
-    vans : p.vans,
-    total: p.total,
-    densidade: p.total / maxTotal
-  }));
+            let rua = await pegarNomeRua(item.rua); // espera a função assíncrona resolver
+            // console.log(item);
+            let chave = rua;
+            let total = onibus + vans + motos + carros + caminhoes;
+            // console.log(total)
+            let lat = parseFloat(item.latitude);
+            let lng = parseFloat(item.longitude);
 
-  // Criar os marcadores
-  circles.forEach(circle => map.removeLayer(circle));
-  dados.forEach(ponto => {
-    let texto = `Rua: ${ponto.rua}<br>Total: ${ponto.total}`;
-    if(document.getElementById("cam").checked) { texto += `<br> Caminhões : ${ponto.caminhoes}` }
-    if(document.getElementById("car").checked) { texto += `<br> Carros : ${ponto.carros}` }
-    if(document.getElementById("on").checked) { texto += `<br> Ônibus : ${ponto.onibus}` }
-    if(document.getElementById("v").checked) { texto += `<br> Vans : ${ponto.vans}` }
-    if(document.getElementById("m").checked) { texto += `<br> Motos : ${ponto.motos}` }
-    circles.push(
-    L.circleMarker([ponto.lat, ponto.lng], {
-      radius: 15,
-      color: getColor(ponto.densidade),
-      fillColor: getColor(ponto.densidade),
-      fillOpacity: 0.6,
-      weight: 1
-    })
-    .bindTooltip(texto, {
-      permanent: false,
-      direction: 'top'
-    })
-    .addTo(map));
-  });
-}
+            if (!agrupados[chave]) {
+              agrupados[chave] = {
+                rua,
+                carros,
+                vans,
+                motos,
+                onibus,
+                caminhoes,
+                lat,
+                lng,
+                total,
+                count: 1
+              };
+            } else {
+              agrupados[chave].vans += vans;
+              agrupados[chave].motos += motos;
+              agrupados[chave].onibus += onibus;
+              agrupados[chave].caminhoes += caminhoes;
+              agrupados[chave].carros += carros;
+              agrupados[chave].total += total;
+              agrupados[chave].count += 1;
+            }
+          };
 
-async function atualizarGrafico() {
-  let dataInicial = document.getElementById("data1").value;
-  let horaInicial = document.getElementById("horaInicial").value;
-  let horaFinal = document.getElementById("horaFinal").value;
+          // Calcular densidade normalizada (0 a 1)
+          const maxTotal = Math.max(...Object.values(agrupados).map(p => p.total));
+          const dados = Object.values(agrupados).map(p =>
+          ({
+            rua: p.rua,
+            lat: p.lat,
+            lng: p.lng,
+            motos: p.motos,
+            carros: p.carros,
+            onibus: p.onibus,
+            caminhoes: p.caminhoes,
+            vans: p.vans,
+            total: p.total,
+            densidade: p.total / maxTotal
+          }));
 
-  let tiposVeiculos = "";
-  let carro = document.getElementById("car").checked;
-  let moto = document.getElementById("m").checked;
-  let onibus = document.getElementById("on").checked;
-  let caminhao = document.getElementById("cam").checked;
-  let vans = document.getElementById("v").checked;
-  
-  if (carro) { tiposVeiculos +="cr|"}
-  if (moto) {tiposVeiculos += "m|"}
-  if (onibus) {tiposVeiculos+= "o|"}
-  if (caminhao) {tiposVeiculos+="cm|"}
-  if (vans) {tiposVeiculos += "v"}
-  
-  
-  fetch(`/exibirTodosDados/?param2=${horaInicial}-${horaFinal}&param1=${dataInicial}&param3=${tiposVeiculos}`)
-    .then(res => res.json())
-    .then(dados => {
-      console.log(dados);
-      processarDadosEDesenharMapa(dados);
-    })
-    .catch(err => console.error('Erro ao carregar os dados:', err));
+          // Criar os marcadores
+          circles.forEach(circle => map.removeLayer(circle));
+          dados.forEach(ponto => {
+            let texto = `Rua: ${ponto.rua}<br>Total: ${ponto.total}`;
+            if (document.getElementById("cam").checked) { texto += `<br> Caminhões : ${ponto.caminhoes}` }
+            if (document.getElementById("car").checked) { texto += `<br> Carros : ${ponto.carros}` }
+            if (document.getElementById("on").checked) { texto += `<br> Ônibus : ${ponto.onibus}` }
+            if (document.getElementById("v").checked) { texto += `<br> Vans : ${ponto.vans}` }
+            if (document.getElementById("m").checked) { texto += `<br> Motos : ${ponto.motos}` }
+            circles.push(
+              L.circleMarker([ponto.lat, ponto.lng], {
+                radius: 15,
+                color: getColor(ponto.densidade),
+                fillColor: getColor(ponto.densidade),
+                fillOpacity: 0.6,
+                weight: 1
+              })
+                .bindTooltip(texto, {
+                  permanent: false,
+                  direction: 'top'
+                })
+                .addTo(map));
+          });
+        }
 
-}
-</script>
+        async function atualizarGrafico() {
+          let dataInicial = document.getElementById("data1").value;
+          let horaInicial = document.getElementById("horaInicial").value;
+          let horaFinal = document.getElementById("horaFinal").value;
+
+          let tiposVeiculos = "";
+          let carro = document.getElementById("car").checked;
+          let moto = document.getElementById("m").checked;
+          let onibus = document.getElementById("on").checked;
+          let caminhao = document.getElementById("cam").checked;
+          let vans = document.getElementById("v").checked;
+
+          if (carro) { tiposVeiculos += "cr|" }
+          if (moto) { tiposVeiculos += "m|" }
+          if (onibus) { tiposVeiculos += "o|" }
+          if (caminhao) { tiposVeiculos += "cm|" }
+          if (vans) { tiposVeiculos += "v" }
+
+
+          fetch(`/exibirTodosDados/?param2=${horaInicial}-${horaFinal}&param1=${dataInicial}&param3=${tiposVeiculos}`)
+            .then(res => res.json())
+            .then(dados => {
+              console.log(dados);
+              processarDadosEDesenharMapa(dados);
+            })
+            .catch(err => console.error('Erro ao carregar os dados:', err));
+
+        }
+      </script>
 
 
 
-<script>
-  var options = {
-    chart: {
-      type: 'line',
-      height: 350
-      },
-      series: [{
-        name: 'Vendas',
-        data: [10, 41, 35, 51, 49, 62, 69, 91, 148]
-      }],
-      xaxis: {
-        categories: ['Jan', 'Fev', 'Mar', 'Abr', 'Mai', 'Jun', 'Jul', 'Ago', 'Set']
-      },
-      title: {
-        text: 'Evolução das Vendas em 2025',
-        align: 'center'
-      }
-    };
-    
-    var chart = new ApexCharts(document.querySelector("#grafico-linha"), options);
-    chart.render();
-    </script>
+      <script>
+        var options = {
+          chart: {
+            type: 'line',
+            height: 350
+          },
+          series: [{
+            name: 'Vendas',
+            data: [10, 41, 35, 51, 49, 62, 69, 91, 148]
+          }],
+          xaxis: {
+            categories: ['Jan', 'Fev', 'Mar', 'Abr', 'Mai', 'Jun', 'Jul', 'Ago', 'Set']
+          },
+          title: {
+            text: 'Evolução das Vendas em 2025',
+            align: 'center'
+          }
+        };
 
-<div class="graficos-container">
-  <div id="grafico1" class="grafico"></div>
-  <div id="grafico2" class="grafico"></div>
-  <div id="grafico3" class="grafico"></div>
-  <div id="grafico4" class="grafico"></div>
-  <div id="grafico-linha"></div>
-</div>
+        var chart = new ApexCharts(document.querySelector("#grafico-linha"), options);
+        chart.render();
+      </script>
+
+
+
+      <div class="graficos-container">
+        <div id="grafico1" class="grafico"></div>
+        <div id="grafico2" class="grafico"></div>
+        <div id="grafico3" class="grafico"></div>
+        <div id="grafico4" class="grafico"></div>
+        <div id="grafico-linha"></div>
+      </div>
+
+    </div> <!-- div.col-md-12 -->
+  </div> <!-- div.row -->
+</div> <!-- div.content -->
 
 <script>
   const opcoesComuns = {
     chart: { type: 'line', height: 300 },
     xaxis: { categories: ['Jan', 'Fev', 'Mar', 'Abr', 'Mai', 'Jun'] }
   };
-  
+
   const chartsData = [
     {
       id: '#grafico1',
-        series: [{ name: 'Vendas', data: [10, 20, 30, 25, 40, 50] }],
-        title: 'Vendas Mensais'
-      },
-      {
-        id: '#grafico2',
-        series: [{ name: 'Lucro', data: [5, 15, 10, 20, 18, 30] }],
-        title: 'Lucro Mensal'
-      },
-      {
-        id: '#grafico3',
-        series: [{ name: 'Usuários Ativos', data: [200, 220, 250, 230, 280, 300] }],
-        title: 'Usuários Ativos'
-      },
-      {
-        id: '#grafico4',
-        series: [{ name: 'Conversões', data: [2, 5, 8, 6, 9, 12] }],
-        title: 'Taxa de Conversão'
-      }
-    ];
+      series: [{ name: 'Vendas', data: [10, 20, 30, 25, 40, 50] }],
+      title: 'Vendas Mensais'
+    },
+    {
+      id: '#grafico2',
+      series: [{ name: 'Lucro', data: [5, 15, 10, 20, 18, 30] }],
+      title: 'Lucro Mensal'
+    },
+    {
+      id: '#grafico3',
+      series: [{ name: 'Usuários Ativos', data: [200, 220, 250, 230, 280, 300] }],
+      title: 'Usuários Ativos'
+    },
+    {
+      id: '#grafico4',
+      series: [{ name: 'Conversões', data: [2, 5, 8, 6, 9, 12] }],
+      title: 'Taxa de Conversão'
+    }
+  ];
 
-    chartsData.forEach(cfg => {
-      const options = {
-        ...opcoesComuns,
-        series: cfg.series,
-        title: { text: cfg.title, align: 'center' }
-      };
-      const chart = new ApexCharts(document.querySelector(cfg.id), options);
-      chart.render();
-    });
-  </script>
+  chartsData.forEach(cfg => {
+    const options = {
+      ...opcoesComuns,
+      series: cfg.series,
+      title: { text: cfg.title, align: 'center' }
+    };
+    const chart = new ApexCharts(document.querySelector(cfg.id), options);
+    chart.render();
+  });
+</script>
 
 {% endblock content %}
 
@@ -512,10 +517,9 @@ async function atualizarGrafico() {
     // Aqui você pode chamar uma função para gerar o gráfico
   });
 
-async function GerarGrafico()
-{
-  
-}
+  async function GerarGrafico() {
+
+  }
 
 
 </script>
