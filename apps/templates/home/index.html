@@ -187,11 +187,12 @@
 
 </style>
 {% load static %}
+<link rel="stylesheet" href="{% static 'assets/css/apexcharts.css' %}">
 <script src="{% static 'assets/js/apexcharts.js' %}"></script>
 <link rel="stylesheet" href="{% static 'assets/css/leaflet.css' %}">
 <script src="{% static 'assets/js/leaflet.js' %}"></script>
-<!-- <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" /> -->
-<!-- <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script> -->
+<!-- <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" /> conexao c/ internet-->
+<!-- <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script> conexao com internet--> 
 
 {% endblock stylesheets %}
 
@@ -221,7 +222,7 @@
               </div>
               <div class="rangeData">
                 <h5 class="filtro-label">Data</h5>
-                <input type="date" id="dataFinal" name="dataFinal" class="form-control">
+                <input type="date" id="data1" name="data1" class="form-control">
               </div>
             </div>
 
@@ -288,15 +289,17 @@ async function pegarNomeRua(cep) {
     // console.log(data); // mostra todo o objeto retornado
     return data.logradouro || cep;
   } catch (error) {
-    // console.error("Erro ao buscar rua:", error);
+    console.error("Erro ao buscar rua:", error);
+    console.log("Aposto uma coxinha que vai ser erro nessa bosta, vamos bater uma apostinha?");
     return "Erro";
   }
 }
 
 // Função que processa e plota os dados no mapa
+let circles = []
 async function processarDadosEDesenharMapa(dadosAPI) {
   let agrupados = {};
-
+  
   for (let item of dadosAPI){
     let rua = await pegarNomeRua(item.rua); // espera a função assíncrona resolver
     // console.log(item);
@@ -331,7 +334,9 @@ async function processarDadosEDesenharMapa(dadosAPI) {
   }));
 
   // Criar os marcadores
+  circles.forEach(circle => map.removeLayer(circle));
   dados.forEach(ponto => {
+    circles.push(
     L.circleMarker([ponto.lat, ponto.lng], {
       radius: 15,
       color: getColor(ponto.densidade),
@@ -343,12 +348,12 @@ async function processarDadosEDesenharMapa(dadosAPI) {
       permanent: false,
       direction: 'top'
     })
-    .addTo(map);
+    .addTo(map));
   });
 }
 
 async function atualizarGrafico() {
-  let dataInicial = document.getElementById("dataInicial").value;
+  let dataInicial = document.getElementById("data1").value;
   let horaInicial = document.getElementById("horaInicial").value;
   let horaFinal = document.getElementById("horaFinal").value;
   // console.log(dataInicial + " DATA INICIAL"); 
