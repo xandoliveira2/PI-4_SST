@@ -7,19 +7,53 @@
 <style>
   .container-flex {
     display: flex;
-    justify-content: space-around;
+    justify-content: center;
     flex-wrap: wrap;
-    gap: 20px;
+    gap: 150px;
+    margin-top: 30px;
+    margin-bottom: 30px
   }
 
-  .alinhar {
+  .grid-coluna {
+    display: grid;
+    grid-template-rows: auto auto;
+    gap: 10px;
+    justify-items: center;
+    align-items: center;
+  }
+
+  .alinhar,
+  .rangeData,
+  .chkboxes,
+  .inputHorasWrapper {
+    justify-self: center;
+    width: 100%;
     display: flex;
+    flex-direction: column;
     align-items: center;
     gap: 8px;
   }
 
   .alinhar input {
     width: 70px;
+  }
+
+    label {
+
+    font-size: 16px;
+  }
+
+.chkboxes {
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 15px;
+  }
+
+  .inputHorasWrapper {
+    flex-direction: row;
+    justify-content: center;
+    width: auto;
   }
 
   .cores {
@@ -58,12 +92,27 @@
     gap: 5px;
     padding: 5px 10px;
     border-radius: 5px;
-    background-color: #007bff;
+    /* background-color: #007bff; */
+        background: #e14eca;
+    background-image: linear-gradient(to bottom left, #e14eca, #ba54f5, #e14eca);
     cursor: pointer;
+    color: white;
   }
 
   .chkboxes input {
     accent-color: #007bff;
+  }
+
+   .inputHorasWrapper {
+
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  .inputHorasWrapper label {
+    margin: 0px 10px;
+
   }
 
   .rangeData, .rangeHoras {
@@ -81,22 +130,69 @@
     border-radius: 5px;
     font-size: 16px;
     cursor: pointer;
-    transition: background 0.3s ease;
+    /* transition: background 0.3s ease; */
   }
 
-  .btn-gerar:hover {
+  /* .btn-gerar:hover {
     background-color: #0056b3;
-  }
+
+  } */
 
   #map{height: 550px;}
 
+    h5 {
+    font-size: 1rem;
+  }
+
+  .form-control {
+    background-color: #3b3d5c;
+  }
+
+  .white-content .form-control {
+    color: #222a42;
+    border-color: rgb(29, 37, 59, 0.5);
+    background-color: white;
+  }
+
+  .rangeData input[type="date"] {
+    width: auto;
+    min-width: 0;
+    max-width: 200px;
+  }
+
+  .white-content .card:not(.card-white) .chkboxes label:not(.btn) {
+    color: #222a42;
+  }
+
+  label.filtro-label,
+  h5.filtro-label {
+    font-size: 1rem !important;
+    font-weight: 600;
+    margin-bottom: 8px !important;
+    margin-top: 8px !important;
+    display: block;
+    text-align: center;
+    letter-spacing: 0.5px;
+    color: white;
+  }
+
+  .white-content h5.filtro-label,
+  .white-content label.filtro-label {
+    color: #344675 !important;
+  }
+
+  .white-content .card:not(.card-white) .chkboxes label:not(.btn) {
+    color: white;
+  }
+
 </style>
 {% load static %}
+<link rel="stylesheet" href="{% static 'assets/css/apexcharts.css' %}">
 <script src="{% static 'assets/js/apexcharts.js' %}"></script>
 <link rel="stylesheet" href="{% static 'assets/css/leaflet.css' %}">
 <script src="{% static 'assets/js/leaflet.js' %}"></script>
-<!-- <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" /> -->
-<!-- <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script> -->
+<!-- <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" /> conexao c/ internet-->
+<!-- <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script> conexao com internet--> 
 
 {% endblock stylesheets %}
 
@@ -109,10 +205,61 @@
         <div class="card-header">
           <h4>Gráfico de Densidade</h4>
         </div>
+
+                <!-- Filtros -->
+        <div class="card">
+          <!-- <div class="card-header">
+            <h5 class="title">Filtros</h5>
+          </div> -->
+          <div class="container-flex">
+
+            <div class="grid-coluna">
+              <div class="alinhar">
+                <label for="a" class="filtro-label">Rua:</label>
+                <select name="a" id="a" class="form-control">
+                  <option value="">Av Rio Branco</option>
+                </select>
+              </div>
+              <div class="rangeData">
+                <h5 class="filtro-label">Data</h5>
+                <input type="date" id="data1" name="data1" class="form-control">
+              </div>
+            </div>
+
+            <div class="grid-coluna">
+              <div>
+                <label class="filtro-label">Tipo de Veículos</label>
+                <div class="chkboxes">
+                  <label for="m"><input type="checkbox" name="b" id="m"> Motos</label>
+                  <label for="car"><input type="checkbox" name="b" id="car"> Carros</label>
+                  <label for="cam"><input type="checkbox" name="b" id="cam"> Caminhões</label>
+                  <label for="on"><input type="checkbox" name="b" id="on"> Ônibus</label>
+                  <label for="v"><input type="checkbox" name="b" id="v"> Vans</label>
+                </div>
+              </div>
+              <div class="rangeHoras">
+                <h5 class="filtro-label">Horas</h5>
+                <div class="inputHorasWrapper">
+                  <label for="horaInicial">De</label>
+                  <input type="time" id="horaInicial" name="horaInicial" class="form-control">
+                  <label for="horaFinal">Até</label>
+                  <input type="time" id="horaFinal" name="horaFinal" class="form-control">
+                </div>
+              </div>
+            </div>
+          </div>
+          <button class="btn-gerar btn btn-fill btn-primary" id="btnGerarGrafico" onclick="atualizarGrafico()">Gerar
+            Gráfico</button>
+        </div>
         <div class="card-body text-center" id="map">
           <!-- {% load static %} -->
           <!-- <img src="{% static 'assets/img/showMaps.jpg' %}" alt="Mapa de densidade"> -->
         </div>
+        
+      </div>
+    </div>
+  </div>
+</div>
         {% load static %} <!-- já dou load em outro lugar, mas aqui também para garantir-->
         <script>
            var map = L.map('map').setView([-22.44, -46.83], 18);
@@ -142,15 +289,17 @@ async function pegarNomeRua(cep) {
     // console.log(data); // mostra todo o objeto retornado
     return data.logradouro || cep;
   } catch (error) {
-    // console.error("Erro ao buscar rua:", error);
+    console.error("Erro ao buscar rua:", error);
+    console.log("Aposto uma coxinha que vai ser erro nessa bosta, vamos bater uma apostinha?");
     return "Erro";
   }
 }
 
 // Função que processa e plota os dados no mapa
+let circles = []
 async function processarDadosEDesenharMapa(dadosAPI) {
   let agrupados = {};
-
+  
   for (let item of dadosAPI){
     let rua = await pegarNomeRua(item.rua); // espera a função assíncrona resolver
     // console.log(item);
@@ -185,7 +334,9 @@ async function processarDadosEDesenharMapa(dadosAPI) {
   }));
 
   // Criar os marcadores
+  circles.forEach(circle => map.removeLayer(circle));
   dados.forEach(ponto => {
+    circles.push(
     L.circleMarker([ponto.lat, ponto.lng], {
       radius: 15,
       color: getColor(ponto.densidade),
@@ -197,12 +348,12 @@ async function processarDadosEDesenharMapa(dadosAPI) {
       permanent: false,
       direction: 'top'
     })
-    .addTo(map);
+    .addTo(map));
   });
 }
 
 async function atualizarGrafico() {
-  let dataInicial = document.getElementById("dataInicial").value;
+  let dataInicial = document.getElementById("data1").value;
   let horaInicial = document.getElementById("horaInicial").value;
   let horaFinal = document.getElementById("horaFinal").value;
   // console.log(dataInicial + " DATA INICIAL"); 
@@ -233,55 +384,13 @@ async function atualizarGrafico() {
 }
 </script>
 
-        <div class="container-flex">
-          <div class="alig">
-            <label for="a">Rua:</label>
-            <select name="a" id="a" style="width: 200px;">
-              <option value="">Av Rio Branco</option>
-            </select>
-          </div>
 
-          <div>
-            <label style="display: block; text-align: center; font-weight: bold;">Tipo de Veículos</label>
-            <div class="chkboxes">
-              <label for="m"><input type="checkbox" name="b" id="m"> Motos</label>
-              <label for="car"><input type="checkbox" name="b" id="car"> Carros</label>
-              <label for="cam"><input type="checkbox" name="b" id="cam"> Caminhões</label>
-              <label for="on"><input type="checkbox" name="b" id="on"> Ônibus</label>
-              <label for="v"><input type="checkbox" name="b" id="v"> Vans</label>
-            </div>
-          </div>
-        </div>
 
-       
-
-        <div class="rangeData">
-          <h5>Data</h5>
-          <input type="date" id="dataInicial" name="dataInicial">
-        </div>
-
-        <div class="rangeHoras">
-          <h5>Horas</h5>
-          <label for="horaInicial">De</label>
-          <input type="time" id="horaInicial" name="horaInicial">
-          <label for="horaFinal">Até</label>
-          <input type="time" id="horaFinal" name="horaFinal">
-        </div>
-
-        <button class="btn-gerar" id="btnGerarGrafico" onclick="atualizarGrafico()">Gerar Gráfico</button>
-
-      </div>
-    </div>
-  </div>
-</div>
-
-<div id="grafico-linha"></div>
-
-  <script>
-    var options = {
-      chart: {
-        type: 'line',
-        height: 350
+<script>
+  var options = {
+    chart: {
+      type: 'line',
+      height: 350
       },
       series: [{
         name: 'Vendas',
@@ -295,27 +404,28 @@ async function atualizarGrafico() {
         align: 'center'
       }
     };
-
+    
     var chart = new ApexCharts(document.querySelector("#grafico-linha"), options);
     chart.render();
-  </script>
+    </script>
 
-    <div class="graficos-container">
-    <div id="grafico1" class="grafico"></div>
-    <div id="grafico2" class="grafico"></div>
-    <div id="grafico3" class="grafico"></div>
-    <div id="grafico4" class="grafico"></div>
-  </div>
+<div class="graficos-container">
+  <div id="grafico1" class="grafico"></div>
+  <div id="grafico2" class="grafico"></div>
+  <div id="grafico3" class="grafico"></div>
+  <div id="grafico4" class="grafico"></div>
+  <div id="grafico-linha"></div>
+</div>
 
-  <script>
-    const opcoesComuns = {
-      chart: { type: 'line', height: 300 },
-      xaxis: { categories: ['Jan', 'Fev', 'Mar', 'Abr', 'Mai', 'Jun'] }
-    };
-
-    const chartsData = [
-      {
-        id: '#grafico1',
+<script>
+  const opcoesComuns = {
+    chart: { type: 'line', height: 300 },
+    xaxis: { categories: ['Jan', 'Fev', 'Mar', 'Abr', 'Mai', 'Jun'] }
+  };
+  
+  const chartsData = [
+    {
+      id: '#grafico1',
         series: [{ name: 'Vendas', data: [10, 20, 30, 25, 40, 50] }],
         title: 'Vendas Mensais'
       },
