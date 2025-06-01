@@ -299,12 +299,37 @@ async function pegarNomeRua(cep) {
 let circles = []
 async function processarDadosEDesenharMapa(dadosAPI) {
   let agrupados = {};
-  
+  let caminhoes = 0;
+  let carros = 0;
+  let motos = 0;
+  let vans = 0;
+  let onibus = 0;
   for (let item of dadosAPI){
+    if(document.getElementById("cam").checked)
+    {
+      caminhoes = parseInt(item.caminhoes);
+    }
+    if(document.getElementById("on").checked)
+    {
+      onibus = parseInt(item.onibus);
+    }
+    if(document.getElementById("m").checked)
+    {
+      motos = parseInt(item.motos);
+    }
+    if(document.getElementById("v").checked)
+    {
+      vans = parseInt(item.vans);
+    }
+    if(document.getElementById("car").checked)
+    {
+      carros = parseInt(item.carros);
+    }
+  
     let rua = await pegarNomeRua(item.rua); // espera a função assíncrona resolver
     // console.log(item);
     let chave = rua;
-    let total = parseInt(item.total);
+    let total = onibus+vans+motos+carros+caminhoes;
     // console.log(total)
     let lat = parseFloat(item.latitude);
     let lng = parseFloat(item.longitude);
@@ -312,12 +337,22 @@ async function processarDadosEDesenharMapa(dadosAPI) {
     if (!agrupados[chave]) {
       agrupados[chave] = {
         rua,
+        carros,
+        vans,
+        motos,
+        onibus,
+        caminhoes,
         lat,
         lng,
         total,
         count: 1
       };
     } else {
+      agrupados[chave].vans += vans;
+      agrupados[chave].motos += motos;
+      agrupados[chave].onibus += onibus;
+      agrupados[chave].caminhoes += caminhoes;
+      agrupados[chave].carros += carros;
       agrupados[chave].total += total;
       agrupados[chave].count += 1;
     }
@@ -325,10 +360,16 @@ async function processarDadosEDesenharMapa(dadosAPI) {
 
   // Calcular densidade normalizada (0 a 1)
   const maxTotal = Math.max(...Object.values(agrupados).map(p => p.total));
-  const dados = Object.values(agrupados).map(p => ({
+  const dados = Object.values(agrupados).map(p =>
+  ({
     rua: p.rua,
     lat: p.lat,
     lng: p.lng,
+    motos : p.motos,
+    carros : p.carros,
+    onibus : p.onibus,
+    caminhoes : p.caminhoes,
+    vans : p.vans,
     total: p.total,
     densidade: p.total / maxTotal
   }));
@@ -336,6 +377,12 @@ async function processarDadosEDesenharMapa(dadosAPI) {
   // Criar os marcadores
   circles.forEach(circle => map.removeLayer(circle));
   dados.forEach(ponto => {
+    let texto = `Rua: ${ponto.rua}<br>Total: ${ponto.total}`;
+    if(document.getElementById("cam").checked) { texto += `<br> Caminhões : ${ponto.caminhoes}` }
+    if(document.getElementById("car").checked) { texto += `<br> Carros : ${ponto.carros}` }
+    if(document.getElementById("on").checked) { texto += `<br> Ônibus : ${ponto.onibus}` }
+    if(document.getElementById("v").checked) { texto += `<br> Vans : ${ponto.vans}` }
+    if(document.getElementById("m").checked) { texto += `<br> Motos : ${ponto.motos}` }
     circles.push(
     L.circleMarker([ponto.lat, ponto.lng], {
       radius: 15,
@@ -344,7 +391,7 @@ async function processarDadosEDesenharMapa(dadosAPI) {
       fillOpacity: 0.6,
       weight: 1
     })
-    .bindTooltip(`Rua: ${ponto.rua}<br>Densidade: ${ponto.densidade.toFixed(2)}<br>Total: ${ponto.total}`, {
+    .bindTooltip(texto, {
       permanent: false,
       direction: 'top'
     })
@@ -356,27 +403,25 @@ async function atualizarGrafico() {
   let dataInicial = document.getElementById("data1").value;
   let horaInicial = document.getElementById("horaInicial").value;
   let horaFinal = document.getElementById("horaFinal").value;
-  // console.log(dataInicial + " DATA INICIAL"); 
-  // console.log(horaInicial+ " HORA INICIAL");
-  // console.log(horaFinal+ " HORA FINAL");
-  // console.log("oi")
+
   let tiposVeiculos = "";
   let carro = document.getElementById("car").checked;
   let moto = document.getElementById("m").checked;
   let onibus = document.getElementById("on").checked;
   let caminhao = document.getElementById("cam").checked;
   let vans = document.getElementById("v").checked;
-  console.log(carro)
+  
   if (carro) { tiposVeiculos +="cr|"}
   if (moto) {tiposVeiculos += "m|"}
   if (onibus) {tiposVeiculos+= "o|"}
   if (caminhao) {tiposVeiculos+="cm|"}
   if (vans) {tiposVeiculos += "v"}
-  console.log(tiposVeiculos);
+  
   
   fetch(`/exibirTodosDados/?param2=${horaInicial}-${horaFinal}&param1=${dataInicial}&param3=${tiposVeiculos}`)
     .then(res => res.json())
     .then(dados => {
+      console.log(dados);
       processarDadosEDesenharMapa(dados);
     })
     .catch(err => console.error('Erro ao carregar os dados:', err));
