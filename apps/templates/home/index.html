@@ -220,9 +220,9 @@
 
             <div class="grid-coluna">
               <div class="alinhar">
-                <label for="a" class="filtro-label">Rua:</label>
-                <select name="a" id="a" class="form-control">
-                  <option value="">Av Rio Branco</option>
+                <label for="rua" class="filtro-label">Rua:</label>
+                <select name="rua" id="rua" class="form-control">
+                  <option value="todos">Todas as ruas</option>
                 </select>
               </div>
               <div class="rangeData">
@@ -265,8 +265,28 @@
     </div>
   </div>
 </div>
-        {% load static %} <!-- já dou load em outro lugar, mas aqui também para garantir-->
+{% load static %}
+ <!-- já dou load em outro lugar, mas aqui também para garantir-->
         <script>
+          document.addEventListener("DOMContentLoaded", async function() {
+            let select = document.getElementById('rua');
+            
+            await fetch('/exibirTodasRuas/')
+            .then(res => res.json())
+            .then(dados => {
+      dados.ruas.forEach(rua => {
+        console.log('rua')
+        let option = document.createElement("option");
+        option.value = rua;
+        option.textContent = rua;
+        select.appendChild(option);
+      });
+    })
+    .catch(err => console.error("Erro ao carregar ruas:", err));
+});
+
+
+
            var map = L.map('map').setView([-22.44, -46.83], 18);
 
 // Camada base
@@ -331,7 +351,7 @@ async function processarDadosEDesenharMapa(dadosAPI) {
       carros = parseInt(item.carros);
     }
   
-    let rua = await pegarNomeRua(item.rua); // espera a função assíncrona resolver
+    let rua = item.rua; 
     // console.log(item);
     let chave = rua;
     let total = onibus+vans+motos+carros+caminhoes;
@@ -382,7 +402,7 @@ async function processarDadosEDesenharMapa(dadosAPI) {
   // Criar os marcadores
   circles.forEach(circle => map.removeLayer(circle));
   dados.forEach(ponto => {
-    let texto = `Rua: ${ponto.rua}<br>Total: ${ponto.total}`;
+    let texto = `${ponto.rua}<br>Total: ${ponto.total}`;
     if(document.getElementById("cam").checked) { texto += `<br> Caminhões : ${ponto.caminhoes}` }
     if(document.getElementById("car").checked) { texto += `<br> Carros : ${ponto.carros}` }
     if(document.getElementById("on").checked) { texto += `<br> Ônibus : ${ponto.onibus}` }
@@ -415,6 +435,7 @@ async function atualizarGrafico() {
   let onibus = document.getElementById("on").checked;
   let caminhao = document.getElementById("cam").checked;
   let vans = document.getElementById("v").checked;
+  let rua = document.getElementById('rua').value;
   
   if (carro) { tiposVeiculos +="cr|"}
   if (moto) {tiposVeiculos += "m|"}
@@ -423,10 +444,10 @@ async function atualizarGrafico() {
   if (vans) {tiposVeiculos += "v"}
   
   
-  fetch(`/exibirTodosDados/?param2=${horaInicial}-${horaFinal}&param1=${dataInicial}&param3=${tiposVeiculos}`)
+  fetch(`/exibirTodosDados/?param2=${horaInicial}-${horaFinal}&param1=${dataInicial}&param3=${tiposVeiculos}&param4=${rua}`)
     .then(res => res.json())
     .then(dados => {
-      console.log(dados);
+
       processarDadosEDesenharMapa(dados);
     })
     .catch(err => console.error('Erro ao carregar os dados:', err));
@@ -459,6 +480,19 @@ async function atualizarGrafico() {
     chart.render();
     </script>
 
+<!--
+sugestão chat para cor da linha
+
+Carros: #59D2FE — Azul claro neon (destaque sobre fundo escuro)
+
+Motos: #FF6B9F — Rosa avermelhado vibrante (contrasta bem com o roxo)
+
+Ônibus: #FFD659 — Amarelo dourado suave (boa legibilidade)
+
+Vans: #7CF59B — Verde menta (refrescante, bom contraste)
+
+Caminhões: #FF9248 — Laranja médio (quente, destaca bem)
+-->
 <div class="graficos-container">
   <div id="grafico1" class="grafico"></div>
   <div id="grafico2" class="grafico"></div>
