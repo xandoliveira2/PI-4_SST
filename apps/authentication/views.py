@@ -71,9 +71,9 @@ def firstLoad(request):
         df['data'] = pd.to_datetime(df['data'], format="%d/%m/%Y").dt.date
 
         # Agora filtra com base no intervalo de horas
-        print('filtro rua ' +filtro_rua)
+        print('filtro rua ' , filtro_rua)
         df = df[(df['data'] == data_inicio)]
-        if filtro_rua != "todos":
+        if filtro_rua != "todos" and filtro_rua != None:
             df = df[(df["rua"] == filtro_rua)]
         if len(filtro_hora.split('-')) == 2:
             hora_inicio_str, hora_fim_str = filtro_hora.split('-')

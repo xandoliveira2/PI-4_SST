@@ -275,7 +275,7 @@
             .then(res => res.json())
             .then(dados => {
       dados.ruas.forEach(rua => {
-        console.log('rua')
+        // console.log('rua')
         let option = document.createElement("option");
         option.value = rua;
         option.textContent = rua;
@@ -315,7 +315,6 @@ async function pegarNomeRua(cep) {
     return data.logradouro || cep;
   } catch (error) {
     console.error("Erro ao buscar rua:", error);
-    console.log("Aposto uma coxinha que vai ser erro nessa bosta, vamos bater uma apostinha?");
     return "Erro";
   }
 }
@@ -449,36 +448,128 @@ async function atualizarGrafico() {
     .then(dados => {
 
       processarDadosEDesenharMapa(dados);
+
+      
+      
+      // criar uma função que vai limpar os dados, mas isso é mais facil, então vou focar no outro primeiro
+      // atualizando -> chatgpt é mais esperto q eu '-' (ava, é memo é?) ele já aproveitou minha logica de colocar o nome da div para limpar, então nao vai ser necessario uma limpeza
+      //  
+      
+      if (carro) {gerarSubMapas(dados,'grafico1','carros');}
+      if (moto) {gerarSubMapas(dados,'grafico2','motos');}
+      if (onibus) {gerarSubMapas(dados,'grafico3','vans');}
+      if (caminhao) {gerarSubMapas(dados,'grafico4','onibus');}
+      if (vans) {gerarSubMapas(dados,'grafico5','caminhoes');}
+      // criar logica aqui para gerar o mapa conforme na opcao, funcao q recebe o dado e o gráfico q ele tem q preencher pode ser uma boa , então segundo argumento vai ser
+      // sempre a div, então mapear que:
+      // grafico1 -> carro
+      // grafico2 -> moto
+      // grafico3 -> van
+      // grafico4 -> onibus
+      // grafico5 -> caminhões
+
+
     })
     .catch(err => console.error('Erro ao carregar os dados:', err));
 
 }
-</script>
 
-
-
-<script>
+function gerarSubMapas(dadosAPI,campoAPreencher, nomeVeiculo)
+{
+  console.log("Entrou na funcao gerarSubMapas");
+  console.log(dadosAPI);
+  document.querySelector(`#${campoAPreencher}`).innerHTML = "";
+  let resultado = pegarMinMaxHora(dadosAPI);
+  // let resultado1 = pegarDados(dadosAPI,nomeVeiculo);
+  // simulando com:
+  let resultado1 = pegarDados(dadosAPI,nomeVeiculo);
+  resultado1.forEach(item => {
+    console.log("################################ ITEM TUPLA JS??? ###################################");
+    console.log(item[0]);
+    console.log(item[1]);
+  return 0})
   var options = {
     chart: {
       type: 'line',
       height: 350
       },
       series: [{
-        name: 'Vendas',
-        data: [10, 41, 35, 51, 49, 62, 69, 91, 148]
+        name: nomeVeiculo,
+        data: resultado1
       }],
       xaxis: {
-        categories: ['Jan', 'Fev', 'Mar', 'Abr', 'Mai', 'Jun', 'Jul', 'Ago', 'Set']
+       type: 'datetime',
+       min : resultado.minTimestamp,
+       max : resultado.maxTimestamp,
+      labels: {
+          datetimeFormatter: {
+            hour: 'HH:mm'
+          }
+        }
       },
       title: {
-        text: 'Evolução das Vendas em 2025',
+        text: `Fluxo de ${nomeVeiculo}`,
         align: 'center'
       }
     };
     
-    var chart = new ApexCharts(document.querySelector("#grafico-linha"), options);
+    var chart = new ApexCharts(document.querySelector(`#${campoAPreencher}`), options);
     chart.render();
-    </script>
+}
+
+function pegarMinMaxHora(dadosAPI) {
+  console.log("Entrou funcao PegarMinMaxHora");
+  console.log(dadosAPI);
+
+  // Fuso horário de Brasília (-3 horas em milissegundos)
+  const FUSO_BRASILIA_MS = 3 * 60 * 60 * 1000;
+
+  const timestamps = dadosAPI.map(item => {
+    return new Date(`${item.data}T${item.hora}`).getTime() - FUSO_BRASILIA_MS;
+  });
+
+  const minTimestamp = Math.min(...timestamps);
+  const maxTimestamp = Math.max(...timestamps);
+
+  const formatarHora = ts => {
+    const data = new Date(ts + FUSO_BRASILIA_MS); // reverte para exibir hora local
+    return data.toTimeString().slice(0, 5); // "HH:MM"
+  };
+
+  return {
+    min: formatarHora(minTimestamp),
+    max: formatarHora(maxTimestamp),
+    minTimestamp,
+    maxTimestamp
+  };
+}
+
+function pegarDados(dadosAPI, tipoVeiculo) {
+  const agrupados = {};
+  const FUSO_BRASILIA_MS = 3 * 60 * 60 * 1000; // -3 horas em ms
+
+  for (let item of dadosAPI) {
+    // Corrige o fuso horário subtraindo 3h do timestamp
+    const timestamp = new Date(`${item.data}T${item.hora}`).getTime() - FUSO_BRASILIA_MS;
+    const valor = Number(item[tipoVeiculo]);
+
+    if (agrupados[timestamp]) {
+      agrupados[timestamp] += valor;
+    } else {
+      agrupados[timestamp] = valor;
+    }
+  }
+
+  const dadosFinal = [];
+  for (let ts in agrupados) {
+    dadosFinal.push([Number(ts), agrupados[ts]]);
+  }
+
+  return dadosFinal;
+}
+</script>
+
+
 
 <!--
 sugestão chat para cor da linha
@@ -494,52 +585,13 @@ Vans: #7CF59B — Verde menta (refrescante, bom contraste)
 Caminhões: #FF9248 — Laranja médio (quente, destaca bem)
 -->
 <div class="graficos-container">
-  <div id="grafico1" class="grafico"></div>
+  <div id="grafico1" class="grafico" style="margin-left: 250px;"></div> <!-- estilizado apenas para teste, lembre-se de tirar isso depois-->
   <div id="grafico2" class="grafico"></div>
   <div id="grafico3" class="grafico"></div>
   <div id="grafico4" class="grafico"></div>
-  <div id="grafico-linha"></div>
+  <div id="grafico5" class="grafico"></div>
 </div>
 
-<script>
-  const opcoesComuns = {
-    chart: { type: 'line', height: 300 },
-    xaxis: { categories: ['Jan', 'Fev', 'Mar', 'Abr', 'Mai', 'Jun'] }
-  };
-  
-  const chartsData = [
-    {
-      id: '#grafico1',
-        series: [{ name: 'Vendas', data: [10, 20, 30, 25, 40, 50] }],
-        title: 'Vendas Mensais'
-      },
-      {
-        id: '#grafico2',
-        series: [{ name: 'Lucro', data: [5, 15, 10, 20, 18, 30] }],
-        title: 'Lucro Mensal'
-      },
-      {
-        id: '#grafico3',
-        series: [{ name: 'Usuários Ativos', data: [200, 220, 250, 230, 280, 300] }],
-        title: 'Usuários Ativos'
-      },
-      {
-        id: '#grafico4',
-        series: [{ name: 'Conversões', data: [2, 5, 8, 6, 9, 12] }],
-        title: 'Taxa de Conversão'
-      }
-    ];
-
-    chartsData.forEach(cfg => {
-      const options = {
-        ...opcoesComuns,
-        series: cfg.series,
-        title: { text: cfg.title, align: 'center' }
-      };
-      const chart = new ApexCharts(document.querySelector(cfg.id), options);
-      chart.render();
-    });
-  </script>
 
 {% endblock content %}
 
@@ -551,10 +603,6 @@ Caminhões: #FF9248 — Laranja médio (quente, destaca bem)
     // Aqui você pode chamar uma função para gerar o gráfico
   });
 
-async function GerarGrafico()
-{
-  
-}
 
 
 </script>
