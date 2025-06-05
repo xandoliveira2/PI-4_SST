@@ -112,6 +112,7 @@ def obter_endereco_por_cep(cep):
 def obter_endereco_delay(cep):
     return obter_endereco_por_cep(cep)
    
+    
 
 def hours_to_decimals_convertion(formato:str):
     """
@@ -160,12 +161,21 @@ def dcolor(value:int|float,valores:list) -> str:
         return '#0000ff'
     else:
         return '#00ff00'
+<<<<<<< HEAD
 """
 try:
+=======
+
+   
+    
+    
+try:    
+>>>>>>> c14046d090d7068b5a49e407610db6f3ea6b289b
     client = pm.MongoClient('mongodb://localhost:27017/')
     db = client['pi']
     collection = db['autoflow']
     df = pd.DataFrame(collection.find())
+<<<<<<< HEAD
     df['latitude_atualizada'] = df['latitude'].apply(hours_to_decimals_convertion)
     df['longitude_atualizada'] = df['longitude'].apply(hours_to_decimals_convertion)
     df['color'] = df['total'].apply(dcolor)
@@ -202,6 +212,36 @@ df['data'] = df['data'].dt.strftime('%d/%m/%Y')
 df['size_column'] = df['total'].apply(lambda x: x if x != 0 else 0.1)
 df = df.sort_values('data')
 """
+=======
+except:
+    df = pd.DataFrame()
+# df['color'] = df['total'].apply(dcolor)
+
+def exibirTodasRuasEncontradas(request):
+    print('era para estar abaixo')
+    print(collection.distinct("rua"))
+    return JsonResponse({'ruas':collection.distinct("rua")})
+    
+
+def aplicarCores(dataframe = df,ParametrosValores=[50,35,25,15]):
+    dataframe['color'] = dataframe['total'].apply(lambda value: dcolor(int(value), ParametrosValores))
+
+
+
+try:
+    # df['rua'] = df['rua'].apply(obter_endereco_delay)
+    df['latitude_atualizada'] = df['latitude'].apply(hours_to_decimals_convertion)
+    df['longitude_atualizada'] = df['longitude'].apply(hours_to_decimals_convertion)
+    df['data'] = pd.to_datetime(df['data'],format='%d/%m/%Y') 
+    df['data'] = df['data'].dt.strftime('%d/%m/%Y') 
+    df['size_column'] = df['total'].apply(lambda x: x if x != 0 else 0.1)
+    df = df.sort_values('data')
+except: 
+    print("Modo de visualização sem dados")
+    
+    
+    
+>>>>>>> c14046d090d7068b5a49e407610db6f3ea6b289b
 @csrf_exempt
 def recebe_data(request):
     if request.method == "POST":
