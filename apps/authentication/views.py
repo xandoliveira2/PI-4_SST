@@ -37,8 +37,8 @@ def login_view(request):
 
 def firstLoad(request):
     client = MongoClient('mongodb://localhost:27017/')
-    db = client['teste']
-    colecao = db['teste2']
+    db = client['pi']
+    colecao = db['autoflow']
     resultado = colecao.find().sort([
         ("data", -1),  # Ordena por data (decrescente)
         ("hora", -1)   # Depois ordena por hora (decrescente)
@@ -49,10 +49,11 @@ def firstLoad(request):
         doc['_id'] = str(doc['_id'])  # Para evitar erro ao retornar JSON
     filtro_data = request.GET.get('param1')
     filtro_hora = request.GET.get('param2')
+    filtro_rua = request.GET.get('param4')
     # ('param3', 'carros motos')  # Default para 'carros motos'
     filtro_veiculos = request.GET.get('param3', 'carros motos')
-    ruas = request.GET.get('ruas')
-    ruas = ruas.split(',') if ruas else []
+    # ruas = request.GET.get('ruas')
+    # ruas = ruas.split(',') if ruas else []
 
     filtro_veiculos = filtro_veiculos.split()
     while '' in filtro_veiculos:
@@ -70,9 +71,10 @@ def firstLoad(request):
         df['data'] = pd.to_datetime(df['data'], format="%d/%m/%Y").dt.date
 
         # Agora filtra com base no intervalo de horas
-
+        print('filtro rua ' , filtro_rua)
         df = df[(df['data'] == data_inicio)]
-
+        if filtro_rua != "todos" and filtro_rua != None:
+            df = df[(df["rua"] == filtro_rua)]
         if len(filtro_hora.split('-')) == 2:
             hora_inicio_str, hora_fim_str = filtro_hora.split('-')
 
@@ -98,6 +100,8 @@ def firstLoad(request):
         df_filtered1 = df_filtered1.applymap(str)
         data = df_filtered1.to_dict(orient='records')
     else:
+        if filtro_rua != "todos":
+            df = df[(df["rua"] == filtro_rua)]
         print("Sem filtro:")
         print(df)
         df = df.applymap(str)

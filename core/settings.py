@@ -83,34 +83,34 @@ TEMPLATES = [
 # https://docs.djangoproject.com/en/3.0/ref/settings/#databases
 
 
-# if os.environ.get('DB_ENGINE') and os.environ.get('DB_ENGINE') == "mysql":
-#     DATABASES = { 
-#       'default': {
-#         'ENGINE'  : 'django.db.backends.mysql', 
-#         'NAME'    : os.getenv('DB_NAME'     , 'appseed_db'),
-#         'USER'    : os.getenv('DB_USERNAME' , 'appseed_db_usr'),
-#         'PASSWORD': os.getenv('DB_PASS'     , 'pass'),
-#         'HOST'    : os.getenv('DB_HOST'     , 'localhost'),
-#         'PORT'    : os.getenv('DB_PORT'     , 3306),
-#         }, 
-#     }
-# else:
-#     DATABASES = {
-#         'default': {
-#             'ENGINE': 'django.db.backends.sqlite3',
-#             'NAME': 'db.sqlite3',
-#         }
-#     }
-DATABASES = { 
+if os.environ.get('DB_ENGINE') and os.environ.get('DB_ENGINE') == "mysql":
+    DATABASES = { 
       'default': {
-        'ENGINE'  : 'django.db.backends.postgresql', 
-        'NAME'    : os.getenv('DB_NAME'     , 'sst'),
-        'USER'    : os.getenv('DB_USERNAME' , 'alexandre'),
-        'PASSWORD': os.getenv('DB_PASS'     , '123'),
+        'ENGINE'  : 'django.db.backends.mysql', 
+        'NAME'    : os.getenv('DB_NAME'     , 'appseed_db'),
+        'USER'    : os.getenv('DB_USERNAME' , 'appseed_db_usr'),
+        'PASSWORD': os.getenv('DB_PASS'     , 'pass'),
         'HOST'    : os.getenv('DB_HOST'     , 'localhost'),
-        'PORT'    : os.getenv('DB_PORT'     , 5432),
+        'PORT'    : os.getenv('DB_PORT'     , 3306),
         }, 
     }
+else:
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.sqlite3',
+            'NAME': 'db.sqlite3',
+        }
+    }
+# DATABASES = { 
+#       'default': {
+#         'ENGINE'  : 'django.db.backends.postgresql', 
+#         'NAME'    : os.getenv('DB_NAME'     , 'sst'),
+#         'USER'    : os.getenv('DB_USERNAME' , 'alexandre'),
+#         'PASSWORD': os.getenv('DB_PASS'     , '123'),
+#         'HOST'    : os.getenv('DB_HOST'     , 'localhost'),
+#         'PORT'    : os.getenv('DB_PORT'     , 5432),
+#         }, 
+#     }
 
 # Password validation
 # https://docs.djangoproject.com/en/3.0/ref/settings/#auth-password-validators

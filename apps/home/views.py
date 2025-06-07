@@ -112,6 +112,7 @@ def obter_endereco_por_cep(cep):
 def obter_endereco_delay(cep):
     return obter_endereco_por_cep(cep)
    
+    
 
 def hours_to_decimals_convertion(formato:str):
     """
@@ -173,13 +174,19 @@ except:
     df = pd.DataFrame()
 # df['color'] = df['total'].apply(dcolor)
 
+def exibirTodasRuasEncontradas(request):
+    print('era para estar abaixo')
+    print(collection.distinct("rua"))
+    return JsonResponse({'ruas':collection.distinct("rua")})
+    
+
 def aplicarCores(dataframe = df,ParametrosValores=[50,35,25,15]):
     dataframe['color'] = dataframe['total'].apply(lambda value: dcolor(int(value), ParametrosValores))
 
 
 
 try:
-    df['rua'] = df['rua'].apply(obter_endereco_delay)
+    # df['rua'] = df['rua'].apply(obter_endereco_delay)
     df['latitude_atualizada'] = df['latitude'].apply(hours_to_decimals_convertion)
     df['longitude_atualizada'] = df['longitude'].apply(hours_to_decimals_convertion)
     df['data'] = pd.to_datetime(df['data'],format='%d/%m/%Y') 
