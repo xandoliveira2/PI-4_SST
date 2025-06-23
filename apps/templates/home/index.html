@@ -289,6 +289,11 @@
 <!-- já dou load em outro lugar, mas aqui também para garantir-->
 <script>
   document.addEventListener("DOMContentLoaded", async function () {
+    
+    for (let i = 1; i <= 5; i++) {
+      const graficoDiv = document.getElementById(`grafico${i}`);
+      if (graficoDiv) graficoDiv.innerHTML = "";
+    }
     let select = document.getElementById('rua');
 
     await fetch('/exibirTodasRuas/')
@@ -439,7 +444,7 @@
   }
 
   async function atualizarGrafico() {
-    // Limpa todos os gráficos antes de gerar novamente
+    
     for (let i = 1; i <= 5; i++) {
       const graficoDiv = document.getElementById(`grafico${i}`);
       if (graficoDiv) graficoDiv.innerHTML = "";
@@ -536,6 +541,11 @@
           }
         }
       },
+      tooltip: {
+      x: {
+          format: 'HH:mm'
+        }
+      },
       yaxis: {
         labels: {
           style: { colors: textColor }
@@ -604,7 +614,8 @@
     for (let ts in agrupados) {
       dadosFinal.push([Number(ts), agrupados[ts]]);
     }
-
+    console.log("DADOS FINAL --- ");
+    console.log(dadosFinal)
     return dadosFinal;
   }
 
